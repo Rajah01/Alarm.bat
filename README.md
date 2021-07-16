@@ -3,9 +3,9 @@
  &nbsp; &nbsp; &nbsp; &nbsp;Alarm.bat v20210716 &nbsp; &nbsp; &nbsp; &nbsp;Notification program for the Windows command line
 
 NOTIFY Usage: F:\Putty\Alarm.bat AlarmTime [Switches] [Action] (in order)
-====== &nbsp;Syntax: F:\Putty\Alarm[.bat] HH[:]MM[A|P[M]] | +m &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Alarm_Time
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;[/D[d]d[-[m]m[-yy]] | /D+n] [/Q[Q[Q]]] [/Rm [/Em]] [/S] [/W ] &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;Switches
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;[Message] | [/C{lipboard}] | [/F{ile}] | [/P{rogram} [arguments]] &nbsp; &nbsp; &nbsp; &nbsp;Action
+====== &nbsp;Syntax: F:\Putty\Alarm[.bat] HH[:]MM[A|P[M]] | +m ...&nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Alarm_Time
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;... [/D[d]d[-[m]m[-yy]] | /D+n] [/Q[Q[Q]]] [/Rm [/Em]] [/S] [/W ] &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;Switches
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;... [Message] | [/C{lipboard}] | [/F{ile}] | [/P{rogram} [arguments]] &nbsp; &nbsp; &nbsp; &nbsp;Action
 
  &nbsp;AlarmTime (REQUIRED; first argument). Two forms:
  &nbsp; &nbsp; &nbsp; &nbsp;[[[H]H[:]]M]M {24-hour time|12-hour time with A|P[M] suffix; may omit leading zeroes, e.g. Midnight: "0000"="0"}
