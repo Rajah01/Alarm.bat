@@ -99,7 +99,7 @@ If at alarm time Sound is Muted or below 80% (and no /Q{uiet} command), Alarm Un
 If your (uncommon) Windows system disallows &#34;short&#34; (8.3) filenames, locate Alarm.bat in a directory
  &nbsp;tree with NO spaces! Find out: execute &#34;TestForShortDirectoryNames.bat&#34; (bundled herewith).
 Do not locate &#34;Alarm.bat&#34; and &#34;bell.exe&#34; in a Windows-protected directory (e.g. &#34;C:\Windows\System32\&#34;).
-Filenames &#34;ALRM&#42;.bat|exe|ps1|txt|vbs|xml&#34; in the %TEMP%\ALRM directory are RESERVED.
+Filenames &#34;ALRM&#42;.bat|exe|ps1|txt|vbs|xml&#34; in the %TEMP%\ALRM\ directory are RESERVED.
 
  &nbsp; &nbsp; &nbsp; &nbsp;Wake/Repeat:
 Enables Task Scheduler service &#34;Schedule&#34; (if not running).
@@ -152,10 +152,10 @@ Filenames &#34;ALRM&#42;.bat|exe|ps1|txt|vbs|xml&#34; in the %TEMP%\ALRM directo
 Alarm assumes the existence of system files chcp.com, cmd.exe, csc.exe, cscript.exe, findstr.exe,
  &nbsp; &nbsp; &nbsp; &nbsp;more.com, powercfg.exe, powershell.exe, reg.exe, sc.exe, schtasks.exe, tasklist.exe, timeout.exe, WMIC.exe,
  &nbsp; &nbsp; &nbsp; &nbsp;and xcopy.exe. If any of these built-in executables are absent in your system, Alarm will abort.
- &nbsp; &nbsp; &nbsp; &nbsp;Alarm expects all files to exist in the &#34;%SystemRoot%\System32\&#34; directory (usually &#34;C:\Windows\System32\&#34;) EXCEPT:
+ &nbsp; &nbsp; &nbsp; &nbsp;Alarm expects all files to exist in the &#34;%SystemRoot%\System32\&#34; directory (usually &#34;C:\Windows\System32&#92;&#34;) EXCEPT:
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;csc.exe, which is part of the Windows .NET Framework (install NET!)
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;powershell.exe, usually in a subdirectory of &#34;%SystemRoot%\System32\WindowsPowerShell\&#34;
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;WMIC.exe, usually in &#34;%SystemRoot%\System32\wbem\&#34;
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;powershell.exe, usually in a subdirectory of &#34;%SystemRoot%\System32\WindowsPowerShell&#92;&#34;
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;WMIC.exe, usually in &#34;%SystemRoot%\System32\wbem&#92;&#34;
 
 ------------------------
 
@@ -173,7 +173,7 @@ The computer should Wake in 60 seconds and display precise date/time in a new wi
 There is NO ERROR CHECKING for /P{rogram} commands (existence of files, validity of commands, etc.)
 /P{rogram} is an open-ended facility by design, and you are on your own.
 
-/P{rogram} commands may be tested in the present moment with &#34;Alarm.bat +0 [/Q|/S] /P &nbsp; &#34;
+/P{rogram} commands may be tested in the present moment with &#34;Alarm.bat +0 [/Q|/S] /P{command}&#34;
 If an Alarm command works in the present (+0), it will work in the future as an Alarm, Wake, or Repeat.
 
 If Alarm crashes due to faulty commands or untrapped errors, issue:
@@ -181,7 +181,7 @@ If Alarm crashes due to faulty commands or untrapped errors, issue:
 to clean the first 1001 Scheduled Tasks created by Alarm (including orphans), and remove all Alarm
 programming, for a fresh start.
 
-N.B.: If Alarm detects files in the %TEMP%\ALRM folder that pertain to an earlier version of Alarm, it will
+N.B.: If Alarm detects files in the %TEMP%\ALRM\ folder that pertain to an earlier version of Alarm, it will
 autonomously wipe the Alarm system (clean it) before executing any command.
 
 ------------------------
