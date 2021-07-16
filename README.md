@@ -37,7 +37,7 @@ INFO Usage: F:\Putty\Alarm.bat /H /T /U /V /X[A[A]] /?|-h|--help|{no_arguments}
  &nbsp; &nbsp; &nbsp; &nbsp;/V {View pending Alarms|/W{akes}|/R{epeats} by number}
  &nbsp; &nbsp; &nbsp; &nbsp;/X {Cancel one Alarm|Wake|Repeat by number, or type &#34;ALL&#34; when prompted}
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;/XA &nbsp; &nbsp; &nbsp; &nbsp;{Cancel Alarms 0-25}
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;/XAA &nbsp; &nbsp; &nbsp; &nbsp;{Cancel Alarms 0-1000; Reset (wipe) system}
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;/XAA &nbsp; &nbsp; &nbsp; {Cancel Alarms 0-1000; Reset (wipe) system}
  &nbsp; &nbsp; &nbsp; &nbsp;/?|-h|--help|no_arguments {Display THIS}
 
 Time Declaration: 0050 :50 50a 1250AM 12:50a &nbsp; &nbsp;0150 150 1:50 1:50am &nbsp; &nbsp;1350 13:50 150p 1:50PM &nbsp; &nbsp;+90 &nbsp; 
@@ -55,7 +55,7 @@ Examples:
  &nbsp; &nbsp; &nbsp; &nbsp;Alarm.bat 1730 Call home
  &nbsp; &nbsp; &nbsp; &nbsp;Alarm 300pm /Q Baby still napping?
  &nbsp; &nbsp; &nbsp; &nbsp;Alarm 5515 /W Wake up - big day ahead {7:15am day after tomorrow (715+2400&#42;2)}
- &nbsp; &nbsp; &nbsp; &nbsp;Alarm 715a /D+2 Wake up - big day ahead {ditto}
+ &nbsp; &nbsp; &nbsp; &nbsp;Alarm 715a /D+2 Wake up - big day ahead {<b>ditto</b>}
  &nbsp; &nbsp; &nbsp; &nbsp;Alarm +1 /R1 {bell nag starts in one minute, and repeats every minute}
  &nbsp; &nbsp; &nbsp; &nbsp;Alarm 715 /R1440 Daily reminder to wake {at 7:15a every 24 hours=1440 minutes}
  &nbsp; &nbsp; &nbsp; &nbsp;Alarm 715 /R1440 /Pcmd.exe /c F:\Putty\Alarm.bat +1 /R1 /S Get going&#96;xcl&#96; {at 7:15a every
@@ -74,7 +74,7 @@ Examples:
  &nbsp;Fully-qualified /P{rogram} commands, with optional START arguments:
  &nbsp; &nbsp; &nbsp; &nbsp;Alarm 645a /w /p/MAX F:\VLC\vlc.exe -f --play-and-exit &#34;J:\Video\Glenn_Gould\BWV 1080 Contrapunctus XIV Da Capo I.mp4&#34;
  &nbsp; &nbsp; &nbsp; &nbsp;Alarm +0 /P/MIN C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -ExecutionPolicy Bypass -c &#34;Add-Type -AssemblyName System.Speech;$words=(Get-Clipboard);$speak=New-Object System.Speech.Synthesis.SpeechSynthesizer;$speak.SelectVoice('Microsoft Zira Desktop');$speak.Speak($words)&#34;
- &nbsp; &nbsp; &nbsp; &nbsp;Alarm +0 /S /C {ditto: Speak Clipboard content, but a /C shortcut instead of a fully-described /Program as above}
+ &nbsp; &nbsp; &nbsp; &nbsp;Alarm +0 /S /C {<b>ditto</b>: Speak Clipboard content, but a /C shortcut instead of a fully-described /Program as above}
  &nbsp; &nbsp; &nbsp; &nbsp;Alarm 1200 /R60 /E540 /P/MIN C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -ExecutionPolicy Bypass -c (New-Object Media.SoundPlayer &#34;F:\Putty\Auxiliaries\BigBen.wav&#34;).PlaySync() {Chimes hourly}
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Each morning for 5 days, a child instance of Alarm announces the Time every minute for 5 minutes, starting at 7:30am:
  &nbsp; &nbsp; &nbsp; &nbsp;Alarm 729 /R1440 /E5760 /P/MIN cmd.exe /c Alarm.bat +1 /R1 /E5 /P/MIN F:\Putty\Auxiliaries\TimeOfDay.bat
@@ -111,7 +111,7 @@ Executes as a Scheduled Task in the Local User account: &nbsp;you MUST be signed
  &nbsp;For long intervals, click a Bell icon in the Taskbar and hit any key, to remove a persistent icon without
  &nbsp;removing the Task (verify with &#34;Alarm /V&#34;). &#34;Alarm /X&#34; destroys both the icon window and the Task.
 /R{epeat}: adjust the CPU-dependent &#34;Delay&#34; variable as necessary (see comments at line 9 of Alarm.bat).
-Task Scheduler is a temperamental program. See further comments in &#34;F:\Putty\AlarmBat_ReadMe.txt&#34;
+Task Scheduler is a temperamental program. See further comments below.
 
  ------------------------
 
@@ -260,10 +260,10 @@ Substitution strings may be used to print (and, if sensible, speak) messages con
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&#96;amp&#96; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp; &nbsp; &nbsp;& &nbsp; &nbsp; &nbsp; &nbsp;&#42; 
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&#96;xcl&#96; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp; &nbsp; &nbsp;! 
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&#96;bar&#96; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp; &nbsp; &nbsp;| &nbsp; &nbsp; &nbsp; &nbsp;&#42; 
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &#96;lt&#96; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp; &nbsp; &nbsp;< &nbsp; &nbsp; &nbsp; &nbsp;&#42; 
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &#96;gt&#96; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp; &nbsp; &nbsp; > &nbsp; &nbsp; &nbsp; &#42; 
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &#96;lp&#96; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp; &nbsp; &nbsp;( 
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &#96;rp&#96; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp; &nbsp; &nbsp; ) 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&#96;lt&#96; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; = &nbsp; &nbsp; &nbsp; &nbsp;< &nbsp; &nbsp; &nbsp; &nbsp;&#42; 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&#96;gt&#96; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; = &nbsp; &nbsp; &nbsp; &nbsp; > &nbsp; &nbsp; &nbsp; &#42; 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&#96;lp&#96; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; = &nbsp; &nbsp; &nbsp; &nbsp;( 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&#96;rp&#96; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; = &nbsp; &nbsp; &nbsp; &nbsp; ) 
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&#96;crt&#96; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp; &nbsp; &nbsp;^ 
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&#96;pct&#96; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp; &nbsp; &nbsp;% (assumed to bracket an environmental or user %VARIABLE% {e.g. &#96;pct&#96;VARIABLE&#96;pct&#96;},
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; and converted at alarm time to the value it represents)
@@ -295,12 +295,12 @@ ADJUST the &#34;d:\path\&#34; to the programs!
 ------------------------
 
 Messages (whether typed, extracted from the Clipboard, or from a file) are filtered through MORE.COM, with the following extended features enabled:
- &nbsp; &nbsp; &nbsp; &nbsp;Q &nbsp; &nbsp; &nbsp; &nbsp;Quit
+ &nbsp; &nbsp; &nbsp;&nbsp; Q&nbsp; &nbsp; &nbsp; &nbsp;Quit
  &nbsp; &nbsp; &nbsp; &nbsp;<space> &nbsp; &nbsp; &nbsp; &nbsp;Display next page
  &nbsp; &nbsp; &nbsp; &nbsp;<Enter> &nbsp; &nbsp; &nbsp; &nbsp;Display next line
- &nbsp; &nbsp; &nbsp; &nbsp;P n &nbsp; &nbsp; &nbsp; &nbsp;Display next n lines
- &nbsp; &nbsp; &nbsp; &nbsp;S n &nbsp; &nbsp; &nbsp; &nbsp;Skip next n lines
- &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp; &nbsp; &nbsp;Show line number
+ &nbsp; &nbsp; &nbsp; &nbsp;P n &nbsp; &nbsp; Display next n lines
+ &nbsp; &nbsp; &nbsp; &nbsp;S n &nbsp; &nbsp; Skip next n lines
+ &nbsp; &nbsp; &nbsp; &nbsp;=&nbsp; &nbsp; &nbsp; &nbsp;Show line number
 Multiple blank lines are reduced to a single line.
 
 ------------------------
@@ -318,11 +318,11 @@ List Text-to-Speech (TTS) Voices installed on your computer:
 ------------------------
 
 CAUTION: Edit Alarm.bat in an environment that uses 8-bit (single byte) character encodings ONLY!
- &nbsp; &nbsp; &nbsp; &nbsp;Do NOT edit with a word processor! Notepad may be used to adjust the User Configuration, ONLY!
- &nbsp; &nbsp; &nbsp; &nbsp;Alarm.bat was written in CodePage 437 (a.k.a. &#34;US-ASCII&#34;, &#34;OEM-US&#34;).
- &nbsp; &nbsp; &nbsp; &nbsp;Low-order characters 28-30 are used for certain functions, and may not display correctly in some editors!
- &nbsp; &nbsp; &nbsp; &nbsp;Multiple-byte editors using UTF (Unicode) will corrupt the file. Caveat emptor.
- &nbsp; &nbsp; &nbsp; &nbsp;Notepad++ (https://notepad-plus-plus.org/) is recommended (set Encoding -> Character sets -> Western European -> OEM-US).
+ &nbsp; &nbsp; &nbsp; &nbsp; Do NOT edit with a word processor! Notepad may be used to adjust the User Configuration, ONLY!
+ &nbsp; &nbsp; &nbsp; &nbsp; Alarm.bat was written in CodePage 437 (a.k.a. &#34;US-ASCII&#34;, &#34;OEM-US&#34;).
+ &nbsp; &nbsp; &nbsp; &nbsp; Low-order characters 28-30 are used for certain functions, and may not display correctly in some editors!
+ &nbsp; &nbsp; &nbsp; &nbsp; Multiple-byte editors using UTF (Unicode) will corrupt the file. Caveat emptor.
+ &nbsp; &nbsp; &nbsp; &nbsp; Notepad++ (https://notepad-plus-plus.org/) is recommended (set Encoding -> Character sets -> Western European -> OEM-US).
 
 ------------------------
 
@@ -330,7 +330,7 @@ CAUTION: Edit Alarm.bat in an environment that uses 8-bit (single byte) characte
  &nbsp; &nbsp; &nbsp; &nbsp;Download: &nbsp;https://holmgren.org/AlarmBat.zip
 
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Credits:
- &nbsp; &nbsp; &nbsp; &nbsp;-------
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;-------
  &nbsp; &nbsp; &nbsp; &nbsp;Vasil Arnaudov (https://github.com/npocmaka/batch.scripts/blob/master/hybrids/.net/c/mouse.bat and http://ss64.org/viewtopic.php?id=1687)
  &nbsp; &nbsp; &nbsp; &nbsp;Alexandre Jasmin and Anchmerama (https://stackoverflow.com/questions/255419/how-can-i-mute-unmute-my-sound-from-powershell)
  &nbsp; &nbsp; &nbsp; &nbsp;Ritchie Lawrence (https://github.com/ritchielawrence/batchfunctionlibrary/tree/master/Date%20and%20Time%20Functions)
