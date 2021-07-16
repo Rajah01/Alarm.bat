@@ -25,7 +25,7 @@ NOTIFY Usage: F:\Putty\Alarm.bat AlarmTime [Switches] [Action] (in order)
  &nbsp;Action. DEFAULT: Three alarm Bells {override with /Q}. Supplementary arguments:
 1&#41; &nbsp; &nbsp; &nbsp; &nbsp;/P[START command switches ]["][d:\path\]PROGRAM["] [arguments] {implies /QQ; override with /Q | /QQQ}
  &nbsp; &nbsp; Messages {displayed in Foreground window; hit any key to Dismiss; imply Bells unless /S[poken], override with /Q}:
-2&#41; &nbsp; &nbsp; &nbsp; &nbsp;TYPED text {max chars ñ8170}
+2&#41; &nbsp; &nbsp; &nbsp; &nbsp;TYPED text {max chars &#177;8170}
 3&#41; &nbsp; &nbsp; &nbsp; &nbsp;/C {CLIPBOARD text, any length}
 4&#41; &nbsp; &nbsp; &nbsp; &nbsp;/F["][d:\path\]textfile_name["] {FILE text, any length}
 
@@ -58,9 +58,9 @@ Examples:
  &nbsp; &nbsp; &nbsp; &nbsp;Alarm 715a /D+2 Wake up - big day ahead {ditto}
  &nbsp; &nbsp; &nbsp; &nbsp;Alarm +1 /R1 {bell nag starts in one minute, and repeats every minute}
  &nbsp; &nbsp; &nbsp; &nbsp;Alarm 715 /R1440 Daily reminder to wake {at 7:15a every 24 hours=1440 minutes}
- &nbsp; &nbsp; &nbsp; &nbsp;Alarm 715 /R1440 /Pcmd.exe /c F:\Putty\Alarm.bat +1 /R1 /S Get going`xcl` {at 7:15a every
+ &nbsp; &nbsp; &nbsp; &nbsp;Alarm 715 /R1440 /Pcmd.exe /c F:\Putty\Alarm.bat +1 /R1 /S Get going&#96;xcl&#96; {at 7:15a every
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;morning, /S{peaks} reminder every minute until terminated with "Alarm /X"}
- &nbsp; &nbsp; &nbsp; &nbsp;Alarm 810 /R3 /E36 /S It's `pct`TIME:~0,2`pct`:`pct`TIME:~3,2`pct`. Train leaves at 9 {Speak "nag"
+ &nbsp; &nbsp; &nbsp; &nbsp;Alarm 810 /R3 /E36 /S It's &#96;pct&#96;TIME:~0,2&#96;pct&#96;:&#96;pct&#96;TIME:~3,2&#96;pct&#96;. Train leaves at 9 {Speak "nag"
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;every 3 minutes; Repeat expires in 36 minutes}
  &nbsp; &nbsp; &nbsp; &nbsp;Alarm 510a /D+3 Taxi to airport
  &nbsp; &nbsp; &nbsp; &nbsp;Alarm 510p /d15-6 Conference with Lawyer {15th of June}
@@ -86,7 +86,7 @@ Cancel Alarm|Wake/Repeat: &nbsp;Alarm.bat /X[A[A]] {/X selects one alarm among s
  &nbsp; &nbsp; &nbsp; &nbsp;Notes:
 Configure User Variables on lines 4-27 of "F:\Putty\Alarm.bat"
 Message Content: Single-byte characters "|&<>«» are DISALLOWED. "|&<> may be printed using substitute strings, most
- &nbsp;commonly `quo` (with backquotes `) to print quotes. For a complete substitution list, see "F:\Putty\AlarmBat_ReadMe.txt"
+ &nbsp;commonly &#96;quo&#96; (with backquotes &#96;) to print quotes. For a complete substitution list, see "F:\Putty\AlarmBat_ReadMe.txt"
 Default Alarm Sound: In recent Windows versions, the equivalent .WAVfile for DOS Ascii-07|Ctrl-G "bell" is specified
  &nbsp;in MMSYS.CPL -> Sounds -> "Critical Stop"
 External file "F:\Putty\bell.exe" (bundled herewith) is used by default instead of cmd.exe. Bell.exe is Cmd.exe
@@ -239,7 +239,7 @@ Further Comments about Repeat (and Wake)
  ------------------------
 
 High-order single-byte characters (128-255):
-Almost all US-ASCII (CP437) accented alphabetics in range 128-159, and Windows-ANSI characters in range 160-255, display correctly in Messages.
+Almost all US-ASCII (CP437) accented alphabetics in range 128-159, and Windows-ANSI characters in range 161-255, display correctly in Messages.
  &nbsp; &nbsp; &nbsp; &nbsp;Select the ANSI codepage for your locale in User Configuration, line 21 (default=1252). YMMV -- test individual characters to ascertain
  &nbsp; &nbsp; &nbsp; &nbsp;that they print.
 
@@ -253,20 +253,21 @@ Substitution strings may be used to print (and, if sensible, speak) messages con
  &nbsp; &nbsp; &nbsp; &nbsp;Note that Alarm temporarily changes the CodePage during execution to CP437, then restores your original CP
  &nbsp; &nbsp; &nbsp; &nbsp;on exit. A crashed Alarm session could leave you with the wrong CodePage, so a cmd restart is advised.
  &nbsp;In contrast, substitution strings are reliable alternatives that always work. Note the systematic
- &nbsp; &nbsp; &nbsp; &nbsp;use of backquote "`". Full list (the "hottest" characters are asterisked; they almost always
+ &nbsp; &nbsp; &nbsp; &nbsp;use of backquote "&#96;". Full list (the "hottest" characters are asterisked; they almost always
  &nbsp; &nbsp; &nbsp; &nbsp;require substitution):
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;`quo` &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp; &nbsp; &nbsp;" &nbsp; &nbsp; &nbsp; &nbsp;*
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;`amp` &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp; &nbsp; &nbsp;& &nbsp; &nbsp; &nbsp; &nbsp;*
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;`xcl` &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp; &nbsp; &nbsp;!
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;`bar` &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp; &nbsp; &nbsp;| &nbsp; &nbsp; &nbsp; &nbsp;*
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;`lt` &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp; &nbsp; &nbsp;< &nbsp; &nbsp; &nbsp; &nbsp;*
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;`gt` &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp; &nbsp; &nbsp; > &nbsp; &nbsp; &nbsp; &nbsp;*
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;`lp` &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp; &nbsp; &nbsp;(
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;`rp` &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp; &nbsp; &nbsp; )
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;`crt` &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp; &nbsp; &nbsp;^
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;`pct` &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp; &nbsp; &nbsp;% (assumed to bracket an environmental or user %VARIABLE% {e.g. `pct`VARIABLE`pct`},
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;and converted at alarm time to the value it represents)
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;`pct``pct` &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp; &nbsp; &nbsp;% (as string literal)
+ 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&#96;quo&#96; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp; &nbsp; &nbsp;" &nbsp; &nbsp; &nbsp; &nbsp;* 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&#96;amp&#96; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp; &nbsp; &nbsp;& &nbsp; &nbsp; &nbsp; &nbsp;* 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&#96;xcl&#96; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp; &nbsp; &nbsp;! 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&#96;bar&#96; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp; &nbsp; &nbsp;| &nbsp; &nbsp; &nbsp; &nbsp;* 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &#96;lt&#96; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp; &nbsp; &nbsp;< &nbsp; &nbsp; &nbsp; &nbsp;* 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &#96;gt&#96; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp; &nbsp; &nbsp; > &nbsp; &nbsp; &nbsp; * 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &#96;lp&#96; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp; &nbsp; &nbsp;( 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &#96;rp&#96; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp; &nbsp; &nbsp; ) 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&#96;crt&#96; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp; &nbsp; &nbsp;^ 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&#96;pct&#96; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp; &nbsp; &nbsp;% (assumed to bracket an environmental or user %VARIABLE% {e.g. &#96;pct&#96;VARIABLE&#96;pct&#96;},
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; and converted at alarm time to the value it represents)
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&#96;pct&#96;&#96;pct&#96; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; = &nbsp; &nbsp; &nbsp; &nbsp;% (as string literal)
 
  &nbsp; &nbsp; &nbsp; &nbsp;Example:
  &nbsp; &nbsp; &nbsp; &nbsp;-------
@@ -274,10 +275,10 @@ Substitution strings may be used to print (and, if sensible, speak) messages con
 alarm.bat +1 /S /R5 /E30 The time is %TIME:~0,2% hours, %TIME:~3,2% minutes, and %TIME:~6,2% seconds
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;The above command executes, but it hard-codes the TIME at the moment of issue, and repeats that static time at each of seven alarms.
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;SUBSTITUTED [CORRECT]:
-alarm.bat +1 /S /R5 /E30 The time is `pct`TIME:~0,2`pct` hours, `pct`TIME:~3,2`pct` minutes, and `pct`TIME:~6,2`pct` seconds
+alarm.bat +1 /S /R5 /E30 The time is &#96;pct&#96;TIME:~0,2&#96;pct&#96; hours, &#96;pct&#96;TIME:~3,2&#96;pct&#96; minutes, and &#96;pct&#96;TIME:~6,2&#96;pct&#96; seconds
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;This command reports the CORRECT current time at each of seven alarms.
 
- &nbsp; &nbsp; &nbsp; &nbsp;Try it! &nbsp;Alarm.bat +0 The time is `pct`TIME:~0,2`pct` hours, `pct`TIME:~3,2`pct` minutes, and `pct`TIME:~6,2`pct` seconds
+ &nbsp; &nbsp; &nbsp; &nbsp;Try it! &nbsp;Alarm.bat +0 The time is &#96;pct&#96;TIME:~0,2&#96;pct&#96; hours, &#96;pct&#96;TIME:~3,2&#96;pct&#96; minutes, and &#96;pct&#96;TIME:~6,2&#96;pct&#96; seconds
 
 ------------------------
 
