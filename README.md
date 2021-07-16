@@ -2,8 +2,8 @@
 <html><pre>
  &nbsp; &nbsp; &nbsp; &nbsp;Alarm.bat v20210716 &nbsp; &nbsp; &nbsp; &nbsp;Notification program for the Windows command line
 
-NOTIFY Usage: F:\Putty\Alarm.bat AlarmTime [Switches] [Action] (in order)
-====== &nbsp;Syntax: F:\Putty\Alarm[.bat] HH[:]MM[A|P[M]] | +m ...&nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Alarm_Time
+NOTIFY Usage: Alarm.bat AlarmTime [Switches] [Action] (in order)
+====== &nbsp;Syntax: Alarm[.bat] HH[:]MM[A|P[M]] | +m ...&nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Alarm_Time
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;... [/D[d]d[-[m]m[-yy]] | /D+n] [/Q[Q[Q]]] [/Rm [/Em]] [/S] [/W ] &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;Switches
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;... [Message] | [/C{lipboard}] | [/F{ile}] | [/P{rogram} [arguments]] &nbsp; &nbsp; &nbsp; &nbsp;Action
 
@@ -29,16 +29,16 @@ NOTIFY Usage: F:\Putty\Alarm.bat AlarmTime [Switches] [Action] (in order)
 3&#41; &nbsp; &nbsp; &nbsp; &nbsp;/C {CLIPBOARD text, any length}
 4&#41; &nbsp; &nbsp; &nbsp; &nbsp;/F[&#34;][d:\path\]textfile_name[&#34;] {FILE text, any length}
 
-INFO Usage: F:\Putty\Alarm.bat /H /T /U /V /X[A[A]] /?|-h|--help|{no_arguments}
+INFO Usage: Alarm.bat /H /T /U /V /X[A[A]] /?|-h|--help|{no_arguments}
 ==== &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Five alternatives:
- &nbsp; &nbsp; &nbsp; &nbsp;/H {Print Help (THIS) to file &#34;F:\Putty\Alarm.txt&#34;}
+ &nbsp; &nbsp; &nbsp; &nbsp;/H {Print Help (<b>THIS</b>) to file &#34;.\Alarm.txt&#34;}
  &nbsp; &nbsp; &nbsp; &nbsp;/T {Test bell audibility & volume}
  &nbsp; &nbsp; &nbsp; &nbsp;/U {Check for Alarm.bat update}
  &nbsp; &nbsp; &nbsp; &nbsp;/V {View pending Alarms|/W{akes}|/R{epeats} by number}
  &nbsp; &nbsp; &nbsp; &nbsp;/X {Cancel one Alarm|Wake|Repeat by number, or type &#34;ALL&#34; when prompted}
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;/XA &nbsp; &nbsp; &nbsp; &nbsp;{Cancel Alarms 0-25}
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;/XAA &nbsp; &nbsp; &nbsp; {Cancel Alarms 0-1000; Reset (wipe) system}
- &nbsp; &nbsp; &nbsp; &nbsp;/?|-h|--help|no_arguments {Display THIS}
+ &nbsp; &nbsp; &nbsp; &nbsp;/?|-h|--help|no_arguments {Display <b>THIS</b>}
 
 Time Declaration: 0050 :50 50a 1250AM 12:50a &nbsp; &nbsp;0150 150 1:50 1:50am &nbsp; &nbsp;1350 13:50 150p 1:50PM &nbsp; &nbsp;+90 &nbsp; 
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;{For each future day, add 2400 to HHMM time: &#34;time+(days&#42;2400)&#34;} &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
@@ -51,14 +51,14 @@ Time Declaration: 0050 :50 50a 1250AM 12:50a &nbsp; &nbsp;0150 150 1:50 1:50am &
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;N.B.: &#34;7am&#34; = [000]7 = 12:07am, not 0700|7:00am! 
 
 Examples:
- &nbsp; &nbsp; &nbsp; &nbsp;F:\Putty\Alarm.bat 530p {TIME is the only required argument; default alarm is 3 audible bells}
+ &nbsp; &nbsp; &nbsp; &nbsp;Alarm.bat 530p {TIME is the only required argument; default alarm is 3 audible bells}
  &nbsp; &nbsp; &nbsp; &nbsp;Alarm.bat 1730 Call home
  &nbsp; &nbsp; &nbsp; &nbsp;Alarm 300pm /Q Baby still napping?
  &nbsp; &nbsp; &nbsp; &nbsp;Alarm 5515 /W Wake up - big day ahead {7:15am day after tomorrow (715+2400&#42;2)}
  &nbsp; &nbsp; &nbsp; &nbsp;Alarm 715a /D+2 Wake up - big day ahead {<b>ditto</b>}
  &nbsp; &nbsp; &nbsp; &nbsp;Alarm +1 /R1 {bell nag starts in one minute, and repeats every minute}
  &nbsp; &nbsp; &nbsp; &nbsp;Alarm 715 /R1440 Daily reminder to wake {at 7:15a every 24 hours=1440 minutes}
- &nbsp; &nbsp; &nbsp; &nbsp;Alarm 715 /R1440 /Pcmd.exe /c F:\Putty\Alarm.bat +1 /R1 /S Get going&#96;xcl&#96; {at 7:15a every
+ &nbsp; &nbsp; &nbsp; &nbsp;Alarm 715 /R1440 /Pcmd.exe /c Alarm.bat +1 /R1 /S Get going&#96;xcl&#96; {at 7:15a every
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;morning, /S{peaks} reminder every minute until terminated with &#34;Alarm /X&#34;}
  &nbsp; &nbsp; &nbsp; &nbsp;Alarm 810 /R3 /E36 /S It's &#96;pct&#96;TIME:~0,2&#96;pct&#96;:&#96;pct&#96;TIME:~3,2&#96;pct&#96;. Train leaves at 9 {Speak &#34;nag&#34;
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;every 3 minutes; Repeat expires in 36 minutes}
@@ -75,21 +75,21 @@ Examples:
  &nbsp; &nbsp; &nbsp; &nbsp;Alarm 645a /w /p/MAX F:\VLC\vlc.exe -f --play-and-exit &#34;J:\Video\Glenn_Gould\BWV 1080 Contrapunctus XIV Da Capo I.mp4&#34;
  &nbsp; &nbsp; &nbsp; &nbsp;Alarm +0 /P/MIN C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -ExecutionPolicy Bypass -c &#34;Add-Type -AssemblyName System.Speech;$words=(Get-Clipboard);$speak=New-Object System.Speech.Synthesis.SpeechSynthesizer;$speak.SelectVoice('Microsoft Zira Desktop');$speak.Speak($words)&#34;
  &nbsp; &nbsp; &nbsp; &nbsp;Alarm +0 /S /C {<b>ditto</b>: Speak Clipboard content, but a /C shortcut instead of a fully-described /Program as above}
- &nbsp; &nbsp; &nbsp; &nbsp;Alarm 1200 /R60 /E540 /P/MIN C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -ExecutionPolicy Bypass -c (New-Object Media.SoundPlayer &#34;F:\Putty\Auxiliaries\BigBen.wav&#34;).PlaySync() {Chimes hourly}
+ &nbsp; &nbsp; &nbsp; &nbsp;Alarm 1200 /R60 /E540 /P/MIN C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -ExecutionPolicy Bypass -c (New-Object Media.SoundPlayer &#34;.\Auxiliaries\BigBen.wav&#34;).PlaySync() {Chimes hourly}
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Each morning for 5 days, a child instance of Alarm announces the Time every minute for 5 minutes, starting at 7:30am:
- &nbsp; &nbsp; &nbsp; &nbsp;Alarm 729 /R1440 /E5760 /P/MIN cmd.exe /c Alarm.bat +1 /R1 /E5 /P/MIN F:\Putty\Auxiliaries\TimeOfDay.bat
+ &nbsp; &nbsp; &nbsp; &nbsp;Alarm 729 /R1440 /E5760 /P/MIN cmd.exe /c Alarm.bat +1 /R1 /E5 /P/MIN .\Auxiliaries\TimeOfDay.bat
 
 Cancel Alarm|Wake/Repeat: &nbsp;Alarm.bat /X[A[A]] {/X selects one alarm among several | /XA or &#34;All&#34; cancels all pending alarms
  &nbsp;#0-25 | /XAA cancels all pending alarms #0-1000 | a single pending Alarm is canceled automatically/hands-off (=/XA}.
  &nbsp;Terminate PowerShell manually to kill Speech.
 
  &nbsp; &nbsp; &nbsp; &nbsp;Notes:
-Configure User Variables on lines 4-27 of &#34;F:\Putty\Alarm.bat&#34;
+Configure User Variables on lines 4-27 of &#34;Alarm.bat&#34;
 Message Content: Single-byte characters &#34;|&<>«» are DISALLOWED. &#34;|&<> may be printed using substitute strings, most
- &nbsp;commonly &#96;quo&#96; (with backquotes &#96;) to print quotes. For a complete substitution list, see &#34;F:\Putty\AlarmBat_ReadMe.txt&#34;
+ &nbsp;commonly &#96;quo&#96; (with backquotes &#96;) to print quotes. For a complete substitution list, see &#34;AlarmBat_ReadMe.txt&#34;
 Default Alarm Sound: In recent Windows versions, the equivalent .WAVfile for DOS Ascii-07|Ctrl-G &#34;bell&#34; is specified
  &nbsp;in MMSYS.CPL -> Sounds -> &#34;Critical Stop&#34;
-External file &#34;F:\Putty\bell.exe&#34; (bundled herewith) is used by default instead of cmd.exe. Bell.exe is Cmd.exe
+External file &#34;bell.exe&#34; (bundled herewith) is used by default instead of cmd.exe. Bell.exe is Cmd.exe
  &nbsp;with a bell icon, to distinguish Alarms from ordinary CMD sessions in the Taskbar. For a &#34;pure&#34; standalone
  &nbsp;BATch with no external dependencies, replace bell.exe with cmd.exe (erase &#34;REM &#34; on line 7 of Alarm.bat).
 If at alarm time Sound is Muted or below 80% (and no /Q{uiet} command), Alarm UnMutes the system and/or
