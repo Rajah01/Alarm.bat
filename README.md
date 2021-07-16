@@ -127,7 +127,7 @@ Alarm.bat commands fall into 3 categories:
  &nbsp; &nbsp; &nbsp; &nbsp;Alarm Time (required; first argument)
  &nbsp; &nbsp; &nbsp; &nbsp;Switches (optional; relaxed order)
  &nbsp; &nbsp; &nbsp; &nbsp;Action (optional; last argument)
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;The Action (e.g. a text message, a /P{rogram} command) should not contain a "/" slash
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;The Action, if a Text message, should not contain a "/" slash
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;followed by certain Switch-letters ("DPQRSW")! It may be misinterpreted.
 
 Alarm.bat has been tested under Windows 7 Ultimate | Professional and Windows 10 Home | Pro ONLY,
