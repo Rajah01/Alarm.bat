@@ -23,12 +23,11 @@ NOTIFY Usage: F:\Putty\Alarm.bat AlarmTime [Switches] [Action] (in order)
  &nbsp; &nbsp; &nbsp; &nbsp;/W {Wake computer from future Sleep | Hibernation, and persist through Restarts}
 
  &nbsp;Action. DEFAULT: Three alarm Bells {override with /Q}. Supplementary arguments:
-1) &nbsp; &nbsp; &nbsp; &nbsp;/P[START command switches ]["][d:\path\]PROGRAM["] [arguments] {implies /QQ; override with /Q | /QQQ}
+1&#41; &nbsp; &nbsp; &nbsp; &nbsp;/P[START command switches ]["][d:\path\]PROGRAM["] [arguments] {implies /QQ; override with /Q | /QQQ}
  &nbsp; &nbsp; Messages {displayed in Foreground window; hit any key to Dismiss; imply Bells unless /S[poken], override with /Q}:
-2) &nbsp; &nbsp; &nbsp; &nbsp;TYPED text {max chars ñ8170}
-3) &nbsp; &nbsp; &nbsp; &nbsp;/C {CLIPBOARD text, any length}
-4) &nbsp; &nbsp; &nbsp; &nbsp;/F["][d:\path\]textfile_name["] {FILE text, any length}
-
+2&#41; &nbsp; &nbsp; &nbsp; &nbsp;TYPED text {max chars ñ8170}
+3&#41; &nbsp; &nbsp; &nbsp; &nbsp;/C {CLIPBOARD text, any length}
+4&#41; &nbsp; &nbsp; &nbsp; &nbsp;/F["][d:\path\]textfile_name["] {FILE text, any length}
 
 INFO Usage: F:\Putty\Alarm.bat /H /T /U /V /X[A[A]] /?|-h|--help|{no_arguments}
 ==== &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Five alternatives:
