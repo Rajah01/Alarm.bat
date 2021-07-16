@@ -98,7 +98,7 @@ If at alarm time Sound is Muted or below 80% (and no /Q{uiet} command), Alarm Un
  &nbsp;of Alarm.bat). Change the threshold Volume level from 80% to another value on line 18.
 If your (uncommon) Windows system disallows &#34;short&#34; (8.3) filenames, locate Alarm.bat in a directory
  &nbsp;tree with NO spaces! Find out: execute &#34;TestForShortDirectoryNames.bat&#34; (bundled herewith).
-Do not locate &#34;Alarm.bat&#34; and &#34;bell.exe&#34; in a Windows-protected directory (e.g. &#34;C:\Windows\System32\&#34;).
+Do not locate &#34;Alarm.bat&#34; and &#34;bell.exe&#34; in a Windows-protected directory (e.g. &#34;C:\Windows\System32&#92;&#34;).
 Filenames &#34;ALRM&#42;.bat|exe|ps1|txt|vbs|xml&#34; in the %TEMP%\ALRM\ directory are RESERVED.
 
  &nbsp; &nbsp; &nbsp; &nbsp;Wake/Repeat:
@@ -205,7 +205,7 @@ Further Comments about Repeat (and Wake)
  &nbsp; &nbsp; &nbsp; &nbsp;uneven interval over 9999 to the next-higher hourly value.
  &nbsp;Relative to the Task Scheduler, Alarm is simple. If you request monthly notification, Alarm notifies
  &nbsp; &nbsp; &nbsp; &nbsp;EVERY month. If you want notification in January, April, July, and October (quarterly), or the
- &nbsp; &nbsp; &nbsp; &nbsp;1st and 15th of each month, or every Friday in the third week &nbsp;&nbsp; &nbsp;then use TASKSCHD.MSC
+ &nbsp; &nbsp; &nbsp; &nbsp;1st and 15th of each month, or every Friday in the third week, then use TASKSCHD.MSC
  &nbsp;Bearing Alarm's &#42;relative&#42; simplicity in mind, for:
  &nbsp; &nbsp; &nbsp; &nbsp;Daily scheduling, use a Repeat interval of 1440 minutes (/R1440)
  &nbsp; &nbsp; &nbsp; &nbsp;Weekly, use a Repeat interval of 10080 (/R10080) and schedule the initial instance for the DAY of
@@ -283,7 +283,7 @@ alarm.bat +1 /S /R5 /E30 The time is &#96;pct&#96;TIME:~0,2&#96;pct&#96; hours, 
 ------------------------
 
 The Auxiliaries directory contains optional programs that operate in conjunction with Alarm and offer specific services.
-ADJUST the &#34;d:\path\&#34; to the programs!
+ADJUST the &#34;d:\path&#92;&#34; to the programs!
 
  &nbsp; &nbsp; &nbsp; &nbsp;CountDwn: verbal countdown to (and beyond) a specific time (e.g. start at 9:00am, for total duration of 20 minutes)
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Example: Alarm.bat +1 /R1 /E20 /P/MIN d:\path\CountDwn.bat 0900
