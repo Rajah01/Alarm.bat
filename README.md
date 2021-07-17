@@ -3,9 +3,9 @@
  &nbsp; &nbsp; &nbsp; &nbsp;Alarm.bat v20210716 &nbsp; &nbsp; &nbsp; &nbsp;Notification program for the Windows command line
 
 NOTIFY Usage: Alarm.bat AlarmTime [Switches] [Action] (in order)
-====== &nbsp;Syntax: Alarm[.bat] HH[:]MM[A|P[M]] | +m ...&nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Alarm_Time
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;... [/D[d]d[-[m]m[-yy]] | /D+n] [/Q[Q[Q]]] [/Rm [/Em]] [/S] [/W ] &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;Switches
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;... [Message] | [/C{lipboard}] | [/F{ile}] | [/P{rogram} [arguments]] &nbsp; &nbsp; &nbsp; &nbsp;Action
+====== &nbsp;Syntax: Alarm[.bat] HH[:]MM[A|P[M]] | +m ...&nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Alarm_Time
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;... [/D[d]d[-[m]m[-yy]] | /D+n] [/Q[Q[Q]]] [/Rm [/Em]] [/S] [/W ] ...&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;Switches
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;... [Typed Message] | [/C{lipboard}] | [/F{ile}] | [/P{rogram} [arguments]] &nbsp;Action
 
  &nbsp;AlarmTime (REQUIRED; first argument). Two forms:
  &nbsp; &nbsp; &nbsp; &nbsp;[[[H]H[:]]M]M {24-hour time|12-hour time with A|P[M] suffix; may omit leading zeroes, e.g. Midnight: &#34;0000&#34;=&#34;0&#34;}
@@ -43,18 +43,18 @@ INFO Usage: Alarm.bat /H /T /U /V /X[A[A]] /?|-h|--help|{no_arguments}
 Time Declaration: 0050 :50 50a 1250AM 12:50a &nbsp; &nbsp;0150 150 1:50 1:50am &nbsp; &nbsp;1350 13:50 150p 1:50PM &nbsp; &nbsp;+90 &nbsp; 
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;{For each future day, add 2400 to HHMM time: &#34;time+(days&#42;2400)&#34;} &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
  &nbsp; &nbsp; &nbsp; &nbsp;7:00am today &nbsp; &nbsp;= &nbsp;700 {if time today earlier than 7:00am}
- &nbsp; &nbsp; &nbsp; &nbsp;7:00am tomorrow = &nbsp;700 {if time today later than 7:00am}, &#42;OR&#42;
- &nbsp; &nbsp; &nbsp; &nbsp;7:00am tomorrow = 3100 (700+2400) {any time today}, &#42;OR&#42;
- &nbsp; &nbsp; &nbsp; &nbsp;7:00am tomorrow = &nbsp;700 /D+1 {any time today, simpler}
- &nbsp; &nbsp; &nbsp; &nbsp;7:00am in 9 days=22300 {command &#34;set /a 700+9&#42;2400&#34; returns &#34;22300&#34;}, &#42;OR&#42;
- &nbsp; &nbsp; &nbsp; &nbsp;7:00am in 9 days= 7:00a /D+9 {simpler}
+ &nbsp; &nbsp; &nbsp; &nbsp;7:00am tomorrow = &nbsp;700 {if time today later than 7:00am}
+ &nbsp; &nbsp; &nbsp; &nbsp;7:00am tomorrow = 3100 (700+2400) {<b>ditto</b>; any time today}
+ &nbsp; &nbsp; &nbsp; &nbsp;7:00am tomorrow = &nbsp;700 /D+1 {<b>ditto</b>; any time today, simpler}
+ &nbsp; &nbsp; &nbsp; &nbsp;7:00am in 9 days=22300 {command &#34;set /a 700+(9&#42;2400)&#34; returns &#34;22300&#34;}
+ &nbsp; &nbsp; &nbsp; &nbsp;7:00am in 9 days= 7:00a /D+9 {<b>ditto</b>; simpler}
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;N.B.: &#34;7am&#34; = [000]7 = 12:07am, not 0700|7:00am! 
 
 Examples:
  &nbsp; &nbsp; &nbsp; &nbsp;Alarm.bat 530p {TIME is the only required argument; default alarm is 3 audible bells}
  &nbsp; &nbsp; &nbsp; &nbsp;Alarm.bat 1730 Call home
  &nbsp; &nbsp; &nbsp; &nbsp;Alarm 300pm /Q Baby still napping?
- &nbsp; &nbsp; &nbsp; &nbsp;Alarm 5515 /W Wake up - big day ahead {7:15am day after tomorrow (715+2400&#42;2)}
+ &nbsp; &nbsp; &nbsp; &nbsp;Alarm 5515 /W Wake up - big day ahead {7:15am day after tomorrow (715+(2400&#42;2))}
  &nbsp; &nbsp; &nbsp; &nbsp;Alarm 715a /D+2 Wake up - big day ahead {<b>ditto</b>}
  &nbsp; &nbsp; &nbsp; &nbsp;Alarm +1 /R1 {bell nag starts in one minute, and repeats every minute}
  &nbsp; &nbsp; &nbsp; &nbsp;Alarm 715 /R1440 Daily reminder to wake {at 7:15a every 24 hours=1440 minutes}
@@ -85,10 +85,11 @@ Cancel Alarm|Wake/Repeat: &nbsp;Alarm.bat /X[A[A]] {/X selects one alarm among s
 
  &nbsp; &nbsp; &nbsp; &nbsp;Notes:
 Configure User Variables on lines 4-27 of &#34;Alarm.bat&#34;
-Message Content: Single-byte characters &#34;|&<>«» are DISALLOWED. &#34;|&<> may be printed using substitute strings, most
- &nbsp;commonly &#96;quo&#96; (with backquotes &#96;) to print quotes. For a complete substitution list, see &#34;AlarmBat_ReadMe.txt&#34;
-Default Alarm Sound: In recent Windows versions, the equivalent .WAVfile for DOS Ascii-07|Ctrl-G &#34;bell&#34; is specified
- &nbsp;in MMSYS.CPL -> Sounds -> &#34;Critical Stop&#34;
+Message Content: Single-byte characters &#34;|&<> and characters 160, 174, and 175 are DISALLOWED. &#34;|&<> may be
+ &nbsp;printed using substitute strings, most commonly &#96;quo&#96; (with backquotes &#96;) to print quotes. For a
+ &nbsp;complete substitution list, see &#34;AlarmBat_ReadMe.txt&#34;
+Default Alarm Sound: In recent Windows versions, the equivalent .WAVfile for DOS Ascii-07|Ctrl-G &#34;bell&#34; is
+ &nbsp;specified in MMSYS.CPL -> Sounds -> &#34;Critical Stop&#34;
 External file &#34;bell.exe&#34; (bundled herewith) is used by default instead of cmd.exe. Bell.exe is Cmd.exe
  &nbsp;with a bell icon, to distinguish Alarms from ordinary CMD sessions in the Taskbar. For a &#34;pure&#34; standalone
  &nbsp;BATch with no external dependencies, replace bell.exe with cmd.exe (erase &#34;REM &#34; on line 7 of Alarm.bat).
@@ -99,7 +100,7 @@ If at alarm time Sound is Muted or below 80% (and no /Q{uiet} command), Alarm Un
 If your (uncommon) Windows system disallows &#34;short&#34; (8.3) filenames, locate Alarm.bat in a directory
  &nbsp;tree with NO spaces! Find out: execute &#34;TestForShortDirectoryNames.bat&#34; (bundled herewith).
 Do not locate &#34;Alarm.bat&#34; and &#34;bell.exe&#34; in a Windows-protected directory (e.g. &#34;C:\Windows\System32&#92;&#34;).
-Filenames &#34;ALRM&#42;.bat|exe|ps1|txt|vbs|xml&#34; in the %TEMP%\ALRM\ directory are RESERVED.
+All files in the %TEMP%\ALRM\ directory are RESERVED.
 
  &nbsp; &nbsp; &nbsp; &nbsp;Wake/Repeat:
 Enables Task Scheduler service &#34;Schedule&#34; (if not running).
@@ -181,8 +182,8 @@ If Alarm crashes due to faulty commands or untrapped errors, issue:
 to clean the first 1001 Scheduled Tasks created by Alarm (including orphans), and remove all Alarm
 programming, for a fresh start.
 
-N.B.: If Alarm detects files in the %TEMP%\ALRM\ folder that pertain to an earlier version of Alarm, it will
-autonomously wipe the Alarm system (clean it) before executing any command.
+N.B.: If Alarm detects files in the %TEMP%\ALRM\ folder that pertain to an earlier version of Alarm,
+it will autonomously wipe the Alarm system (clean it) before executing any command.
 
 ------------------------
 
@@ -294,10 +295,11 @@ ADJUST the &#34;d:\path&#92;&#34; to the programs!
 
 ------------------------
 
-Messages (whether typed, extracted from the Clipboard, or from a file) are filtered through MORE.COM, with the following extended features enabled:
+Messages (whether typed, extracted from the Clipboard, or from a file) are filtered
+ &nbsp;through MORE.COM, with the following extended features enabled:
  &nbsp; &nbsp; &nbsp;&nbsp; Q&nbsp; &nbsp; &nbsp; &nbsp;Quit
- &nbsp; &nbsp; &nbsp; &nbsp;<space> &nbsp; &nbsp; &nbsp; &nbsp;Display next page
- &nbsp; &nbsp; &nbsp; &nbsp;<Enter> &nbsp; &nbsp; &nbsp; &nbsp;Display next line
+ &nbsp; &nbsp; &nbsp; &nbsp;&#60;space&#62; Display next page
+ &nbsp; &nbsp; &nbsp; &nbsp;&#60;Enter&#62; Display next line
  &nbsp; &nbsp; &nbsp; &nbsp;P n &nbsp; &nbsp; Display next n lines
  &nbsp; &nbsp; &nbsp; &nbsp;S n &nbsp; &nbsp; Skip next n lines
  &nbsp; &nbsp; &nbsp; &nbsp;=&nbsp; &nbsp; &nbsp; &nbsp;Show line number
