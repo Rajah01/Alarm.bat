@@ -23,7 +23,7 @@ NOTIFY Usage: Alarm.bat AlarmTime [Switches] [Action] (in order)
  &nbsp; &nbsp; &nbsp; &nbsp;/W {Wake computer from future Sleep | Hibernation, and persist through Restarts}
 
  &nbsp;Action. DEFAULT: Three alarm Bells {override with /Q}. Supplementary arguments:
-1&#41; &nbsp; &nbsp; &nbsp; &nbsp;/P[START command switches ][&#34;][d:\path\]PROGRAM[&#34;] [arguments] {implies /QQ; override with /Q | /QQQ}
+1&#41; &nbsp; &nbsp; &nbsp; &nbsp;/P[START&#95;command&#95;switches ][&#34;][d:\path\]PROGRAM[&#34;] [arguments] {implies /QQ; override with /Q | /QQQ}
  &nbsp; &nbsp; Messages {displayed in Foreground window; hit any key to Dismiss; imply Bells unless /S[poken], override with /Q}:
 2&#41; &nbsp; &nbsp; &nbsp; &nbsp;TYPED text {max chars &#177;8170}
 3&#41; &nbsp; &nbsp; &nbsp; &nbsp;/C {CLIPBOARD text, any length}
