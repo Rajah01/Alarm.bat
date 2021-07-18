@@ -26,7 +26,7 @@ NOTIFY Usage: Alarm.bat AlarmTime [Switches] [Action] (in order)
 
  &nbsp;Action. DEFAULT: Three alarm Bells {override with /Q}. Supplementary arguments:
 1&#41; &nbsp; &nbsp; &nbsp; &nbsp;/P[START&#95;command&#95;switches ][&#34;][d:\path\]PROGRAM[&#34;] [arguments] {implies /QQ;
-1&#41; &nbsp; &nbsp; &nbsp; &nbsp &nbsp;override with /Q | /QQQ}
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;override with /Q | /QQQ}
  &nbsp; &nbsp; Messages {displayed in Foreground window; hit any key to Dismiss; imply Bells unless /S[poken],
  &nbsp; &nbsp; override with /Q}:
 2&#41; &nbsp; &nbsp; &nbsp; &nbsp;TYPED text {max chars &#177;8170}
@@ -156,16 +156,18 @@ Bell.exe is a copy of cmd.exe from Windows XP SP3 (32-bit Version 6.2.9200; runs
 Your computer MUST know the correct local time and time zone. It should be synchronizing with an
  &nbsp; &nbsp;external time server such as 0.pool.ntp.org or time.nist.gov. See the Date and Time settings.
 /W{akes} and /R{epeats} execute as Scheduled Tasks in the current user account: you MUST be signed in!
-The Windows %TEMP% (or %TMP%) directory must exist for the current user account. In the (highly unusual!)
- &nbsp; &nbsp;circumstance that it does not exist, or is not identified by variables %TEMP% | %TMP%, Alarm.bat aborts.
+The Windows %TEMP% (or %TMP%) directory must exist for the current user account. In the (highly
+ &nbsp; &nbsp;unusual!) circumstance that it does not exist, or is not identified by variables %TEMP% | %TMP%,
+ &nbsp; &nbsp;Alarm.bat aborts.
 If your (uncommon) Windows system disallows &#34;short&#34; (8.3) filenames, locate &#34;Alarm.bat&#34; in a directory
  &nbsp; &nbsp;tree with NO spaces! Find out: execute &#34;TestForShortDirectoryNames.bat&#34; (bundled herewith).
 Do not locate &#34;Alarm.bat&#34; and &#34;bell.exe&#34; in a Windows-protected directory (e.g. &#34;System32&#34;).
 Filenames &#34;ALRM&#42;.bat|exe|ps1|txt|vbs|xml&#34; in the %TEMP%\ALRM directory are RESERVED.
 Alarm assumes the existence of system files chcp.com, cmd.exe, csc.exe, cscript.exe, findstr.exe,
- &nbsp; &nbsp;more.com, powercfg.exe, powershell.exe, reg.exe, sc.exe, schtasks.exe, tasklist.exe, timeout.exe, WMIC.exe,
- &nbsp; &nbsp;and xcopy.exe. If any of these built-in executables are absent in your system, Alarm will abort.
- &nbsp; &nbsp;Alarm expects built-in executables to exist in the &#34;%SystemRoot%\System32\&#34; directory (usually &#34;C:\Windows\System32&#92;&#34;) EXCEPT:
+ &nbsp; &nbsp;more.com, powercfg.exe, powershell.exe, reg.exe, sc.exe, schtasks.exe, tasklist.exe, timeout.exe,
+ &nbsp; &nbsp;WMIC.exe,, and xcopy.exe. If any of these built-in executables are absent in your system,
+ &nbsp; &nbsp;Alarm will abort. Alarm expects built-in executables to exist in the &#34;%SystemRoot%\System32\&#34;
+ &nbsp; &nbsp;directory (usually &#34;C:\Windows\System32&#92;&#34;) EXCEPT:
  &nbsp; &nbsp; &nbsp; &nbsp;csc.exe, which is part of the Windows .NET Framework (install NET!)
  &nbsp; &nbsp; &nbsp; &nbsp;powershell.exe, usually in a subdirectory of &#34;%SystemRoot%\System32\WindowsPowerShell&#92;&#34;
  &nbsp; &nbsp; &nbsp; &nbsp;WMIC.exe, usually in &#34;%SystemRoot%\System32\wbem&#92;&#34;
@@ -201,59 +203,66 @@ it will autonomously wipe the Alarm system (clean it) before executing any comma
 
 Differences between Alarms and Wakes|Repeats
 -----------------------------
- &nbsp;Alarms may be canceled by issuing Alarm /X (or by deleting the bell icon in the Taskbar). In contrast, Wakes
- &nbsp; &nbsp;execute at the scheduled time regardless of whether a bell icon exists. Unlike regular Alarms, which require
- &nbsp; &nbsp;that the computer be awake and running, Wakes and Repeats will waken a computer from Screensaver, Sleep, and
- &nbsp; &nbsp;Hibernation states. Wakes and Repeats survive Shutdowns and Restarts -- alarms occur as scheduled if the
- &nbsp; &nbsp;computer is running, although bell icons in the Taskbar do not survive Shutdown|Restart. Wakes and Repeats
- &nbsp; &nbsp;will NOT start a computer that is in a Shutdown state at alarm time (use an external facility, e.g. a DD-WRT
- &nbsp; &nbsp;router with Wake-On-LAN programming, another computer on the LAN or WAN with WOL capability, TeamViewer, etc.).
+ &nbsp;Alarms may be canceled by issuing Alarm /X (or by deleting the bell icon in the Taskbar). In
+ &nbsp; &nbsp;contrast, Wakes execute at the scheduled time regardless of whether a bell icon exists.
+ &nbsp; &nbsp;Unlike regular Alarms, which require that the computer be awake and running, Wakes and
+ &nbsp; &nbsp;Repeats will waken a computer from Screensaver, Sleep, and Hibernation states. Wakes and
+ &nbsp; &nbsp;Repeats survive Shutdowns and Restarts -- alarms occur as scheduled if the computer is
+ &nbsp; &nbsp;running, although bell icons in the Taskbar do not survive Shutdown|Restart. Wakes and Repeats
+ &nbsp; &nbsp;will NOT start a computer that is in a Shutdown state at alarm time (use an external facility,
+ &nbsp; &nbsp;e.g. a DD-WRT router with Wake-On-LAN programming, another computer on the LAN or WAN with WOL
+ &nbsp; &nbsp;capability, TeamViewer, etc.).
 
 Further Comments about Repeat (and Wake)
 -----------------------------
  &nbsp;Repeats are a reiterative form of Wake.
  &nbsp;Repeats have an optional /E{xpiration}, stated as the total duration of the repeat in minutes
  &nbsp;The Task Scheduler has many quirks. For example, a repeat interval greater than 9999 minutes must be
- &nbsp; &nbsp;evenly divisible by 60 (thus, &#34;Hourly&#34;). Alarm manages this inexplicable requirement by raising an
- &nbsp; &nbsp;uneven interval over 9999 to the next-higher hourly value.
+ &nbsp; &nbsp;evenly divisible by 60 (thus, &#34;Hourly&#34;). Alarm manages this inexplicable requirement
+ &nbsp; &nbsp;by raising an uneven interval over 9999 to the next-higher hourly value.
  &nbsp;Relative to the Task Scheduler, Alarm is simple. If you request monthly notification, Alarm notifies
  &nbsp; &nbsp;EVERY month. If you want notification in January, April, July, and October (quarterly), or the
  &nbsp; &nbsp;1st and 15th of each month, or every Friday in the third week, then use TASKSCHD.MSC
  &nbsp;Bearing Alarm's &#42;relative&#42; simplicity in mind, for:
- &nbsp; &nbsp;Daily scheduling, use a Repeat interval of 1440 minutes (/R1440)
- &nbsp; &nbsp;Weekly, use a Repeat interval of 10080 (/R10080) and schedule the initial instance for the DAY of
- &nbsp; &nbsp;the week and time of day that you want Alarm to fire: if every Monday, schedule the initial instance
- &nbsp; &nbsp;for next Monday
- &nbsp; &nbsp;Monthly, similar to Weekly: Repeat interval = /R40320, but schedule the initial instance for the DATE
- &nbsp; &nbsp;within each month that you want Alarm to trigger: e.g. schedule the initial instance for the 1st
- &nbsp; &nbsp;of next month; for the last day of each month, schedule the initial instance for the 28th
- &nbsp; &nbsp;or higher
- &nbsp; &nbsp;Example: Alarm 9:00am /D15-6-21 /R40320 It's the 15th -- Payday -- and banks are OPEN
- &nbsp;Recursive Repeats are implemented using the /P{rogram} command to launch secondary instance(s) of Alarm.
- &nbsp; &nbsp;The following example starts a Daily repeat next Monday (the 20th of current month), which in turn launches a
- &nbsp; &nbsp;/S{poken} Repeat every 2 minutes for a duration of 10 minutes:
- &nbsp; &nbsp;Example: Alarm 6:59am /D20 /R1440 /Pcmd.exe /c Alarm.bat +1 /R2 /E10 /S Get out of bed
- &nbsp; &nbsp;N.B.: Because Repeats must be scheduled in the FUTURE, the Daily starts at 6:59, and the Spoken starts 1 minute later.
- &nbsp; &nbsp;Note too that a 10 minute duration (/E10) at 2-minute intervals (/R2) will yield 6 (not 5) alarms, at minutes 0-2-4-6-8-10.
- &nbsp; &nbsp;Approximately 30 seconds after Expiration, any lingering Taskbar icons will be removed, but the last-issued
- &nbsp; &nbsp;Text message (if any) will remain until manually Dismissed.
- &nbsp; &nbsp;Repeats with no /Expiry are canceled manually, using Alarm /X. Cancel only the Nag (with the Message!), not the Daily.
- &nbsp;Modify imperfect or inadequate Wake or Repeat commands with TASKSCHD.MSC. For example, you have three options to
- &nbsp; &nbsp;create a Repeat on weekdays only:
+ &nbsp; &nbsp;<u>Daily</u> scheduling, use a Repeat interval of 1440 minutes (/R1440).
+ &nbsp; &nbsp;<u>Weekly</u>, use a Repeat interval of 10080 (/R10080) and schedule the initial instance for the DAY of
+ &nbsp; &nbsp;the week and time of day that you want Alarm to fire: if every Monday, schedule the initial
+ &nbsp; &nbsp;instance for next Monday.
+ &nbsp; &nbsp;<u>Monthly</u>, similar to Weekly: Repeat interval = /R40320, but schedule the initial instance for the
+ &nbsp; &nbsp;DATE within each month that you want Alarm to trigger: e.g. schedule the initial instance for the
+ &nbsp; &nbsp;1st of next month; for the last day of each month, schedule the initial instance for the 28th
+ &nbsp; &nbsp;or higher.
+ &nbsp; &nbsp;<u>Example</u>: Alarm 9:00am /D15-6-21 /R40320 It's the 15th -- Payday -- and banks are OPEN
+ &nbsp;Recursive Repeats are implemented using the /P{rogram} command to launch secondary instance(s) of
+ &nbsp; &nbsp;Alarm. The following example starts a Daily repeat next Monday (the 20th of current month),
+ &nbsp; &nbsp;which in turn launches a /S{poken} Repeat every 2 minutes for a duration of 10 minutes:
+ &nbsp; &nbsp;<u>Example</u>: Alarm 6:59am /D20 /R1440 /Pcmd.exe /c Alarm.bat +1 /R2 /E10 /S Get out of bed
+ &nbsp; &nbsp;N.B.: Because Repeats must be scheduled in the FUTURE, the Daily starts at 6:59, and the Spoken
+ &nbsp; &nbsp;starts 1 minute later. Note too that a 10 minute duration (/E10) at 2-minute intervals (/R2) will
+ &nbsp; &nbsp;yield 6 (not 5) alarms, at minutes 0-2-4-6-8-10.
+ &nbsp; &nbsp;Approximately 30 seconds after Expiration, any lingering Taskbar icons will be removed, but the
+ &nbsp; &nbsp;last-issued Text message (if any) will remain until manually Dismissed.
+ &nbsp; &nbsp;Repeats with no /Expiry are canceled manually, using Alarm /X. Cancel only the Nag (with
+ &nbsp; &nbsp;the Message!), not the Daily.
+ &nbsp;Modify imperfect or inadequate Wake or Repeat commands with TASKSCHD.MSC. For example, you have
+ &nbsp; &nbsp;three options to create a Repeat on weekdays only:
  &nbsp; &nbsp;1) create 5 different WEEKLY Repeats, starting Monday through Friday
- &nbsp; &nbsp;2) create one WEEKLY Repeat on Mondays, with two nested CMD /C instances of Alarm (/P switches within /P switches).
- &nbsp; &nbsp;This Example starts on Monday the 22nd at 7:28am and thereafter runs Weekly; at 7:29 it launches an each-morning Alarm for 5 days,
- &nbsp; &nbsp;which in turn launches an Alarm that nags every minute for 5 minutes, starting at 7:30. CMD's /C switch ensures
- &nbsp; &nbsp;that windows close when each iteration of Alarm exits:
+ &nbsp; &nbsp;2) create one WEEKLY Repeat on Mondays, with two nested CMD /C instances of Alarm
+ &nbsp; &nbsp;(/P switches within /P switches).
+ &nbsp; &nbsp;The following example starts on Monday the 22nd at 7:28am and thereafter runs Weekly; at 7:29 it
+ &nbsp; &nbsp;launches an each-morning Alarm for 5 days, which in turn launches an Alarm that nags every minute
+ &nbsp; &nbsp;for 5 minutes, starting at 7:30. CMD's /C switch ensures that windows close when each iteration of
+ &nbsp; &nbsp;Alarm exits. <u>Example</u>:
  &nbsp; &nbsp; &nbsp;Alarm 728am /D22 /R10080 /P/MIN cmd.exe /c Alarm.bat +1 /R1440 /E5760 /P/MIN cmd.exe /c Alarm.bat +1 /R1 /E5 /S HEY YOU. Get out of bed.
- &nbsp; &nbsp;3) create one WEEKLY Repeat starting Monday, then go to TASKSCHD.MSC ==> Task Scheduler Library ==> Refresh ==> double-click ALRMW{#}
- &nbsp; &nbsp;==> Triggers ==> Edit ==> checkmark Monday through Friday ==> confirm with OK ==> confirm OK.
+ &nbsp; &nbsp;3) create one WEEKLY Repeat starting Monday, then go to TASKSCHD.MSC ==> Task Scheduler Library ==>
+ &nbsp; &nbsp; ==> Triggers ==> Edit ==> checkmark Monday through Friday ==> confirm with OK ==> confirm OK.
 
  ------------------------
 
 High-order single-byte characters (128-255):
-Almost all US-ASCII (CP437) accented alphabetics in range 128-159, and Windows-ANSI characters in range 161-255, display correctly in Messages.
- &nbsp; &nbsp;Select the ANSI codepage for your locale in User Configuration, line 21 (default=1252). YMMV -- test individual characters to ascertain
+Almost all US-ASCII (CP437) accented alphabetics in range 128-159, and Windows-ANSI characters in
+ &nbsp; &nbsp;range 161-255, display correctly in Messages. Select the ANSI codepage for your locale
+ &nbsp; &nbsp;in User Configuration, line 21 (default=1252). YMMV -- test individual characters to ascertain
  &nbsp; &nbsp;that they print.
 
  ------------------------
@@ -278,8 +287,8 @@ In contrast, substitution strings are reliable alternatives that always work. No
  &nbsp; &nbsp; &nbsp;&#96;lp&#96; &nbsp; &nbsp; = &nbsp; &nbsp;( 
  &nbsp; &nbsp; &nbsp;&#96;rp&#96; &nbsp; &nbsp; = &nbsp; &nbsp; ) 
  &nbsp; &nbsp; &nbsp;&#96;crt&#96; &nbsp; &nbsp;= &nbsp; &nbsp;^ 
- &nbsp; &nbsp; &nbsp;&#96;pct&#96; &nbsp; &nbsp;= &nbsp; &nbsp;% (assumed to bracket an environmental or user %VARIABLE%, e.g. &#96;pct&#96;USERPROFILE&#96;pct&#96;,
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; and converted at alarm time to the value it represents)
+ &nbsp; &nbsp; &nbsp;&#96;pct&#96; &nbsp; &nbsp;= &nbsp; &nbsp;% (assumed to bracket an environmental or user %VARIABLE%, e.g
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;.&#96;pct&#96;USERPROFILE&#96;pct&#96;, and converted at alarm time to the value it represents)
  &nbsp; &nbsp;&#96;pct&#96;&#96;pct&#96; = &nbsp; &nbsp;% (as string literal)
 
 Example:
@@ -290,9 +299,10 @@ alarm.bat +1 /S /R5 /E30 The time is %TIME:~0,2% hours, %TIME:~3,2% minutes, and
  &nbsp; &nbsp;that static time at each of seven alarms. It suffices if you only issue the command once.
  &nbsp;SUBSTITUTED [CORRECT]:
 alarm.bat +1 /S /R5 /E30 The time is &#96;pct&#96;TIME:~0,2&#96;pct&#96; hours, &#96;pct&#96;TIME:~3,2&#96;pct&#96; minutes, and &#96;pct&#96;TIME:~6,2&#96;pct&#96; seconds
- &nbsp;This command reports the CORRECT current %TIME% at each of seven alarms.
+ &nbsp;The above command reports the CORRECT current %TIME% at each of seven alarms.
 
- &nbsp;Try it! &nbsp;Alarm.bat +0 The time is &#96;pct&#96;TIME:~0,2&#96;pct&#96; hours, &#96;pct&#96;TIME:~3,2&#96;pct&#96; minutes, and &#96;pct&#96;TIME:~6,2&#96;pct&#96; seconds
+ &nbsp;Try it!:
+ &nbsp; &nbsp;Alarm.bat +0 The time is &#96;pct&#96;TIME:~0,2&#96;pct&#96; hours, &#96;pct&#96;TIME:~3,2&#96;pct&#96; minutes, and &#96;pct&#96;TIME:~6,2&#96;pct&#96; seconds
 
 ------------------------
 
