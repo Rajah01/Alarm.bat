@@ -255,7 +255,7 @@ Further Comments about Repeat (and Wake)
  &nbsp; &nbsp;Alarm exits. <b>Example</b>:
  &nbsp; &nbsp; &nbsp;Alarm 728am /D22 /R10080 /P/MIN cmd.exe /c Alarm.bat +1 /R1440 /E5760 /P/MIN cmd.exe /c Alarm.bat +1 /R1 /E5 /S HEY YOU. Get out of bed.
  &nbsp; &nbsp;3) create one WEEKLY Repeat starting Monday, then go to TASKSCHD.MSC ==> Task Scheduler Library ==>
- &nbsp; &nbsp; ==> Triggers ==> Edit ==> checkmark Monday through Friday ==> confirm with OK ==> confirm OK.
+ &nbsp; &nbsp; &nbsp; Triggers ==> Edit ==> checkmark Monday through Friday ==> confirm with OK ==> confirm OK.
 
  ------------------------
 
@@ -267,15 +267,16 @@ Almost all US-ASCII (CP437) accented alphabetics in range 128-159, and Windows-A
 
  ------------------------
 
-Substitution strings may be used to print (and, if sensible, speak) messages containing control characters
- &nbsp; &nbsp;which have special meaning to Windows/DOS, or to the Batch processor, in contexts particular
- &nbsp; &nbsp;to each character. Many control characters cannot be directly manipulated by BATch files.
- &nbsp; &nbsp;Mileage WILL vary; the only way to know for sure whether you may use a particular character
- &nbsp; &nbsp;directly in a given context is to test it (clean up failure by issuing &#34;Alarm.bat /X[A]&#34;
- &nbsp; &nbsp;and/or restarting the CMD session if the environment is corrupted).
- &nbsp; &nbsp;Note that Alarm temporarily changes the CodePage during execution to CP437, then restores your
- &nbsp; &nbsp;original CP on exit. A crashed Alarm session could leave you with the wrong CodePage, so a
- &nbsp; &nbsp;cmd restart is advised.
+Substitution strings may be used to print (and, if sensible, speak) messages containing control
+ &nbsp; &nbsp;characters which have special meaning to Windows/DOS, or to the Batch processor, in
+ &nbsp; &nbsp;contexts particular to each character. Many control characters cannot be directly
+ &nbsp; &nbsp;manipulated by BATch files. Mileage WILL vary; the only way to know for sure whether
+ &nbsp; &nbsp;you may use a particular character directly in a given context is to test it (clean up
+ &nbsp; &nbsp;failure by issuing &#34;Alarm.bat /X[A]&#34; and/or restarting the CMD session if the
+ &nbsp; &nbsp;environment is corrupted).
+ &nbsp; &nbsp;Note that Alarm temporarily changes the CodePage during execution to CP437, then restores
+ &nbsp; &nbsp;your original CP on exit. A crashed Alarm session could leave you with the wrong CodePage, so
+ &nbsp; &nbsp;a CMD restart is advised.
 In contrast, substitution strings are reliable alternatives that always work. Note the systematic
  &nbsp; &nbsp;use of backquote &#34;&#96;&#34;. Full list (the &#34;hottest&#34; characters are asterisked;
  &nbsp; &nbsp;they almost always require substitution):
@@ -295,11 +296,11 @@ In contrast, substitution strings are reliable alternatives that always work. No
 
 Example:
 -------
- &nbsp;An !!INCORRECT!! /S{poken} source command:
+ &nbsp;An !!<i>INCORRECT</i>!! /S{poken} source command:
 alarm.bat +1 /S /R5 /E30 The time is %TIME:~0,2% hours, %TIME:~3,2% minutes, and %TIME:~6,2% seconds
  &nbsp;The above command executes, but it hard-codes the TIME at the moment of issue, and repeats
- &nbsp; &nbsp;that static time at each of seven alarms. It suffices if you only issue the command once.
- &nbsp;SUBSTITUTED [CORRECT]:
+ &nbsp; &nbsp;that static time at each of seven alarms. It does suffice if you only issue the command once.
+ &nbsp;SUBSTITUTED [<i>CORRECT</i>]:
 alarm.bat +1 /S /R5 /E30 The time is &#96;pct&#96;TIME:~0,2&#96;pct&#96; hours, &#96;pct&#96;TIME:~3,2&#96;pct&#96; minutes, and &#96;pct&#96;TIME:~6,2&#96;pct&#96; seconds
  &nbsp;The above command reports the CORRECT current %TIME% at each of seven alarms.
 
@@ -358,7 +359,7 @@ CAUTION: Edit Alarm.bat in an environment that uses 8-bit (single byte) characte
 ------------------------
 
  &nbsp; &nbsp;Author: Robert Holmgren
- &nbsp; &nbsp;Download: &nbsp;https://holmgren.org/AlarmBat.zip
+ &nbsp; &nbsp;Download: &nbsp;https://github.com/Rajah01/Alarm.bat/files/6836591/AlarmBat.zip
 
  &nbsp; &nbsp; &nbsp;Credits:
  &nbsp; &nbsp; &nbsp;-------
