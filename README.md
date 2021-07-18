@@ -166,7 +166,7 @@ Filenames &#34;ALRM&#42;.bat|exe|ps1|txt|vbs|xml&#34; in the %TEMP%\ALRM directo
 Alarm assumes the existence of system files chcp.com, cmd.exe, csc.exe, cscript.exe, findstr.exe,
  &nbsp; &nbsp;more.com, powercfg.exe, powershell.exe, reg.exe, sc.exe, schtasks.exe, tasklist.exe, timeout.exe,
  &nbsp; &nbsp;WMIC.exe,, and xcopy.exe. If any of these built-in executables are absent in your system,
- &nbsp; &nbsp;Alarm will abort. Alarm expects built-in executables to exist in the &#34;%SystemRoot%\System32\&#34;
+ &nbsp; &nbsp;Alarm will abort. Alarm expects built-in executables to exist in the &#34;%SystemRoot%\System32&#92;&#34;
  &nbsp; &nbsp;directory (usually &#34;C:\Windows\System32&#92;&#34;) EXCEPT:
  &nbsp; &nbsp; &nbsp; &nbsp;csc.exe, which is part of the Windows .NET Framework (install NET!)
  &nbsp; &nbsp; &nbsp; &nbsp;powershell.exe, usually in a subdirectory of &#34;%SystemRoot%\System32\WindowsPowerShell&#92;&#34;
@@ -325,7 +325,7 @@ offer specific services. ADJUST the &#34;d:\path&#92;&#34; to the programs!
 
 Messages (whether typed, extracted from the Clipboard, or from a file) are filtered
  &nbsp;through MORE.COM, with the following extended features enabled:
- &nbsp; &nbsp; &nbsp;&nbsp; Q&nbsp; &nbsp; &nbsp; &nbsp;Quit
+ &nbsp; &nbsp;Q&nbsp; &nbsp; &nbsp; &nbsp;Quit
  &nbsp; &nbsp;&#60;space&#62; Display next page
  &nbsp; &nbsp;&#60;Enter&#62; Display next line
  &nbsp; &nbsp;P n &nbsp; &nbsp; Display next n lines
