@@ -980,8 +980,8 @@ for %%A in (cmd findstr powercfg sc schtasks xcopy) do if not exist "%win%%%A.ex
 for %%A in (cscript reg timeout tasklist) do if exist "%win%%%A.exe" (call :bc %win%%%A.exe %%A) else call :dc "%%A.exe"
 for %%A in (chcp more) do if exist "%win%%%A.com" (call :cc %win%%%A.com %%A) else call :dc "%%A.com"
 for /F "tokens=4 delims=. " %%A in ('ver') do set ver=%%A
-if %ver% GEQ 10 for /R "%SystemRoot%\Microsoft.NET\Framework\" %%A in ("*csc.exe") do set dummy=%%A
-if %ver% GEQ 10 call :ec csc csc ""
+for /R "%SystemRoot%\Microsoft.NET\Framework\" %%A in ("*csc.exe") do set dummy=%%A
+call :ec csc csc ""
 for /R "%win%" %%A in ("*WMIC.exe") do if exist "%%A" set dummy=%%A
 call :ec wm WMIC "process where"
 for /R "%win%WindowsPowershell\" %%A in ("*powershell.exe") do set dummy=%%A
