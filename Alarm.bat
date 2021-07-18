@@ -27,7 +27,7 @@ set Delay=4
 rem * END USER CONFIGURATION *
 
 rem ---------------- DO NOT WRITE BELOW THIS LINE! ----------------
-set Version=20210716
+set Version=20210718
 goto :y
 --------
 SBCP 437 chars: =" &=<temp_delimiters> <ANSI:>«=® »=¯ <+NBSP 160>
@@ -174,7 +174,6 @@ echo/&echo   %ermsg%^^^! Aborting ...
 @%cp%&exit /B %er%
 --------
 :y
-::for %%A in (cp cs csc er mr pw reg TMPO to tsk tskv ver win wm) do @set %%A=
 if exist "%TEMP%\ALRM\ALRMG.bat" (call "%TEMP%\ALRM\ALRMG.bat") else call :fc&if "!er!"=="5" exit /B 5
 if "%ANSI%"=="" set ANSI=1252
 set ANSI=%cp% %ANSI%^^^^^^^>NUL
@@ -200,29 +199,21 @@ if "%Delay%"=="" set Delay=4
 for /F "delims=0123456789" %%A in ("%Delay%") do if "%%A" NEQ "" set ermsg="Delay" variable must be numeric (currently "%Delay%")&set er=6&goto :x
 if "%Volume%"=="" set Volume=80
 if /I "%UnMute%X" NEQ "OnX" set UnMute=Off
-if /I %UnMute%==On for /F "delims=0123456789" %%A in ("%Volume%") do if "%%A" NEQ "" set er=7
-if %er%==0 if /I %UnMute%==On (
-	if %Volume% GTR 100 set er=7
-	if %Volume% LSS 0 set er=7
-)
-if %er%==7 set ermsg="Volume" threshold must be numeric, in range 0-100 ^(currently "%Volume%"^)&goto :x
-if %Volume%==0 set vol=0
-if %Volume% GTR 0 if %Volume% LSS 10 set vol=0.0%Volume%
-if %Volume% GTR 9 if %Volume% LSS 100 set vol=0.%Volume%
-if %Volume%==100 set vol=1.00
+for /F "delims=0123456789" %%A in ("%Volume%") do if "%%A" NEQ "" set ermsg="Volume" threshold must be numeric, in range 0-100 ^(currently "%Volume%"^)&set er=7&goto :x
+if %Volume% GTR 99 (set vol=1.00) else set vol=0.%Volume%&if %Volume% LSS 10 set vol=0.0%Volume%&if %Volume% LSS 1 set vol=0
 if /I "%~1x"=="/Tx" goto :zb
 set vw=0
 if /I "%~1"=="/V" set vw=1&goto :rb
 if /I "%~1"=="/X" goto :rb
 ::Cancel All
-set cml2=%cml:"=%
-if /I "%cml2:~0,3%"=="/XA" echo/&goto :xb
-for /F %%A in (%TMPO%ALRMV.txt) do if %%A NEQ %Version% set dummy3=%cml2%&set cml=/XAAN&echo/&goto :xb
+set dummy4=%cml:"=%
+if /I "%dummy4:~0,3%"=="/XA" echo/&goto :xb
+for /F %%A in (%TMPO%ALRMV.txt) do if %%A NEQ %Version% set dummy3=%dummy4%&set cml=/XAAN&echo/&goto :xb
 ::Cancel one by number e.g. "/X2" (undocumented)
-if /I "%cml2:~0,2%" NEQ "/X" goto :z
-set autokil=%cml2:~2%
-set k=%cml2:~2%
-set kil=1
+if /I "%dummy4:~0,2%" NEQ "/X" goto :z
+set autokil=%dummy4:~2%
+set k=%dummy4:~2%
+set dummy4=&set kil=1
 goto :sb
 :z
 set w="%TMPO%ALRM.vbs"
@@ -278,10 +269,7 @@ if "%fdt:~8,1%#" NEQ "#" goto :g
 if "%fdt:~0,1%"=="+" set plusm=-3&set fdt=%fdt:~1%
 for /F "delims=0123456789-" %%A in ("%fdt%") do if "%%A" NEQ "" goto :g
 set wake=1
-if %plusm%==-3 (
-	set /a dhm=%fdt%*24
-	goto :ea
-)
+if %plusm%==-3 set /a "dhm=%fdt%*24"&goto :ea
 set /a plusm=-3,bad=0
 for /F "tokens=1-3 delims=-" %%A in ("%fdt%") do call :f %%A %%B %%C
 if %bad%==1 exit /B %er%
@@ -554,7 +542,7 @@ if %rptltr%==R (
 	set du=
 	set et= /et %endact1%
 )
-if %ver% NEQ 10 (
+if %ver% LSS 10 (
 	set rptmins=1
 	if %rptltr%==N set du= /du 0000:02
 	set et=
@@ -588,7 +576,7 @@ if %rptltr%==R if %rptfrq% NEQ MONTHLY if %rptfrq% NEQ WEEKLY (
 	echo pos1=InStr^(pos2,txt,"/Repetition"^)-1 >>%w%
 	echo txt=Mid^(txt,1,pos2^) ^& Mid^(txt,pos1^)>>%w%
 )
-if %ver% NEQ 10 if %rptltr%==N (
+if %ver% LSS 10 if %rptltr%==N (
 	echo pos1=InStr^(1,txt,"Repetition"^)-1 >>%w%
 	echo pos2=InStr^(pos1,txt,"StartBoundary"^)>>%w%
 	echo txt=Mid^(txt,1,pos1^) ^& Mid^(txt,pos2^)>>%w%
@@ -934,7 +922,7 @@ if %e:~0,1% NEQ 1 if %e:~0,1% NEQ 3 set s=%s%, Muted
 echo UnMute On^|Off:		%UnMute%
 if /I %UnMute%==On echo Volume Threshold: 	%Volume%%%
 echo System sound level:	%s%
-for /F "tokens=4 delims=. " %%A in ('ver') do if %%A EQU 10 (
+for /F "tokens=4 delims=. " %%A in ('ver') do if %%A GEQ 10 (
 	if not exist %TMPO%ALRM2.ps1 call :ic
 	%pw% -file "%TMPO%ALRM2.ps1"
 )
@@ -944,29 +932,32 @@ for /F "tokens=4 delims=. " %%A in ('ver') do if %%A EQU 10 (
 if /I %UnMute%==On if "%e:~0,1%#" NEQ "1#" %pw% -file "%TMPO%ALRM.ps1" -snd %e:~0,1% -vol %vol%
 @%cp%&exit /B 0
 :ac
+@echo/&@echo 	Testing connectivity ...
 for /F %%A in ('%pw% -c "Test-Connection -ComputerName holmgren.org -Quiet -Count 1"') do if %%A==False set ermsg=No Internet connectivity&set er=1&goto :x
-@echo/
+%cp%
 %pw% -c "(New-Object Net.WebClient).DownloadFile('https://holmgren.org/ALRMV.txt','%~dps0ALRMV.txt')"
 for /F %%A in (%~dps0ALRMV.txt) do set dummy=%%A
 if exist %~dps0ALRMV.txt del /F %~dps0ALRMV.txt
-if %dummy%==%Version% echo You have the latest version (v%Version%).&@%cp%&exit /B 0
+if %dummy%==%Version% @echo You have the latest version (v%Version%)&@%cp%&exit /B 0
 set /p dummy2=Download version "%dummy%"? (you have v%Version%) [Y^|N]: 
-if /I %dummy2%==Y (
-	%pw% -c "(New-Object Net.WebClient).DownloadFile('https://holmgren.org/AlarmBat.zip','%~dps0AlarmBat.zip')"
-	if exist %~dps0AlarmBat_ReadMe.txt del /F %~dps0AlarmBat_ReadMe.txt
-	echo Latest "AlarmBat.zip" v%dummy% downloaded to "%~dps0". UnZIP it and overwrite existing files^^^!
-)
-@%cp%&exit /B 0
+if /I "%dummy2%" NEQ "Y" exit /B 0
+%pw% -c "(New-Object Net.WebClient).DownloadFile('https://holmgren.org/AlarmBat.zip','%~dps0AlarmBat.zip')"
+if exist %~dps0AlarmBat_ReadMe.txt del /F %~dps0AlarmBat_ReadMe.txt
+@echo Latest "AlarmBat.zip" v%dummy% downloaded to "%~dps0"
+@echo/
+set /p dummy2=Install "Alarm.bat" and "AlarmBat_ReadMe.txt" (replace 2 files)? [Y^|n]: 
+if /I "%dummy2%" NEQ "N" %pw% -c "$shell=New-Object -ComObject shell.application;$zip=$shell.NameSpace('%~dps0AlarmBat.zip');foreach($item in $zip.items()){if($item.Name -like 'Alarm*'){$shell.Namespace('%~dps0').CopyHere($item,0x14)}}"&@echo Done&exit /B 0
+exit /B 0
 :bc
-if %1==cscript set cs=%win%%1.exe //Nologo %TMPO%ALRM.vbs&goto :eof
-if %1==reg set reg=%win%%1.exe query "HKCU\Control Panel\International" /v&goto :eof
-if %1==timeout set to=%win%%1.exe /T&goto :eof
-set tsk=%win%%1.exe /FI ^"IMAGENAME eq
-set tskv=%win%%1.exe /V /FI ^"IMAGENAME eq
+if "%2"=="cscript" set cs=%1 //Nologo %TMPO%ALRM.vbs&goto :eof
+if "%2"=="reg" set reg=%1 query "HKCU\Control Panel\International" /v&goto :eof
+if "%2"=="timeout" set to=%1 /T&goto :eof
+set tsk=%1 /FI ^"IMAGENAME eq
+set tskv=%1 /V /FI ^"IMAGENAME eq
 goto :eof
 :cc
-if %~2==chcp set cp=%~1&goto :eof
-if %~2==more set mr=%~1 /E /S
+if "%2"=="chcp" set cp=%1&goto :eof
+if "%2"=="more" set mr=%1 /E /S
 goto :eof
 :dc
 set /a bad+=1
@@ -986,11 +977,11 @@ if exist %TMPO%ALRMG.bat del /F %TMPO%ALRMG.bat
 call :a "%SystemRoot%\System32\" win
 set dummy=&set dummy2=&set bad=0
 for %%A in (cmd findstr powercfg sc schtasks xcopy) do if not exist "%win%%%A.exe" call :dc "%%A.exe"
-for %%A in (cscript reg timeout tasklist) do if exist "%win%%%A.exe" (call :bc %%A) else call :dc "%%A.exe"
-for %%A in (chcp more) do if exist "%win%%%A.com" (call :cc "%win%%%A.com" %%A) else call :dc "%%A.com"
+for %%A in (cscript reg timeout tasklist) do if exist "%win%%%A.exe" (call :bc %win%%%A.exe %%A) else call :dc "%%A.exe"
+for %%A in (chcp more) do if exist "%win%%%A.com" (call :cc %win%%%A.com %%A) else call :dc "%%A.com"
 for /F "tokens=4 delims=. " %%A in ('ver') do set ver=%%A
-if %ver%==10 for /R "%SystemRoot%\Microsoft.NET\Framework\" %%A in ("*csc.exe") do set dummy=%%A
-if %ver%==10 call :ec csc csc ""
+if %ver% GEQ 10 for /R "%SystemRoot%\Microsoft.NET\Framework\" %%A in ("*csc.exe") do set dummy=%%A
+if %ver% GEQ 10 call :ec csc csc ""
 for /R "%win%" %%A in ("*WMIC.exe") do if exist "%%A" set dummy=%%A
 call :ec wm WMIC "process where"
 for /R "%win%WindowsPowershell\" %%A in ("*powershell.exe") do set dummy=%%A
@@ -1118,9 +1109,6 @@ set fnb=%TMPO%ALRMakeMouseMove.bat
 @echo :aaa>>%fnb%
 @echo @echo off>>%fnb%
 @echo setlocal>>%fnb%
-::@echo set "csc=%csc%">>%fnb%
-::@echo @for /R "%%SystemRoot%%\Microsoft.NET\Framework\" %%%%# in ("*csc.exe") do set "csc=%%%%#">>%fnb%
-::@echo if not exist "%%csc%%" exit /B 27>>%fnb%
 @echo call %%csc%% /nologo /warn:0 /out:"%%TMPO%%ALRM.exe" "%fnb%" ^|^| (exit /B 27)>>%fnb%
 @echo endlocal^& exit /B 0 >>%fnb%
 @echo */>>%fnb%
@@ -1156,9 +1144,9 @@ set hlp= ^>^>%~dpsn0.txt
 @echo		%~nx0 v%Version%	Notification program for the Windows command line%hlp%
 @echo/%hlp%
 @echo NOTIFY Usage: %~dpsn0.bat AlarmTime [Switches] [Action] ^(in order^)%hlp%
-@echo ======  Syntax: %~dpsn0[.bat] HH[:]MM[A^|P[M]] ^| +m ...			Alarm_Time%hlp%
-@echo 	... [/D[d]d[-[m]m[-yy]] ^| /D+n] [/Q[Q[Q]]] [/Rm [/Em]] [/S] [/W ] ...	Switches%hlp%
-@echo 	... [Message] ^| [/C{lipboard}] ^| [/F{ile}] ^| [/P{rogram} [arguments]]	Action%hlp%
+@echo ======  Syntax: %~dpsn0[.bat] HH[:]MM[A^|P[M]] ^| +m ...				Alarm_Time%hlp%
+@echo 	... [/D[d]d[-[m]m[-yy]] ^| /D+n] [/Q[Q[Q]]] [/Rm [/Em]] [/S] [/W ] ...		Switches%hlp%
+@echo 	... [Typed Message] ^| [/C{lipboard}] ^| [/F{ile}] ^| [/P{rogram} [arguments]]	Action%hlp%
 @echo/%hlp%
 @echo   AlarmTime ^(REQUIRED; first argument^). Two forms:%hlp%
 @echo 	[[[H]H[:]]M]M {24-hour time^|12-hour time with A^|P[M] suffix; may omit leading zeroes, e.g. Midnight: "0000"="0"}%hlp%
@@ -1176,7 +1164,7 @@ set hlp= ^>^>%~dpsn0.txt
 @echo 	/W {Wake computer from future Sleep ^| Hibernation, and persist through Restarts}%hlp%
 @echo/%hlp%
 @echo   Action. DEFAULT: Three alarm Bells {override with /Q}. Supplementary arguments:%hlp%
-@echo 1)	/P[START command switches ]["][d:\path\]PROGRAM["] [arguments] {implies /QQ; override with /Q ^| /QQQ}%hlp%
+@echo 1)	/P[START_command_switches ]["][d:\path\]PROGRAM["] [arguments] {implies /QQ; override with /Q ^| /QQQ}%hlp%
 @echo      Messages {displayed in Foreground window; hit any key to Dismiss; imply Bells unless /S[poken], override with /Q}:%hlp%
 @echo 2)	TYPED text {max chars ñ8170}%hlp%
 @echo 3)	/C {CLIPBOARD text, any length}%hlp%
@@ -1198,10 +1186,10 @@ set hlp= ^>^>%~dpsn0.txt
 @echo		  {For each future day, add 2400 to HHMM time: "time+(days*2400)"}%hlp%	
 @echo		7:00am today    =  700 {if time today earlier than 7:00am}%hlp%
 @echo		7:00am tomorrow =  700 {if time today later than 7:00am}, *OR*%hlp%
-@echo		7:00am tomorrow = 3100 ^(700+2400^) {any time today}, *OR*%hlp%
-@echo		7:00am tomorrow =  700 /D+1 {any time today, simpler}%hlp%
-@echo		7:00am in 9 days=22300 {command "set /a 700+9*2400" returns "22300"}, *OR*%hlp%
-@echo		7:00am in 9 days= 7:00a /D+9 {simpler}%hlp%
+@echo		7:00am tomorrow = 3100 ^(700+2400^) {any time today}%hlp%
+@echo		7:00am tomorrow =  700 /D+1 {ditto; any time today, simpler}%hlp%
+@echo		7:00am in 9 days=22300 {command "set /a 700+9*2400" returns "22300"}%hlp%
+@echo		7:00am in 9 days= 7:00a /D+9 {ditto; simpler}%hlp%
 @echo		  N.B.: "7am" = [000]7 = 12:07am, not 0700^|7:00am! %hlp%
 @echo/%hlp%
 @echo Examples:%hlp%
@@ -1239,8 +1227,8 @@ set hlp= ^>^>%~dpsn0.txt
 @echo/%hlp%
 @echo 	Notes:%hlp%
 @echo Configure User Variables on lines 4-27 of "%~dpsn0.bat"%hlp%
-@echo Message Content: Single-byte characters ^"^|^&^<^>«» are DISALLOWED. ^"^|^&^<^> may be printed using substitute strings, most%hlp%
-@echo   commonly ^`quo^` ^(with backquotes ^`^) to print quotes. For a complete substitution list, see "%~dps0AlarmBat_ReadMe.txt"%hlp%
+@echo Message Content: Single-byte characters ^"^|^&^<^> and chars 160, 174, and 175 are DISALLOWED. ^"^|^&^<^> may be printed using substitute%hlp%
+@echo   strings, most commonly ^`quo^` ^(with backquotes ^`^) to print quotes. For a complete substitution list, see "%~dps0AlarmBat_ReadMe.txt"%hlp%
 @echo Default Alarm Sound: In recent Windows versions, the equivalent .WAVfile for DOS Ascii-07^|Ctrl-G "bell" is specified%hlp%
 @echo   in MMSYS.CPL -^> Sounds -^> "Critical Stop"%hlp%
 @echo External file "%~dps0bell.exe" ^(bundled herewith^) is used by default instead of cmd.exe. Bell.exe is Cmd.exe%hlp%

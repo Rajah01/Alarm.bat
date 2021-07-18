@@ -12,7 +12,7 @@ Alarm.bat commands fall into 3 categories:
 	Alarm Time (required; first argument)
 	Switches (optional; relaxed order)
 	Action (optional; last argument)
-	  The Action (e.g. a text message, a /P{rogram} command) should not contain a "/" slash
+	  The Action, if a text message, should not contain a "/" slash
 	  followed by certain Switch-letters ("DPQRSW")! It may be misinterpreted.
 
 Alarm.bat has been tested under Windows 7 Ultimate | Professional and Windows 10 Home | Pro ONLY,
@@ -37,7 +37,7 @@ Filenames "ALRM*.bat|exe|ps1|txt|vbs|xml" in the %TEMP%\ALRM directory are RESER
 Alarm assumes the existence of system files chcp.com, cmd.exe, csc.exe, cscript.exe, findstr.exe,
 	more.com, powercfg.exe, powershell.exe, reg.exe, sc.exe, schtasks.exe, tasklist.exe, timeout.exe, WMIC.exe,
 	and xcopy.exe. If any of these built-in executables are absent in your system, Alarm will abort.
-	Alarm expects all files to exist in the "%SystemRoot%\System32\" directory (usually "C:\Windows\System32\") EXCEPT:
+	Alarm expects built-in executables to exist in the "%SystemRoot%\System32\" directory (usually "C:\Windows\System32\") EXCEPT:
 		csc.exe, which is part of the Windows .NET Framework (install NET!)
 		powershell.exe, usually in a subdirectory of "%SystemRoot%\System32\WindowsPowerShell\"
 		WMIC.exe, usually in "%SystemRoot%\System32\wbem\"
@@ -124,9 +124,10 @@ Further Comments about Repeat (and Wake)
  ------------------------
 
 High-order single-byte characters (128-255):
-Almost all US-ASCII (CP437) accented alphabetics in range 128-159, and Windows-ANSI characters in range 160-255, display correctly in Messages.
-	Select the ANSI codepage for your locale in User Configuration, line 21 (default=1252). YMMV -- test individual characters to ascertain
-	that they print.
+Almost all US-ASCII (CP437) accented alphabetics in range 128-159, and Windows-ANSI characters in range 161-255 (except 174|175),
+	display in Messages, either correctly (if the equivalent representation exists in CP437) or as an unaccented version of the
+	character. YMMV -- test individual characters to ascertain that they print.
+	Select the ANSI codepage for your locale in User Configuration, line 21 (default=1252).
 
  ------------------------
 
@@ -218,4 +219,5 @@ CAUTION: Edit Alarm.bat in an environment that uses 8-bit (single byte) characte
 	Vasil Arnaudov (https://github.com/npocmaka/batch.scripts/blob/master/hybrids/.net/c/mouse.bat and http://ss64.org/viewtopic.php?id=1687)
 	Alexandre Jasmin and Anchmerama (https://stackoverflow.com/questions/255419/how-can-i-mute-unmute-my-sound-from-powershell)
 	Ritchie Lawrence (https://github.com/ritchielawrence/batchfunctionlibrary/tree/master/Date%20and%20Time%20Functions)
+	Carl Distefano, TalkTock.exe
 
