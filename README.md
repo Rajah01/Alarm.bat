@@ -3,7 +3,7 @@
  &nbsp; &nbsp; &nbsp; &nbsp;Alarm.bat v20210718 &nbsp; &nbsp; &nbsp; &nbsp;Notification program for the Windows command line
 
 NOTIFY Usage: Alarm.bat AlarmTime [Switches] [Action] (in order)
-====== &nbsp;Syntax: Alarm[.bat] HH[:]MM[A|P[M]] | +m ...&nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Alarm_Time
+====== &nbsp;Syntax: Alarm[.bat] HH[:]MM[A|P[M]] | +m ...&nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Alarm_Time
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;... [/D[d]d[-[m]m[-yy]] | /D+n] [/Q[Q[Q]]] [/Rm [/Em]] [/S] [/W ] ...&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;Switches
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;... [Typed Message] | [/C{lipboard}] | [/F{ile}] | [/P{rogram} [arguments]] &nbsp;Action
 
@@ -41,14 +41,14 @@ INFO Usage: Alarm.bat /H /T /U /V /X[A[A]] /?|-h|--help|{no_arguments}
  &nbsp; &nbsp; &nbsp; &nbsp;/?|-h|--help|no_arguments {Display <b>THIS</b>}
 
 Time Declaration: 0050 :50 50a 1250AM 12:50a &nbsp; &nbsp;0150 150 1:50 1:50am &nbsp; &nbsp;1350 13:50 150p 1:50PM &nbsp; &nbsp;+90 &nbsp; 
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;{For each future day, add 2400 to HHMM time: &#34;time+(days&#42;2400)&#34;} &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
- &nbsp; &nbsp; &nbsp; &nbsp;7:00am today &nbsp; &nbsp;= &nbsp;700 {if time today earlier than 7:00am}
- &nbsp; &nbsp; &nbsp; &nbsp;7:00am tomorrow = &nbsp;700 {if time today later than 7:00am}
- &nbsp; &nbsp; &nbsp; &nbsp;7:00am tomorrow = 3100 (700+2400) {<b>ditto</b>; any time today}
- &nbsp; &nbsp; &nbsp; &nbsp;7:00am tomorrow = &nbsp;700 /D+1 {<b>ditto</b>; any time today, simpler}
- &nbsp; &nbsp; &nbsp; &nbsp;7:00am in 9 days=22300 {command &#34;set /a 700+(9&#42;2400)&#34; returns &#34;22300&#34;}
- &nbsp; &nbsp; &nbsp; &nbsp;7:00am in 9 days= 7:00a /D+9 {<b>ditto</b>; simpler}
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;N.B.: &#34;7am&#34; = [000]7 = 12:07am, not 0700|7:00am! 
+ &nbsp; &nbsp; &nbsp;{For each future day, add 2400 to HHMM time: &#34;time+(days&#42;2400)&#34;} &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+ &nbsp; &nbsp;7:00am today &nbsp; &nbsp;= &nbsp;700 {if time today earlier than 7:00am}
+ &nbsp; &nbsp;7:00am tomorrow = &nbsp;700 {if time today later than 7:00am}
+ &nbsp; &nbsp;7:00am tomorrow = 3100 (700+2400) {<b>ditto</b>; any time today}
+ &nbsp; &nbsp;7:00am tomorrow = &nbsp;700 /D+1 {<b>ditto</b>; any time today, simpler}
+ &nbsp; &nbsp;7:00am in 9 days=22300 {command &#34;set /a 700+(9&#42;2400)&#34; returns &#34;22300&#34;}
+ &nbsp; &nbsp;7:00am in 9 days= 7:00a /D+9 {<b>ditto</b>; simpler}
+ &nbsp; &nbsp; &nbsp;N.B.: &#34;7am&#34; = [000]7 = 12:07am, not 0700|7:00am! 
 
 Examples:
  &nbsp; &nbsp;Alarm.bat 530p {TIME is the only required argument; default alarm is 3 audible bells}
@@ -79,27 +79,30 @@ Examples:
  &nbsp; &nbsp; &nbsp; &nbsp;Each morning for 5 days, a child instance of Alarm announces the Time every minute for 5 minutes, starting at 7:30am:
  &nbsp; &nbsp;Alarm 729 /R1440 /E5760 /P/MIN cmd.exe /c Alarm.bat +1 /R1 /E5 /P/MIN .\Auxiliaries\TimeOfDay.bat
 
-Cancel Alarm|Wake/Repeat: &nbsp;Alarm.bat /X[A[A]] {/X selects one alarm among several | /XA or &#34;All&#34; cancels all pending alarms
- &nbsp;#0-25 | /XAA cancels all pending alarms #0-1000 | a single pending Alarm is canceled automatically/hands-off (=/XA}.
+Cancel Alarm|Wake/Repeat: &nbsp;Alarm.bat /X[A[A]] {/X selects one alarm among several; a single
+ &nbsp;pending Alarm is canceled automatically/hands-off | /XA or &#34;All&#34; cancels all pending
+ &nbsp;alarms #0-25 | /XAA cancels all pending alarms #0-1000.
  &nbsp;Terminate PowerShell manually to kill Speech.
 
  &nbsp; &nbsp; &nbsp; &nbsp;Notes:
 Configure User Variables on lines 4-27 of &#34;Alarm.bat&#34;
-Message Content: Single-byte characters &#34;|&<> and characters 160, 174, and 175 are DISALLOWED. &#34;|&<> may be
- &nbsp;printed using substitute strings, most commonly &#96;quo&#96; (with backquotes &#96;) to print quotes. For a
- &nbsp;complete substitution list, see &#34;AlarmBat_ReadMe.txt&#34;
-Default Alarm Sound: In recent Windows versions, the equivalent .WAVfile for DOS Ascii-07|Ctrl-G &#34;bell&#34; is
- &nbsp;specified in MMSYS.CPL -> Sounds -> &#34;Critical Stop&#34;
+Message Content: Single-byte characters &#34;|&<> and characters 160, 174, and 175 are DISALLOWED.
+ &nbsp;&#34;|&<> may be printed using substitute strings, most commonly &#96;quo&#96; (with backquotes &#96;)
+ &nbsp;to print quotes. For a complete substitution list, see &#34;AlarmBat_ReadMe.txt&#34;
+Default Alarm Sound: In recent Windows versions, the equivalent .WAVfile for DOS Ascii-07|Ctrl-G &#34;bell&#34;
+ &nbsp;is specified in MMSYS.CPL -> Sounds -> &#34;Critical Stop&#34;
 External file &#34;bell.exe&#34; (bundled herewith) is used by default instead of cmd.exe. Bell.exe is Cmd.exe
- &nbsp;with a bell icon, to distinguish Alarms from ordinary CMD sessions in the Taskbar. For a &#34;pure&#34; standalone
- &nbsp;BATch with no external dependencies, replace bell.exe with cmd.exe (erase &#34;REM &#34; on line 7 of Alarm.bat).
+ &nbsp;with a bell icon, to distinguish Alarms from ordinary CMD sessions in the Taskbar. For a &#34;pure&#34;
+ &nbsp;standalone BATch with no external dependencies, replace bell.exe with cmd.exe (erase &#34;REM &#34;
+ &nbsp;on line 7 of Alarm.bat).
 If at alarm time Sound is Muted or below 80% (and no /Q{uiet} command), Alarm UnMutes the system and/or
  &nbsp;raises the sound level to 80%, then on exit (&#42;unless /S{poken}&#42;) restores original Mute|Volume
  &nbsp;settings. To disable this function, change the &#34;UnMute&#34; variable from &#34;On&#34; to &#34;Off&#34; (line 14
  &nbsp;of Alarm.bat). Change the threshold Volume level from 80% to another value on line 18.
 If your (uncommon) Windows system disallows &#34;short&#34; (8.3) filenames, locate Alarm.bat in a directory
  &nbsp;tree with NO spaces! Find out: execute &#34;TestForShortDirectoryNames.bat&#34; (bundled herewith).
-Do not locate &#34;Alarm.bat&#34; and &#34;bell.exe&#34; in a Windows-protected directory (e.g. &#34;C:\Windows\System32&#92;&#34;).
+Do not locate &#34;Alarm.bat&#34; and &#34;bell.exe&#34; in a Windows-protected directory
+ &nbsp;(e.g. &#34;C:\Windows\System32&#92;&#34;).
 All files in the %TEMP%\ALRM\ directory are RESERVED.
 
  &nbsp; &nbsp; &nbsp; &nbsp;Wake/Repeat:
@@ -107,16 +110,18 @@ Enables Task Scheduler service &#34;Schedule&#34; (if not running).
 Sets &#34;Control Panel > Power Options > Change advanced power settings > Sleep > Allow wake timers&#34; to
  &nbsp;&#34;Enable&#34; for &#42;both&#42; AC and BATTERY power.
 Executes as a Scheduled Task in the Local User account: &nbsp;you MUST be signed in!
-/R{epeat} command examples: Every 30 mins=/R30 | day=/R1440 | week=/R10080 | 28+ days {&#34;Monthly&#34;}=/R40320 {max}
- &nbsp;Calculate repeat interval in minutes: e.g. &#34;set /a 60&#42;6&#34; returns 6 hours; &#34;set /a 60&#42;24&#42;28&#34; returns 28 days
- &nbsp;For long intervals, click a Bell icon in the Taskbar and hit any key, to remove a persistent icon without
- &nbsp;removing the Task (verify with &#34;Alarm /V&#34;). &#34;Alarm /X&#34; destroys both the icon window and the Task.
+/R{epeat} command examples: Every 30 mins=/R30 | day=/R1440 | week=/R10080 | 28+ days
+ &nbsp;{&#34;Monthly&#34;}=/R40320 {max}
+ &nbsp;Calculate repeat interval in minutes: e.g. &#34;set /a 60&#42;6&#34; returns 6 hours; &#34;set /a 60&#42;24&#42;28&#34; returns
+ &nbsp;28 days. For long intervals, click a Bell icon in the Taskbar and hit any key, to remove a persistent
+ &nbsp;icon without removing the Task (verify with &#34;Alarm /V&#34;). &#34;Alarm /X&#34; destroys both the icon window
+ &nbsp;and the Task.
 /R{epeat}: adjust the CPU-dependent &#34;Delay&#34; variable as necessary (see comments at line 9 of Alarm.bat).
 Task Scheduler is a temperamental program. See further comments below.
 
  ------------------------
 
- &nbsp; &nbsp; &nbsp; &nbsp;Alarm.bat is freeware and open source. No warranties are expressed or implied.
+ &nbsp; &nbsp;Alarm.bat is freeware and open source. No warranties are expressed or implied.
 
 Command &#34;Alarm.bat&#34; without arguments for a command summary and other information.
 
