@@ -224,19 +224,19 @@ Further Comments about Repeat (and Wake)
  &nbsp; &nbsp;EVERY month. If you want notification in January, April, July, and October (quarterly), or the
  &nbsp; &nbsp;1st and 15th of each month, or every Friday in the third week, then use TASKSCHD.MSC
  &nbsp;Bearing Alarm's &#42;relative&#42; simplicity in mind, for:
- &nbsp; &nbsp;<u>Daily</u> scheduling, use a Repeat interval of 1440 minutes (/R1440).
- &nbsp; &nbsp;<u>Weekly</u>, use a Repeat interval of 10080 (/R10080) and schedule the initial instance for the DAY of
+ &nbsp; &nbsp;<b>Daily</b> scheduling, use a Repeat interval of 1440 minutes (/R1440).
+ &nbsp; &nbsp;<b>Weekly</b>, use a Repeat interval of 10080 (/R10080) and schedule the initial instance for the DAY of
  &nbsp; &nbsp;the week and time of day that you want Alarm to fire: if every Monday, schedule the initial
  &nbsp; &nbsp;instance for next Monday.
- &nbsp; &nbsp;<u>Monthly</u>, similar to Weekly: Repeat interval = /R40320, but schedule the initial instance for the
+ &nbsp; &nbsp;<b>Monthly</b>, similar to Weekly: Repeat interval = /R40320, but schedule the initial instance for the
  &nbsp; &nbsp;DATE within each month that you want Alarm to trigger: e.g. schedule the initial instance for the
  &nbsp; &nbsp;1st of next month; for the last day of each month, schedule the initial instance for the 28th
  &nbsp; &nbsp;or higher.
- &nbsp; &nbsp;<u>Example</u>: Alarm 9:00am /D15-6-21 /R40320 It's the 15th -- Payday -- and banks are OPEN
+ &nbsp; &nbsp;<b>Example</b>: Alarm 9:00am /D15-6-21 /R40320 It's the 15th -- Payday -- and banks are OPEN
  &nbsp;Recursive Repeats are implemented using the /P{rogram} command to launch secondary instance(s) of
  &nbsp; &nbsp;Alarm. The following example starts a Daily repeat next Monday (the 20th of current month),
  &nbsp; &nbsp;which in turn launches a /S{poken} Repeat every 2 minutes for a duration of 10 minutes:
- &nbsp; &nbsp;<u>Example</u>: Alarm 6:59am /D20 /R1440 /Pcmd.exe /c Alarm.bat +1 /R2 /E10 /S Get out of bed
+ &nbsp; &nbsp;<b>Example</b>: Alarm 6:59am /D20 /R1440 /Pcmd.exe /c Alarm.bat +1 /R2 /E10 /S Get out of bed
  &nbsp; &nbsp;N.B.: Because Repeats must be scheduled in the FUTURE, the Daily starts at 6:59, and the Spoken
  &nbsp; &nbsp;starts 1 minute later. Note too that a 10 minute duration (/E10) at 2-minute intervals (/R2) will
  &nbsp; &nbsp;yield 6 (not 5) alarms, at minutes 0-2-4-6-8-10.
@@ -252,7 +252,7 @@ Further Comments about Repeat (and Wake)
  &nbsp; &nbsp;The following example starts on Monday the 22nd at 7:28am and thereafter runs Weekly; at 7:29 it
  &nbsp; &nbsp;launches an each-morning Alarm for 5 days, which in turn launches an Alarm that nags every minute
  &nbsp; &nbsp;for 5 minutes, starting at 7:30. CMD's /C switch ensures that windows close when each iteration of
- &nbsp; &nbsp;Alarm exits. <u>Example</u>:
+ &nbsp; &nbsp;Alarm exits. <b>Example</b>:
  &nbsp; &nbsp; &nbsp;Alarm 728am /D22 /R10080 /P/MIN cmd.exe /c Alarm.bat +1 /R1440 /E5760 /P/MIN cmd.exe /c Alarm.bat +1 /R1 /E5 /S HEY YOU. Get out of bed.
  &nbsp; &nbsp;3) create one WEEKLY Repeat starting Monday, then go to TASKSCHD.MSC ==> Task Scheduler Library ==>
  &nbsp; &nbsp; ==> Triggers ==> Edit ==> checkmark Monday through Friday ==> confirm with OK ==> confirm OK.
@@ -268,15 +268,17 @@ Almost all US-ASCII (CP437) accented alphabetics in range 128-159, and Windows-A
  ------------------------
 
 Substitution strings may be used to print (and, if sensible, speak) messages containing control characters
- &nbsp; &nbsp;which have special meaning to Windows/DOS, or to the Batch processor, in contexts particular to each character.
- &nbsp; &nbsp;Many control characters cannot be directly manipulated by BATch files. Mileage WILL vary; the only way to know
- &nbsp; &nbsp;for sure whether you may use a particular character directly in a given context is to test it (clean up
- &nbsp; &nbsp;failure by issuing &#34;Alarm.bat /X[A]&#34; and/or restarting the CMD session if the environment is corrupted).
- &nbsp; &nbsp;Note that Alarm temporarily changes the CodePage during execution to CP437, then restores your original CP
- &nbsp; &nbsp;on exit. A crashed Alarm session could leave you with the wrong CodePage, so a cmd restart is advised.
+ &nbsp; &nbsp;which have special meaning to Windows/DOS, or to the Batch processor, in contexts particular
+ &nbsp; &nbsp;to each character. Many control characters cannot be directly manipulated by BATch files.
+ &nbsp; &nbsp;Mileage WILL vary; the only way to know for sure whether you may use a particular character
+ &nbsp; &nbsp;directly in a given context is to test it (clean up failure by issuing &#34;Alarm.bat /X[A]&#34;
+ &nbsp; &nbsp;and/or restarting the CMD session if the environment is corrupted).
+ &nbsp; &nbsp;Note that Alarm temporarily changes the CodePage during execution to CP437, then restores your
+ &nbsp; &nbsp;original CP on exit. A crashed Alarm session could leave you with the wrong CodePage, so a
+ &nbsp; &nbsp;cmd restart is advised.
 In contrast, substitution strings are reliable alternatives that always work. Note the systematic
- &nbsp; &nbsp;use of backquote &#34;&#96;&#34;. Full list (the &#34;hottest&#34; characters are asterisked; they almost always
- &nbsp; &nbsp;require substitution):
+ &nbsp; &nbsp;use of backquote &#34;&#96;&#34;. Full list (the &#34;hottest&#34; characters are asterisked;
+ &nbsp; &nbsp;they almost always require substitution):
  
  &nbsp; &nbsp; &nbsp;&#96;quo&#96; &nbsp; &nbsp;= &nbsp; &nbsp;&#34; &nbsp; &nbsp;&#42; 
  &nbsp; &nbsp; &nbsp;&#96;amp&#96; &nbsp; &nbsp;= &nbsp; &nbsp;& &nbsp; &nbsp;&#42; 
@@ -287,8 +289,8 @@ In contrast, substitution strings are reliable alternatives that always work. No
  &nbsp; &nbsp; &nbsp;&#96;lp&#96; &nbsp; &nbsp; = &nbsp; &nbsp;( 
  &nbsp; &nbsp; &nbsp;&#96;rp&#96; &nbsp; &nbsp; = &nbsp; &nbsp; ) 
  &nbsp; &nbsp; &nbsp;&#96;crt&#96; &nbsp; &nbsp;= &nbsp; &nbsp;^ 
- &nbsp; &nbsp; &nbsp;&#96;pct&#96; &nbsp; &nbsp;= &nbsp; &nbsp;% (assumed to bracket an environmental or user %VARIABLE%, e.g
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;.&#96;pct&#96;USERPROFILE&#96;pct&#96;, and converted at alarm time to the value it represents)
+ &nbsp; &nbsp; &nbsp;&#96;pct&#96; &nbsp; &nbsp;= &nbsp; &nbsp;% (assumed to bracket an environmental or user %VARIABLE%, e.g.
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&#96;pct&#96;USERPROFILE&#96;pct&#96;, and converted at alarm time to the value it represents)
  &nbsp; &nbsp;&#96;pct&#96;&#96;pct&#96; = &nbsp; &nbsp;% (as string literal)
 
 Example:
@@ -306,15 +308,17 @@ alarm.bat +1 /S /R5 /E30 The time is &#96;pct&#96;TIME:~0,2&#96;pct&#96; hours, 
 
 ------------------------
 
-The Auxiliaries directory contains optional programs that operate in conjunction with Alarm and offer specific services.
-ADJUST the &#34;d:\path&#92;&#34; to the programs!
+The Auxiliaries directory contains optional programs that operate in conjunction with Alarm and
+offer specific services. ADJUST the &#34;d:\path&#92;&#34; to the programs!
 
- &nbsp; &nbsp;CountDwn: verbal countdown to (and beyond) a specific time (e.g. start at 9:00am, for total duration of 20 minutes)
- &nbsp; &nbsp;Example: Alarm.bat +1 /R1 /E20 /P/MIN d:\path\CountDwn.bat 0900
- &nbsp; &nbsp;TimeOfDay {&#34;TalkTock&#34;}: e.g. starting at 4:30am, announce the current Time every 15 minutes, until terminated (Alarm /X)
- &nbsp; &nbsp;Example: Alarm.bat 4:30a /R15 /P/MIN d:\path\TimeOfDay.bat
+ &nbsp; &nbsp;CountDwn: verbal countdown to (and beyond) a specific time (e.g. start at 9:00am, for
+ &nbsp; &nbsp;a total duration of 20 minutes)
+ &nbsp; &nbsp;<b>Example</b>: Alarm.bat +1 /R1 /E20 /P/MIN d:\path\CountDwn.bat 0900
+ &nbsp; &nbsp;TimeOfDay {&#34;TalkTock&#34;}: e.g. starting at 4:30am, announce the current Time every
+ &nbsp; &nbsp;15 minutes, until terminated (Alarm /X)
+ &nbsp; &nbsp;<b>Example</b>: Alarm.bat 4:30a /R15 /P/MIN d:\path\TimeOfDay.bat
  &nbsp; &nbsp;BigBen.wav: e.g. chime hourly from 12 Noon until 9:00pm
- &nbsp; &nbsp;Alarm.bat 1200 /R60 /E540 /P/MIN powershell.exe -c (New-Object Media.SoundPlayer &#34;d:\path\BigBen.wav&#34;).PlaySync()
+ &nbsp; &nbsp;<b>Example</b>: Alarm.bat 1200 /R60 /E540 /P/MIN powershell.exe -c (New-Object Media.SoundPlayer &#34;d:\path\BigBen.wav&#34;).PlaySync()
 
 ------------------------
 
@@ -345,9 +349,11 @@ List Text-to-Speech (TTS) Voices installed on your computer (default Voice liste
 CAUTION: Edit Alarm.bat in an environment that uses 8-bit (single byte) character encodings ONLY!
  &nbsp; &nbsp; Do NOT edit with a word processor! Notepad may be used to adjust the User Configuration, ONLY!
  &nbsp; &nbsp; Alarm.bat was written in CodePage 437 (a.k.a. &#34;US-ASCII&#34;, &#34;OEM-US&#34;).
- &nbsp; &nbsp; Low-order characters 28-30 are used for certain functions, and may not display correctly in some editors!
+ &nbsp; &nbsp; Low-order characters 28-30 are used for certain functions, and may not display correctly
+ &nbsp; &nbsp; &nbsp;in some editors!
  &nbsp; &nbsp; Multiple-byte editors using UTF (Unicode) will corrupt the file. Caveat emptor.
- &nbsp; &nbsp; Notepad++ (https://notepad-plus-plus.org/) is recommended (set Encoding -> Character sets -> Western European -> OEM-US).
+ &nbsp; &nbsp; Notepad++ (https://notepad-plus-plus.org/) is recommended (set Encoding -> Character sets
+  &nbsp; &nbsp;  &nbsp; -> Western European -> OEM-US).
 
 ------------------------
 
