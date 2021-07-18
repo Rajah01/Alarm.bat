@@ -354,12 +354,12 @@ CAUTION: Edit Alarm.bat in an environment that uses 8-bit (single byte) characte
  &nbsp; &nbsp; &nbsp;in some editors!
  &nbsp; &nbsp; Multiple-byte editors using UTF (Unicode) will corrupt the file. Caveat emptor.
  &nbsp; &nbsp; Notepad++ (https://notepad-plus-plus.org/) is recommended (set Encoding -> Character sets
-  &nbsp; &nbsp;  &nbsp; -> Western European -> OEM-US).
+  &nbsp; &nbsp;; -> Western European -> OEM-US).
 
 ------------------------
 
  &nbsp; &nbsp;Author: Robert Holmgren
- &nbsp; &nbsp;Download: &nbsp;https://github.com/Rajah01/Alarm.bat/files/6836591/AlarmBat.zip
+ &nbsp; &nbsp;Download: &nbsp;https://github.com/Rajah01/Alarm.bat/releases/
 
  &nbsp; &nbsp; &nbsp;Credits:
  &nbsp; &nbsp; &nbsp;-------
