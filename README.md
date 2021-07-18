@@ -8,7 +8,8 @@ NOTIFY Usage: Alarm.bat AlarmTime [Switches] [Action] (in order)
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;... [Typed Message] | [/C{lipboard}] | [/F{ile}] | [/P{rogram} [arguments]] &nbsp;Action
 
  &nbsp;AlarmTime (REQUIRED; first argument). Two forms:
- &nbsp; &nbsp; &nbsp; &nbsp;[[[H]H[:]]M]M {24-hour time|12-hour time with A|P[M] suffix; may omit leading zeroes, e.g. Midnight: &#34;0000&#34;=&#34;0&#34;}
+ &nbsp; &nbsp; &nbsp; &nbsp;[[[H]H[:]]M]M {24-hour time|12-hour time with A|P[M] suffix; may omit leading zeroes,
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;e.g. Midnight: &#34;0000&#34;=&#34;0&#34;}
  &nbsp; &nbsp; &nbsp; &nbsp;+m {precise minutes from NOW, e.g. &#34;+30&#34;; not valid with /D switch}
 
  &nbsp;Switches (optional; relaxed order):
@@ -16,15 +17,18 @@ NOTIFY Usage: Alarm.bat AlarmTime [Switches] [Action] (in order)
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;/Ddd-mm-yy {date of alarm, in [d]d[-[m]m[-yy]] form; d is minimally required}
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;/D+n {n=number of days in future until alarm, e.g. /D+2}
  &nbsp; &nbsp; &nbsp; &nbsp;/Q[Q[Q]] {/Q Quiet, Mute Audio+Bells; /QQ UnMute Audio; /QQQ UnMute Audio+Bells}
- &nbsp; &nbsp; &nbsp; &nbsp;/Rm {Repeat alarm every m minutes (minimum=1); initial instance occurs at HHMM; implies /W}. Repeats until:
+ &nbsp; &nbsp; &nbsp; &nbsp;/Rm {Repeat alarm every m minutes (minimum=1); initial instance occurs at HHMM; implies /W}.
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Repeats until:
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;/Em {m=Expiration in minutes after HHMM (explicit duration)}; or
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;{manual cancellation with &#34;Alarm /X&#34; (indefinite duration)}
  &nbsp; &nbsp; &nbsp; &nbsp;/S {Speak (instead of display) TYPED | CLIPBOARD | FILE text; implies /QQ}
  &nbsp; &nbsp; &nbsp; &nbsp;/W {Wake computer from future Sleep | Hibernation, and persist through Restarts}
 
  &nbsp;Action. DEFAULT: Three alarm Bells {override with /Q}. Supplementary arguments:
-1&#41; &nbsp; &nbsp; &nbsp; &nbsp;/P[START&#95;command&#95;switches ][&#34;][d:\path\]PROGRAM[&#34;] [arguments] {implies /QQ; override with /Q | /QQQ}
- &nbsp; &nbsp; Messages {displayed in Foreground window; hit any key to Dismiss; imply Bells unless /S[poken], override with /Q}:
+1&#41; &nbsp; &nbsp; &nbsp; &nbsp;/P[START&#95;command&#95;switches ][&#34;][d:\path\]PROGRAM[&#34;] [arguments] {implies /QQ;
+1&#41; &nbsp; &nbsp; &nbsp; &nbsp &nbsp;override with /Q | /QQQ}
+ &nbsp; &nbsp; Messages {displayed in Foreground window; hit any key to Dismiss; imply Bells unless /S[poken],
+ &nbsp; &nbsp; override with /Q}:
 2&#41; &nbsp; &nbsp; &nbsp; &nbsp;TYPED text {max chars &#177;8170}
 3&#41; &nbsp; &nbsp; &nbsp; &nbsp;/C {CLIPBOARD text, any length}
 4&#41; &nbsp; &nbsp; &nbsp; &nbsp;/F[&#34;][d:\path\]textfile_name[&#34;] {FILE text, any length}
@@ -74,9 +78,12 @@ Examples:
  &nbsp;Fully-qualified /P{rogram} commands, with optional START arguments:
  &nbsp; &nbsp;Alarm 645a /w /p/MAX F:\VLC\vlc.exe -f --play-and-exit &#34;J:\Video\Glenn_Gould\BWV 1080 Contrapunctus XIV Da Capo I.mp4&#34;
  &nbsp; &nbsp;Alarm +0 /P/MIN C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -ExecutionPolicy Bypass -c &#34;Add-Type -AssemblyName System.Speech;$words=(Get-Clipboard);$speak=New-Object System.Speech.Synthesis.SpeechSynthesizer;$speak.SelectVoice('Microsoft Zira Desktop');$speak.Speak($words)&#34;
- &nbsp; &nbsp;Alarm +0 /S /C {<b>ditto</b>: Speak Clipboard content, but a /C shortcut instead of a fully-described /Program as above}
- &nbsp; &nbsp;Alarm 1200 /R60 /E540 /P/MIN C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -ExecutionPolicy Bypass -c (New-Object Media.SoundPlayer &#34;.\Auxiliaries\BigBen.wav&#34;).PlaySync() {Chimes hourly}
- &nbsp; &nbsp; &nbsp; &nbsp;Each morning for 5 days, a child instance of Alarm announces the Time every minute for 5 minutes, starting at 7:30am:
+ &nbsp; &nbsp;Alarm +0 /S /C {<b>ditto</b>: Speak Clipboard content, but a /C shortcut instead of
+ &nbsp; &nbsp; &nbsp;a fully-described /Program as above}
+ &nbsp; &nbsp;Alarm 1200 /R60 /E540 /P/MIN C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -ExecutionPolicy Bypass -c (New-Object Media.SoundPlayer &#34;.\Auxiliaries\BigBen.wav&#34;).PlaySync()
+ &nbsp; &nbsp; &nbsp;{Chimes hourly}
+ &nbsp; &nbsp; &nbsp; &nbsp;Each morning for 5 days, a child instance of Alarm announces the Time every minute for
+ &nbsp; &nbsp; &nbsp; &nbsp;5 minutes, starting at 7:30am:
  &nbsp; &nbsp;Alarm 729 /R1440 /E5760 /P/MIN cmd.exe /c Alarm.bat +1 /R1 /E5 /P/MIN .\Auxiliaries\TimeOfDay.bat
 
 Cancel Alarm|Wake/Repeat: &nbsp;Alarm.bat /X[A[A]] {/X selects one alarm among several; a single
