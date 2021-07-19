@@ -27,7 +27,7 @@ set Delay=4
 rem * END USER CONFIGURATION *
 
 rem ---------------- DO NOT WRITE BELOW THIS LINE! ----------------
-set Version=20210718
+set Version=20210719
 goto :y
 --------
 SBCP 437 chars: =" &=<temp_delimiters> <ANSI:>«=® »=¯ <+NBSP 160>
@@ -89,7 +89,7 @@ call :b
 set /a dhm=(%secs%-%orgsecs%)/86400*24
 goto :eof
 :g
-set ermsg=BAD "/D" time: specify time 0-2359 *on Alarm day*, and *VALID*, *FUTURE* "/D[d]d[-[m]m[-yy]]" moment&set bad=1&set er=3&goto :x
+set ermsg=BAD "/D" time: specify time 0-2359 *on Alarm day*, and *VALID*, *FUTURE* "/D[d]d[-[m]m[-yy]]" or "/D+#" moment&set bad=1&set er=3&goto :x
 :h
 set ret=%1
 if "%ret:~1,1%#"=="#" set ret=0%ret%
@@ -142,18 +142,21 @@ for /F "tokens=1,* delims=" %%A in ("%dummy4%") do if "%%B"=="" (set bad=1) els
 if "%ret:~0,1%"==" " set ret=%ret:~1%&goto :p
 goto :eof
 :q
-set dummy4=%~1
-if "%dummy4:~0,1%"==" " (set bad=1) else set ret=%~2
+set dummy5=%~1
+if /I %2==d if "%dummy5:~0,1%"=="+" set dummy5=%dummy5:~1%
+if "%dummy5:~0,1%"==" " (set bad=1) else set ret=%~1&set "ret=!ret:~0,-1!"
 goto :eof
 :r
 set ret=
-set dummy4=!cml:/%1=!
-set dummy4=!dummy4:"=!
-for /F "tokens=1,* delims=" %%A in ("%dummy4%") do for /F "tokens=1 delims= " %%C in ("%%B ") do call :q "%%B" "%%C"
+set dummy5=!cml:/%1=!
+set dummy5=!dummy5:"=!
+for /F "tokens=1,* delims=" %%A in ("%dummy5%") do for /F "tokens=1 delims=/ " %%C in ("%%B ") do call :q "%%C " %1
 goto :eof
 :s
-for /F "skip=3 tokens=2 delims= " %%A in ('%tsk% %ex%" /FI "WINDOWTITLE eq %~1"') do if "%%A" NEQ "" %kill%
-for /F "skip=3 tokens=2 delims= " %%A in ('%tsk% timeout.exe" /FI "WINDOWTITLE eq %~1"') do if "%%A" NEQ "" %kill%
+if "%~1" NEQ "" (
+	for /F "skip=3 tokens=2 delims= " %%A in ('%tsk% %ex%" /FI "WINDOWTITLE eq %~1"') do if "%%A" NEQ "" %kill%
+	for /F "skip=3 tokens=2 delims= " %%A in ('%tsk% timeout.exe" /FI "WINDOWTITLE eq %~1"') do if "%%A" NEQ "" %kill%
+)
 goto :eof
 :t
 for /F "tokens=*" %%A in ('%cs% "%allargs%" "M" %fncnt%') do for /F "tokens=*" %%B in ("%%A") do set allargs=%%B
@@ -513,7 +516,7 @@ set k=%TMPO%ALRMW%fncnt%.bat
 echo @echo off>%k%
 echo setlocal>>%k%
 if %rptltr% NEQ N if "%repeat:~0,3%#"==" /R#" set dummy=%repeat:~3%
-echo "%TMPO%ALRM.exe">>%k%
+echo %TMPO%ALRM.exe>>%k%
 if %rptltr% NEQ N goto :za
 call :n "%tmg%" dummy4
 echo for /F "tokens=1 delims= " %%%%A in ^('%tsk% %ex%" /FI "WINDOWTITLE eq %tmg%"'^) do if "%%%%A"=="Image" for /F "skip=3 tokens=2 delims= " %%%%B in ^('%tsk% %ex%" /FI "WINDOWTITLE eq %tmg%"'^) do if "%%%%B" NEQ "" %wm% "processid=%%%%B" delete^>NUL 2^>^&1 >>%k%
@@ -683,8 +686,14 @@ if %spk%==0 if %prg%==1 if %rptltr%==N (
 	)
 )
 if %spk%==0 if %prg%==1 if %rptltr% NEQ N (
-	if %clip%==0 echo start "%dummy3%" %exe% /c echo/^^^&echo/^^^&%ANSI%^^^&%cs% "%allargs%" "M" %fncnt%^^^&%mr% "%TMPO%ALRMC%fncnt%.txt"^^^&pause^^^>NUL^^^&exit>>%fn%
-	if %clip%==1 echo start "%dummy3%" %exe% /c echo/^^^&echo/^^^&%ANSI%^^^&%cs% %fncnt% "C"^^^&%mr% "%TMPO%ALRMC%fncnt%.txt"^^^&pause^^^>NUL^^^&exit>>%fn%
+	if %clip%==0 (
+		if "%ffn%"=="" (
+			echo start "%dummy3%" %exe% /c echo/^^^&echo/^^^&%ANSI%^^^&%cs% "%allargs%" "M" %fncnt%^^^&%mr% "%TMPO%ALRMC%fncnt%.txt"^^^&pause^^^>NUL^^^&exit>>%fn%
+		) else (
+			echo start "%tmg%" %exe% /c echo/^^^&echo/^^^&%ANSI%^^^&%mr% "%ffn:=%"^^^&echo/^^^&echo 			    ^^^^^^^< Hit any key to Dismiss ^^^^^^^>^^^&pause^^^>NUL>>%fn%
+		)
+	) else echo start "%dummy3%" %exe% /c echo/^^^&echo/^^^&%ANSI%^^^&%cs% %fncnt% "C"^^^&%mr% "%TMPO%ALRMC%fncnt%.txt"^^^&pause^^^>NUL^^^&exit>>%fn%
+	
 )
 set dummy6="%TMPO%ALRMR%rptfnnum%.BAT"
 if %rptltr%==A (
@@ -1221,9 +1230,10 @@ set hlp= ^>^>%~dpsn0.txt
 @echo 		Each morning for 5 days, a child instance of %~n0 announces the Time every minute for 5 minutes, starting at 7:30am:%hlp%
 @echo 	%~n0 729 /R1440 /E5760 /P/MIN cmd.exe /c %~nx0 +1 /R1 /E5 /P/MIN %~dps0Auxiliaries\TimeOfDay.bat%hlp%
 @echo/%hlp%
-@echo Cancel Alarm^|Wake/Repeat:  %~nx0 /X[A[A]] {/X selects one alarm among several ^| /XA or "All" cancels all pending alarms%hlp%
-@echo	  #0-25 ^| /XAA cancels all pending alarms #0-1000 ^| a single pending Alarm is canceled automatically/hands-off ^(=/XA^}.%hlp%
-@echo	  Terminate PowerShell manually to kill Speech.%hlp%
+@echo Cancel Alarm^|Wake/Repeat:  %~nx0 /X[A[A]] {/X selects one alarm among several; a single%hlp%
+@echo	  pending Alarm is canceled automatically/hands-off ^| /XA or "All" cancels all pending%hlp%
+@echo	  alarms #0-25 ^| /XAA cancels all pending alarms #0-1000.%hlp%
+@echo	  Terminate PowerShell manually to kill e.g. Speech.%hlp%
 @echo/%hlp%
 @echo 	Notes:%hlp%
 @echo Configure User Variables on lines 4-27 of "%~dpsn0.bat"%hlp%
@@ -1241,7 +1251,7 @@ set hlp= ^>^>%~dpsn0.txt
 @echo If your ^(uncommon^) Windows system disallows "short" ^(8.3^) filenames, locate %~nx0 in a directory%hlp%
 @echo   tree with NO spaces! Find out: execute "TestForShortDirectoryNames.bat" ^(bundled herewith^).%hlp%
 @echo Do not locate "%~nx0" and "bell.exe" in a Windows-protected directory ^(e.g. "%win%"^).%hlp%
-@echo Filenames "ALRM*.bat|exe|ps1|txt|vbs|xml" in the %%TEMP%%\ALRM directory are RESERVED.%hlp%
+@echo All files in the %%TEMP%%\ALRM directory are RESERVED.%hlp%
 @echo/%hlp%
 @echo 	Wake/Repeat:%hlp%
 @echo Enables Task Scheduler service "Schedule" ^(if not running^).%hlp%
@@ -1255,7 +1265,7 @@ set hlp= ^>^>%~dpsn0.txt
 @echo /R{epeat}: adjust the CPU-dependent "Delay" variable as necessary ^(see comments at line 9 of %~nx0^).%hlp%
 @echo Task Scheduler is a temperamental program. See further comments in "%~dps0AlarmBat_ReadMe.txt"%hlp%
 @echo/%hlp%
-@echo				Robert Holmgren  https://holmgren.org/AlarmBat.zip%hlp%
+@echo				Robert Holmgren  https://github.com/Rajah01/Alarm.bat/releases/ %hlp%
 if /I "%~1x"=="/Hx" @%cp%&exit /B 2
 :lc
 @cls
