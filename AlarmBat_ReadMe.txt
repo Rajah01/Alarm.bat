@@ -212,12 +212,12 @@ CAUTION: Edit Alarm.bat in an environment that uses 8-bit (single byte) characte
 ------------------------
 
 	Author: Robert Holmgren
-	Download:  https://holmgren.org/AlarmBat.zip
+	Download:  https://github.com/Rajah01/Alarm.bat/releases/
 
   	Credits:
 	-------
 	Vasil Arnaudov (https://github.com/npocmaka/batch.scripts/blob/master/hybrids/.net/c/mouse.bat and http://ss64.org/viewtopic.php?id=1687)
 	Alexandre Jasmin and Anchmerama (https://stackoverflow.com/questions/255419/how-can-i-mute-unmute-my-sound-from-powershell)
 	Ritchie Lawrence (https://github.com/ritchielawrence/batchfunctionlibrary/tree/master/Date%20and%20Time%20Functions)
-	Carl Distefano, TalkTock.exe
+	Carl Distefano (http://xywwweb.ammaze.net/dls/TalkTock.zip)
 
