@@ -27,7 +27,7 @@ set Delay=4
 rem * END USER CONFIGURATION *
 
 rem ---------------- DO NOT WRITE BELOW THIS LINE! ----------------
-set Version=20210719
+ set Version=20210719
 goto :y
 --------
 SBCP 437 chars: =" &=<temp_delimiters> <ANSI:>«=® »=¯ <+NBSP 160>
@@ -153,10 +153,9 @@ set dummy5=!dummy5:"=!
 for /F "tokens=1,* delims=" %%A in ("%dummy5%") do for /F "tokens=1 delims=/ " %%C in ("%%B ") do call :q "%%C " %1
 goto :eof
 :s
-if "%~1" NEQ "" (
-	for /F "skip=3 tokens=2 delims= " %%A in ('%tsk% %ex%" /FI "WINDOWTITLE eq %~1"') do if "%%A" NEQ "" %kill%
-	for /F "skip=3 tokens=2 delims= " %%A in ('%tsk% timeout.exe" /FI "WINDOWTITLE eq %~1"') do if "%%A" NEQ "" %kill%
-)
+if "%~1"=="" goto :eof
+for /F "skip=3 tokens=2 delims= " %%A in ('%tsk% %ex%" /FI "WINDOWTITLE eq %~1"') do if "%%A" NEQ "" %kill%
+for /F "skip=3 tokens=2 delims= " %%A in ('%tsk% timeout.exe" /FI "WINDOWTITLE eq %~1"') do if "%%A" NEQ "" %kill%
 goto :eof
 :t
 for /F "tokens=*" %%A in ('%cs% "%allargs%" "M" %fncnt%') do for /F "tokens=*" %%B in ("%%A") do set allargs=%%B
@@ -222,7 +221,7 @@ goto :sb
 set w="%TMPO%ALRM.vbs"
 if not exist %w% call :gc
 for /F %%A in ('%pw% "Get-Date -Format 'yyyyMMddHHmmss'"') do set dt=%%A
-set /a plusm=-1,pos=14
+set /a plus=-1,pos=14
 set nowd=%dt:~0,8%&set nowt=%dt:~8,6%&set otm=%dt:~12,2%&set uyy=%dt:~0,4%
 for %%A in (uss unn uhh udd umm) do call :v %%A
 set /a nwy=%uyy%,nwn=%umm%,nwd=%udd%,nh=%uhh%,nm=%unn%,ns=%uss%
@@ -269,11 +268,11 @@ call :r d
 if %bad%==1 goto :g
 set fdt=%ret%
 if "%fdt:~8,1%#" NEQ "#" goto :g
-if "%fdt:~0,1%"=="+" set plusm=-3&set fdt=%fdt:~1%
+if "%fdt:~0,1%"=="+" set plus=-3&set fdt=%fdt:~1%
 for /F "delims=0123456789-" %%A in ("%fdt%") do if "%%A" NEQ "" goto :g
 set wake=1
-if %plusm%==-3 set /a "dhm=%fdt%*24"&goto :ea
-set /a plusm=-3,bad=0
+if %plus%==-3 set /a "dhm=%fdt%*24"&goto :ea
+set /a plus=-3,bad=0
 for /F "tokens=1-3 delims=-" %%A in ("%fdt%") do call :f %%A %%B %%C
 if %bad%==1 exit /B %er%
 :ea
@@ -287,7 +286,7 @@ if "%dummy4%" NEQ "%dummy4:/s=%" (
 	if %prg%==0 set prg=1
 	if "%bel%"=="" set bel= /QQ
 )
-if %plusm%==-2 goto :na
+if %plus%==-2 goto :na
 if %spk%==1 if %clip%==1 set clip=2&set prg=2&set spk=2&if "%bel%"=="" set bel= /QQ
 if "%t%"=="+0" if %wake%==1 goto :w
 if "%dummy4%"=="%dummy4:/r=%" if "%dummy4%" NEQ "%dummy4:/e=%" set ermsg=Missing "/Rm" m{inutes} interval&set er=12&goto :x
@@ -354,8 +353,10 @@ if %prg%==0 if %len% GTR 0 set prg=1
 :na
 set ret=0
 if /I "%bel%"==" /Q" if %wake%==0 if %clip%==0 if "%ffn%"=="" if %prg%==0 if %len%==0 set ret=1
-if %spk% GTR 0 if %wake%==0 if %clip%==0 if "%ffn%"=="" if %prg%==1 if %len%==0 set ret=1
-if %spk% GTR 0 if /I "%bel%"==" /Q" set ret=1
+if %spk% GTR 0 (
+	if %wake%==0 if %clip%==0 if "%ffn%"=="" if %prg%==1 if %len%==0 set ret=1
+	if /I "%bel%"==" /Q" set ret=1
+)
 if %ret%==1 set ermsg=Nonsensical, incompatible, or inconsequential command&set er=20&goto :x
 if %len%==0 goto :oa
 if %prg%==2 goto :oa
@@ -372,8 +373,8 @@ set dummy=%dummy:~0,-1%
 goto :pa
 :qa
 if "%t%"=="%t:+=%" goto :ra
-set "plusm=%t:~1%"
-for /F "delims=0123456789" %%A in ("%plusm%X") do if "%%A" NEQ "X" set ermsg=BAD TIME: "%~1"&set er=21&goto :x
+set "plus=%t:~1%"
+for /F "delims=0123456789" %%A in ("%plus%X") do if "%%A" NEQ "X" set ermsg=BAD TIME: "%~1"&set er=21&goto :x
 goto :sa
 :ra
 if "%t:~0,1%"=="0" if %t% NEQ 0 set t=%t:~1%&goto :ra
@@ -397,9 +398,9 @@ if /I %ap%==P if %thmod% LSS 12 set /a th+=12
 if /I %ap%==A if %thmod% GTR 11 set ermsg=BAD TIME: "AM" alarm after 11:59 hours&set er=23&goto :x
 if /I %ap%==P if %th% LEQ %nh% if %tm% LEQ %nm% set /a th+=24
 :sa [Differential in seconds]
-if %rptltr%==A set /a plusm+=%rptmins%
-if %plusm%==-3 set /a th=%th%+%dhm% &set plusm=-1
-if %plusm% GTR -1 set /a th=%nh%,tm=%nm%+%plusm%&goto :ta
+if %rptltr%==A set /a plus+=%rptmins%
+if %plus%==-3 set /a th=%th%+%dhm% &set plus=-1
+if %plus% GTR -1 set /a th=%nh%,tm=%nm%+%plus%&goto :ta
 if %th% LSS %nh% set /a th+=24
 if %th%==%nh% if %tm% LEQ %nm% set /a th+=24
 if %tm% LSS %nm% set /a tm+=60,th-=1
@@ -407,13 +408,13 @@ if %tm% LSS %nm% set /a tm+=60,th-=1
 set /a th=(%tm%*60+%th%*60*60)/3600,tm=%tm%%%60
 set /a h=%th%-%nh%,m=%tm%-%nm%
 ::Timeout
-if %plusm% GTR -1 (set /a s=%t:~1%*60) else set /a s=(%h%*60+%m%)*60-%ns%
+if %plus% GTR -1 (set /a s=%t:~1%*60) else set /a s=(%h%*60+%m%)*60-%ns%
 ::Info
 if %m% LSS 0 set /a m+=60,h-=1
 set /a mod=%s%%%60
 if %mod% NEQ 0 if %mod% LSS 30 set /a m-=1
 if %s% LSS 60 set m=0
-if %plusm% GTR -1 set m=%t:~1%
+if %plus% GTR -1 set m=%t:~1%
 if %tm%==60 set /a th+=1,tm=0
 set days=0
 :ua
@@ -434,7 +435,7 @@ set waketh=%ah%
 if %days% GTR 0 set /a waketh=%ah%+24*%days%
 if %waketh% LSS 10 set waketh=0%waketh%
 set waketh=%waketh%%tm%
-if %plusm% GTR -1 set /a secs=%orgsecs%+(%plusm%*60)&goto :va
+if %plus% GTR -1 set /a secs=%orgsecs%+(%plus%*60)&goto :va
 call :e %ah% dummy1
 call :e %tm% dummy2
 if %waketh% GTR 2359 (set /a uyy=%nwy%,umm=%nwn%,udd=%nwd%,uhh=23,unn=59,uss=59) else set /a uyy=%nwy%,umm=%nwn%,udd=%nwd%,uhh=%dummy1%,unn=%dummy2%,uss=0
@@ -458,13 +459,13 @@ set strtact2=%uyy%-%umm%-%udd%T%uhh%:%unn%:00
 set /a secs=%secs1%+180-%orguss%+%rptmins%*60
 call :c
 set endact1=%uhh%:%unn%:00
-set /a duration=%rptmins%+1
-if %duration% LSS 10 set duration=00:0%duration%&goto :wa
-if %duration% LSS 60 set duration=00:%duration%&goto :wa
-set /a dummy=%duration%/60,dummy2=%duration%%%60
+set /a dur=%rptmins%+1
+if %dur% LSS 10 set dur=00:0%dur%&goto :wa
+if %dur% LSS 60 set dur=00:%dur%&goto :wa
+set /a dummy=%dur%/60,dummy2=%dur%%%60
 if %dummy% LSS 10 set dummy=0%dummy%
 if %dummy2% LSS 10 set dummy2=0%dummy2%
-set duration=%dummy%:%dummy2%
+set dur=%dummy%:%dummy2%
 :wa
 set endact2=%uyy%-%umm%-%udd%T%uhh%:%unn%:00
 set /a secs=%secs1%+%Delay%
@@ -479,19 +480,19 @@ if %th% LSS 10 set th=0%th%
 for %%A in (hours minutes) do call :u %%A
 if %h1% GTR 0 set hours=%h1% hour
 if %h1% GTR 1 set hours=%hours%s
-if %plusm% GTR -1 if %h1% GTR 0 if %m1% GTR 59 set /a m1=%m1%%%(%h1%*60)
+if %plus% GTR -1 if %h1% GTR 0 if %m1% GTR 59 set /a m1=%m1%%%(%h1%*60)
 if %m1% GTR 0 set minutes=%m1% minute
 if %h1% GTR 0 if %m1% GTR 0 set minutes= %minutes%
 if %m1% GTR 1 set minutes=%minutes%s
 if "%fdt%"=="%nowd%" if %th%%tm%%otm% LSS %nowt% goto :g
-if %plusm% GTR -1 (set msg=Alarm  at %th%%tm%.%otm%) else set msg=Alarm  at %th%%tm%.00
+if %plus% GTR -1 (set msg=Alarm  at %th%%tm%.%otm%) else set msg=Alarm  at %th%%tm%.00
 if "%rmk%" NEQ "" set msg=%rmk:~0,6% %msg:~7%
 set msg=%msg% hours:
 if %ah% LSS 12 (set dummy=a) else set dummy=p
 if %ah% GTR 12 set /a ah-=12
 if %ah%==0 set ah=12
 if %ah% LSS 10 (set msg=%msg%  %ah%) else set msg=%msg% %ah%
-if %plusm% GTR -1 (set msg=%msg%:%tm%.%otm%%dummy%m) else set msg=%msg%:%tm%.00%dummy%m
+if %plus% GTR -1 (set msg=%msg%:%tm%.%otm%%dummy%m) else set msg=%msg%:%tm%.00%dummy%m
 if %torg% NEQ +0 if %days% GTR 0 set msg=%msg%+%days% day&if %days% GTR 1 set msg=!msg!s
 set dummy=%msg%&set rmsg=%msg%&set tmg=%msg%%tmg%
 if %wake%==1 if %rptltr%==N (set tmg=Wake  %tmg:~6%) else set tmg=Repeat%tmg:~6%
@@ -504,10 +505,10 @@ if /I "%UnMute%"=="On" if not exist %TMPO%ALRM.ps1 call :hc
 if %wake%==0 goto :write
 ::Wake
 @for /F "tokens=1,4 delims= " %%A in ('%win%sc.exe query "Schedule"') do @if /I "%%A"=="STATE" if /I "%%B" NEQ "RUNNING" %win%sc.exe start "Schedule"
-@for /F "tokens=4" %%A in ('%win%powercfg.exe /getactivescheme') do set activeschemeGUID=%%A
-for /F "delims=" %%A in ('%win%powercfg.exe -q %activeschemeGUID% ^|%win%findstr.exe /c:"(Sleep)"') do for /F "tokens=3 delims= " %%B in ("%%A") do set SleepGUID=%%B
-for /F "delims=" %%A in ('%win%powercfg.exe -q %activeschemeGUID% ^|%win%findstr.exe /c:"(Allow wake timers)"') do for /F "tokens=4 delims= " %%B in ("%%A") do set WakeGUID=%%B
-for %%A in (ac dc) do %win%powercfg.exe -set%%Avalueindex %activeschemeGUID% %SleepGUID% %WakeGUID% 001
+@for /F "tokens=4" %%A in ('%win%powercfg.exe /getactivescheme') do set GUID=%%A
+for /F "delims=" %%A in ('%win%powercfg.exe -q %GUID% ^|%win%findstr.exe /c:"(Sleep)"') do for /F "tokens=3 delims= " %%B in ("%%A") do set SleepGUID=%%B
+for /F "delims=" %%A in ('%win%powercfg.exe -q %GUID% ^|%win%findstr.exe /c:"(Allow wake timers)"') do for /F "tokens=4 delims= " %%B in ("%%A") do set WakeGUID=%%B
+for %%A in (ac dc) do %win%powercfg.exe -set%%Avalueindex %GUID% %SleepGUID% %WakeGUID% 001
 if not exist %TMPO%ALRM.exe call :jc
 if %er% GTR 0 goto :x
 ::ALRMW
@@ -539,7 +540,7 @@ echo start "Wake/Repeat-%fncnt%" /MIN %exe% /c %~fs0 +0%rptA%%bel% %dummy3% >>%k
 :ab
 if %rptltr%==R (
 	@echo exit>>%k%
-	set du= /du %duration%
+	set du= /du %dur%
 	set et=
 ) else (
 	set du=
@@ -648,8 +649,7 @@ if %rptltr%==N (
 	)
 	echo %to% %%t%% ^>NUL>>%fn%
 )
-if /I "%bel%"==" /QQ" echo %pw% -file "%TMPO%ALRM.ps1" -snd 1 -vol %vol%>>%fn%
-if /I "%bel%"==" /QQ" set bel= /Q
+if /I "%bel%"==" /QQ" set bel= /Q&echo %pw% -file "%TMPO%ALRM.ps1" -snd 1 -vol %vol%>>%fn%
 set ps=0
 if /I %UnMute%==On if /I "%bel%" NEQ " /Q" (
 	set ps=1
@@ -729,12 +729,7 @@ echo exit>>%dummy6%
 if %spk%==1 if /I "%bel%" NEQ " /QQQ" goto :eb
 if /I "%bel%"==" /Q" goto :eb
 if /I "%bel%"==" /QQ" goto :eb
-echo echo >>%fn%
-echo %to% 2 /NOBREAK^>NUL>>%fn%
-echo echo >>%fn%
-echo %to% 1 /NOBREAK^>NUL>>%fn%
-echo echo >>%fn%
-echo %to% 2 /NOBREAK^>NUL>>%fn%
+for %%A in (2 1 2) do echo echo >>%fn%&echo %to% %%A /NOBREAK^>NUL>>%fn%
 :eb
 if %prg% NEQ 2 goto :fb
 if %spk%==2 goto :fb
@@ -782,6 +777,7 @@ if "%dummy2%" NEQ "" if "%dummy2%" NEQ "2800" set dummy=%dummy% (%dummy2:~0,-2%.
 if "%dummy2%"=="" if %rptmins% GTR 59 set /a dummy3=%rptmins%/60
 if "%dummy3%" NEQ "" set /a dummy2=%rptmins%%%60
 if "%dummy3%" NEQ "" set dummy=%dummy% (%dummy3% hours %dummy2% mins)
+@ECHO dummy2=%dummy2% dummy=%dummy%
 set dummy2=Wake [and Repeat every %dummy% thereafter
 if %rptexp%==-1 goto :hb
 set /a dummy=%rptexp%-1
@@ -826,6 +822,8 @@ set num=%~n1
 set num=%num:~5%
 set wmsg=
 if exist %TMPO%ALRMW%num%.bat set /a wcnt+=1&goto :eof
+
+
 set /a acnt+=1
 if %acnt%==1 echo/&echo Alarm number^(s^):
 set just1=0
@@ -858,9 +856,7 @@ echo/
 if %cnt%==1 if %num% LEQ 25 set k=%num%&set autokil=-2&goto :xb
 set k=-1
 set /p k=Number to Kill (or "All"):  
-set k=%k: =%
-set k=%k:#=%
-set k=%k:"=%
+set k=%k: =%&set k=!k:#=!&set k=!k:"=!
 if "%k%"=="-1" set ermsg=No number&set er=24&goto :x
 if /I "%k%"=="ALL" echo/&goto :xb
 :sb
@@ -885,8 +881,7 @@ if exist %TMPO%ALRMA%k%.BAT for /F "skip=1 tokens=*" %%A in (%TMPO%ALRMA%k%.BAT)
 if %kil%==0 goto :eof
 call :qb
 if exist %TMPO%ALRM?%k%.BAT del /F %TMPO%ALRM?%k%.BAT
-if %autokil%==-1 echo Killed #%k%:
-if %autokil%==-1 if defined dmsg echo 	%dmsg%
+if %autokil%==-1 echo Killed #%k%:&if defined dmsg echo 	%dmsg%
 @%cp%&exit /B 0
 :wb
 set dummy=1
@@ -956,6 +951,7 @@ if exist %~dps0AlarmBat_ReadMe.txt del /F %~dps0AlarmBat_ReadMe.txt
 @echo/
 set /p dummy2=Install "Alarm.bat" and "AlarmBat_ReadMe.txt" (replace 2 files)? [Y^|n]: 
 if /I "%dummy2%" NEQ "N" %pw% -c "$shell=New-Object -ComObject shell.application;$zip=$shell.NameSpace('%~dps0AlarmBat.zip');foreach($item in $zip.items()){if($item.Name -like 'Alarm*'){$shell.Namespace('%~dps0').CopyHere($item,0x14)}}"&@echo Done&exit /B 0
+
 exit /B 0
 :bc
 if "%2"=="cscript" set cs=%1 //Nologo %TMPO%ALRM.vbs&goto :eof
