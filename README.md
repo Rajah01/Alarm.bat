@@ -366,5 +366,5 @@ CAUTION: Edit Alarm.bat in an environment that uses 8-bit (single byte) characte
  &nbsp; &nbsp;Vasil Arnaudov (https://github.com/npocmaka/batch.scripts/blob/master/hybrids/.net/c/mouse.bat and http://ss64.org/viewtopic.php?id=1687)
  &nbsp; &nbsp;Alexandre Jasmin and Anchmerama (https://stackoverflow.com/questions/255419/how-can-i-mute-unmute-my-sound-from-powershell)
  &nbsp; &nbsp;Ritchie Lawrence (https://github.com/ritchielawrence/batchfunctionlibrary/tree/master/Date%20and%20Time%20Functions)
- &nbsp; &nbsp;Carl Distefano, TalkTock.exe
+ &nbsp; &nbsp;Carl Distefano (http://xywwweb.ammaze.net/dls/TalkTock.zip)
 </pre></html>
