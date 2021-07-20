@@ -343,19 +343,19 @@ N.B.: This strategy may or may not work, depending on the integrity of the under
 
 ------------------------
 
-List Text-to-Speech (TTS) Voices installed on your computer (default Voice listed first):
+List Text-to-Speech (TTS) Voices installed on your computer (default Voice is listed first):
  &nbsp; &nbsp;powershell.exe -ExecutionPolicy Bypass -Command &#34;Add-Type -AssemblyName System.Speech;$speak=New-Object System.Speech.Synthesis.SpeechSynthesizer;$speak.GetInstalledVoices()|Select-Object -ExpandProperty VoiceInfo|Select-Object -Property Name,Gender,Description&#34;
 
 ------------------------
 
-CAUTION: Edit Alarm.bat in an environment that uses 8-bit (single byte) character encodings ONLY!
+<b>CAUTION</b>: Edit Alarm.bat in an environment that uses 8-bit (single byte) character encodings ONLY!
  &nbsp; &nbsp; Do NOT edit with a word processor! Notepad may be used to adjust the User Configuration, ONLY!
  &nbsp; &nbsp; Alarm.bat was written in CodePage 437 (a.k.a. &#34;US-ASCII&#34;, &#34;OEM-US&#34;).
  &nbsp; &nbsp; Low-order characters 28-30 are used for certain functions, and may not display correctly
  &nbsp; &nbsp; &nbsp;in some editors!
- &nbsp; &nbsp; Multiple-byte editors using UTF (Unicode) will corrupt the file. Caveat emptor.
+ &nbsp; &nbsp; Multiple-byte editors using UTF (Unicode) <b>will</b> corrupt the file. Caveat emptor.
  &nbsp; &nbsp; Notepad++ (https://notepad-plus-plus.org/) is recommended (set Encoding -> Character sets
-  &nbsp; &nbsp;; -> Western European -> OEM-US).
+  &nbsp; &nbsp; -> Western European -> OEM-US).
 
 ------------------------
 
