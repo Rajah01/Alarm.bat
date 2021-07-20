@@ -261,9 +261,9 @@ Further Comments about Repeat (and Wake)
 
 High-order single-byte characters (128-255):
 Almost all US-ASCII (CP437) accented alphabetics in range 128-159, and Windows-ANSI characters in
- &nbsp; &nbsp;range 161-255, display correctly in Messages. Unicode messages in range 32-255 also display
+ &nbsp; &nbsp;range 160-255, display correctly in Messages. Unicode messages in range 32-255 also display
  &nbsp; &nbsp;correctly with /C <i>if Clipboarded as Unicode</i>. Select the ANSI codepage for your locale
- &nbsp; &nbsp;in User Configuration, line 21 (default=1252). YMMV -- test individual characters to
+ &nbsp; &nbsp;in User Configuration, line 17 (default=1252). YMMV -- test individual characters to
  &nbsp; &nbsp;ascertain that they display.
 
  ------------------------
