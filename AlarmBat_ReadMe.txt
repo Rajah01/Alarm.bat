@@ -37,7 +37,8 @@ Filenames "ALRM*.bat|exe|ps1|txt|vbs|xml" in the %TEMP%\ALRM directory are RESER
 Alarm assumes the existence of system files chcp.com, cmd.exe, csc.exe, cscript.exe, findstr.exe,
 	more.com, powercfg.exe, powershell.exe, reg.exe, sc.exe, schtasks.exe, tasklist.exe, timeout.exe, WMIC.exe,
 	and xcopy.exe. If any of these built-in executables are absent in your system, Alarm will abort.
-	Alarm expects built-in executables to exist in the "%SystemRoot%\System32\" directory (usually "C:\Windows\System32\") EXCEPT:
+	Alarm expects built-in executables to exist in the "%SystemRoot%\System32\" directory
+	(usually "C:\Windows\System32\") EXCEPT:
 		csc.exe, which is part of the Windows .NET Framework (install NET!)
 		powershell.exe, usually in a subdirectory of "%SystemRoot%\System32\WindowsPowerShell\"
 		WMIC.exe, usually in "%SystemRoot%\System32\wbem\"
@@ -124,10 +125,10 @@ Further Comments about Repeat (and Wake)
  ------------------------
 
 High-order single-byte characters (128-255):
-Almost all US-ASCII (CP437) accented alphabetics in range 128-159, and Windows-ANSI characters in range 161-255 (except 174|175),
+Almost all US-ASCII (CP437) accented alphabetics in range 128-159, and Windows-ANSI characters in range 160-255,
 	display in Messages, either correctly (if the equivalent representation exists in CP437) or as an unaccented version of the
 	character. YMMV -- test individual characters to ascertain that they print.
-	Select the ANSI codepage for your locale in User Configuration, line 21 (default=1252).
+	Select the ANSI codepage for your locale in User Configuration, line 17 (default=1252).
 
  ------------------------
 

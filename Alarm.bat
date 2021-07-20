@@ -30,7 +30,7 @@ rem ---------------- DO NOT WRITE BELOW THIS LINE! ----------------
 set Version=20210720
 goto :x
 --------
-SBCP 437 chars: =" &=<temp_delimiters> <ANSI:>«=® »=¯ <+NBSP 160>
+SBCP 437 chars: =" &=<temp_delimiters> <ANSI:>«(ab)=®(ae) »(bb)=¯(af) <+NBSP  (a0)>
 Short 8.3 names
 :a
 set %2=%~s1
@@ -66,7 +66,7 @@ if %ret:~0,1%==0 if "%ret:~1,1%#" NEQ "#" set ret=%ret:~1,1%
 set /a %2=%ret%
 goto :eof
 :f
-@set ermsg=BAD "/D" time: specify time 0-2359 *on Alarm day*, and *VALID*, *FUTURE* "/D[d]d[-[m]m[-yy]]" or "/D+#" moment&set bad=1&set er=3&goto :w
+@set ermsg=BAD "/D" time: specify time 0-2359 *on Alarm day*, and *VALID*, *FUTURE* "/D[d]d[-[m]m[-yy]]" or "/D+#" day&set bad=1&set er=3&goto :w
 :g
 set ret=%1
 if "%ret:~1,1%#"=="#" set ret=0%ret%
@@ -81,9 +81,9 @@ call :e %fm% fm
 if "%3#" NEQ "#" (set fy=20%3) else set fy=%dt:~0,4%
 if "%t:~0,1%"=="+" goto g:
 if %fy% LSS %nwy% goto :f
-if %fm% GTR 0 (if %fm% LSS 13 (REM/) else goto :f) else goto :f
-if %fd% GTR 0 (if %fd% LSS 32 (REM/) else goto :f) else goto :f
-if %t% GTR -1 (if %t% LSS 2400 (REM/) else goto :f) else goto :f
+(if %fm% GTR 12 goto :f)&if %fm% LSS 1 goto :f
+(if %fd% GTR 31 goto :f)&if %fd% LSS 1 goto :f
+(if %t% GTR 2359 goto :f)&if %t% LSS 0 goto :f
 set /a uyy=%fy%,umm=%fm%,udd=%fd%,uhh=%nh%,unn=%nm%,uss=%ns%
 call :g %fm%
 set fdt=%fy%%ret%
@@ -130,8 +130,8 @@ if %dtfmt%==ymd set %1=%uyy%%dtsep%%umm%%dtsep%%udd%
 goto :eof
 :m
 set dummy4=%~1
-set dummy4=%dummy4:®=«%
-set dummy4=%dummy4:¯=»%
+set dummy4=!dummy4:%ae%=%ab%!
+set dummy4=!dummy4:%af%=%bb%!
 set %2=%dummy4%
 goto :eof
 :n
@@ -361,7 +361,7 @@ if %spk% GTR 0 (
 if %ret%==1 set ermsg=Nonsensical, incompatible, or inconsequential command&set er=20&goto :w
 if %len%==0 goto :na
 if %prg%==2 goto :na
-if %len% GTR 100 (set tmg=: ®%msg:~0,100% ...¯) else set tmg=: ®%msg%¯
+if %len% GTR 100 (set tmg=: %ae%%msg:~0,100% ...%af%) else set tmg=: %ae%%msg%%af%
 ::Now time
 :na
 if "%msg%" NEQ "" set allargs=%msg%
@@ -613,7 +613,7 @@ if %rptexp% GTR -1 echo txt=Replace(txt,"<Repetition>","<Repetition>" ^& vbCr ^&
 echo txt=Replace(txt,"<StartBoundary>%strtact2%</StartBoundary>","<StartBoundary>%orgtime%</StartBoundary>")>>%w%
 if %rptltr%==N call :m "%tmg%" dummy3
 :: Insert Ascii-160 within dummy3, to differentiate ALRMW from ALRMA: replace space after Repeat
-set dummy3=%dummy3:~0,6% %dummy3:~7%
+set dummy3=%dummy3:~0,6%%a0%%dummy3:~7%
 if %rptltr%==N echo txt=Replace(txt,"<Arguments>/c start","<Arguments>/c start &quot;%dummy3%&quot; /MIN")>>%w%
 if %rptltr% NEQ R (
 	echo If InStr^(1,txt,"<EndBoundary>%endact2%</EndBoundary>",1^)^>0 Then>>%w%
@@ -986,7 +986,7 @@ call :a "%TEMP%\ALRM\" TMPO
 if exist %TMPO%ALRMG.bat del /F %TMPO%ALRMG.bat
 call :a "%SystemRoot%\System32\" win
 set dummy=&set dummy2=&set bad=0
-for %%A in (cmd findstr powercfg sc schtasks xcopy) do if not exist "%win%%%A.exe" call :cc "%%A.exe"
+for %%A in (cmd findstr forfiles powercfg sc schtasks xcopy) do if not exist "%win%%%A.exe" call :cc "%%A.exe"
 for %%A in (cscript reg timeout tasklist) do if exist "%win%%%A.exe" (call :ac %win%%%A.exe %%A) else call :cc "%%A.exe"
 for %%A in (chcp more) do if exist "%win%%%A.com" (call :bc %win%%%A.com %%A) else call :cc "%%A.com"
 for /F "tokens=4 delims=. " %%A in ('ver') do set ver=%%A
@@ -997,7 +997,10 @@ call :dc wm WMIC "process where"
 for /R "%win%WindowsPowershell\" %%A in ("*powershell.exe") do set dummy=%%A
 call :dc pw powershell "-ExecutionPolicy Bypass"
 if %bad% GTR 0 @echo/&@echo %~n0 cannot continue^^^! Install or otherwise acquire *%bad%* missing file^(s^):&echo %dummy2%&set er=5&goto :eof
-for %%A in (cp cs csc mr pw reg TMPO to tsk tskv ver win wm) do echo set %%A=!%%A!>>%TMPO%ALRMG.bat
+pushd %~dps0
+for %%A in (a0 ae af ab bb) do for /F %%B in ('%win%forfiles.exe /m "%~nx0" /c "%win%cmd.exe /c echo 0x%%A"') do set %%A=%%B
+popd
+for %%A in (cp cs csc mr pw reg TMPO to tsk tskv ver win wm a0 ae af ab bb) do echo set %%A=!%%A!>>%TMPO%ALRMG.bat
 set dummy=&set bad=0
 goto :eof
 :fc
