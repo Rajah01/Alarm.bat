@@ -3,9 +3,9 @@
  &nbsp; &nbsp; &nbsp; &nbsp;Alarm.bat v20210719 &nbsp; &nbsp; &nbsp; &nbsp;Notification program for the Windows command line
 
 NOTIFY Usage: Alarm.bat AlarmTime [Switches] [Action] (in order)
-====== &nbsp;Syntax: Alarm[.bat] HH[:]MM[A|P[M]] | +m ...&nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Alarm_Time
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;... [/D[d]d[-[m]m[-yy]] | /D+n] [/Q[Q[Q]]] [/Rm [/Em]] [/S] [/W ] ...&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;Switches
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;... [Typed Message] | [/C{lipboard}] | [/F{ile}] | [/P{rogram} [arguments]] &nbsp;Action
+====== Syntax: Alarm[.bat] HH[:]MM[A|P[M]] | +m ...&nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Alarm_Time
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ... [/D[d]d[-[m]m[-yy]] | /D+n] [/Q[Q[Q]]] [/Rm [/Em]] [/S] [/W ] ...&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;Switches
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ... [Typed Message] | [/C{lipboard}] | [/F{ile}] | [/P{rogram} [arguments]] &nbsp;Action
 
  &nbsp;AlarmTime (REQUIRED; first argument). Two forms:
  &nbsp; &nbsp; &nbsp; &nbsp;[[[H]H[:]]M]M {24-hour time|12-hour time with A|P[M] suffix; may omit leading zeroes,
@@ -25,13 +25,13 @@ NOTIFY Usage: Alarm.bat AlarmTime [Switches] [Action] (in order)
  &nbsp; &nbsp; &nbsp; &nbsp;/W {Wake computer from future Sleep | Hibernation, and persist through Restarts}
 
  &nbsp;Action. DEFAULT: Three alarm Bells {override with /Q}. Supplementary arguments:
-1&#41; &nbsp; &nbsp; &nbsp; &nbsp;/P[START&#95;command&#95;switches ][&#34;][d:\path\]PROGRAM[&#34;] [arguments] {implies /QQ;
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;override with /Q | /QQQ}
+1&#41; &nbsp; &nbsp; &nbsp;/P[START&#95;command&#95;switches ][&#34;][d:\path\]PROGRAM[&#34;] [arguments] {implies /QQ;
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;override with /Q | /QQQ}
  &nbsp; &nbsp; Messages {displayed in Foreground window; hit any key to Dismiss; imply Bells unless /S[poken],
  &nbsp; &nbsp; override with /Q}:
-2&#41; &nbsp; &nbsp; &nbsp; &nbsp;TYPED text {max chars &#177;8170}
-3&#41; &nbsp; &nbsp; &nbsp; &nbsp;/C {CLIPBOARD text, any length}
-4&#41; &nbsp; &nbsp; &nbsp; &nbsp;/F[&#34;][d:\path\]textfile_name[&#34;] {FILE text, any length}
+2&#41; &nbsp; &nbsp; &nbsp;TYPED text {max chars &#177;8170}
+3&#41; &nbsp; &nbsp; &nbsp;/C {CLIPBOARD text, any length}
+4&#41; &nbsp; &nbsp; &nbsp;/F[&#34;][d:\path\]textfile_name[&#34;] {FILE text, any length}
 
 INFO Usage: Alarm.bat /H /T /U /V /X[A[A]] /?|-h|--help|{no_arguments}
 ==== &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Five alternatives:
@@ -261,9 +261,10 @@ Further Comments about Repeat (and Wake)
 
 High-order single-byte characters (128-255):
 Almost all US-ASCII (CP437) accented alphabetics in range 128-159, and Windows-ANSI characters in
- &nbsp; &nbsp;range 161-255, display correctly in Messages. Select the ANSI codepage for your locale
- &nbsp; &nbsp;in User Configuration, line 21 (default=1252). YMMV -- test individual characters to ascertain
- &nbsp; &nbsp;that they print.
+ &nbsp; &nbsp;range 161-255, display correctly in Messages. Unicode messages in range 32-255 also display
+ &nbsp; &nbsp;correctly with /C <i><b>if Clipboarded as Unicode</b></i>. Select the ANSI codepage for your
+ &nbsp; &nbsp;locale in User Configuration, line 21 (default=1252). YMMV -- test individual characters to
+ &nbsp; &nbsp;ascertain that they print.
 
  ------------------------
 
@@ -304,7 +305,7 @@ alarm.bat +1 /S /R5 /E30 The time is %TIME:~0,2% hours, %TIME:~3,2% minutes, and
 alarm.bat +1 /S /R5 /E30 The time is &#96;pct&#96;TIME:~0,2&#96;pct&#96; hours, &#96;pct&#96;TIME:~3,2&#96;pct&#96; minutes, and &#96;pct&#96;TIME:~6,2&#96;pct&#96; seconds
  &nbsp;The above command reports the CORRECT current %TIME% at each of seven alarms.
 
- &nbsp;Try it!:
+ &nbsp;Try it! (<b>Example</b>):
  &nbsp; &nbsp;Alarm.bat +0 The time is &#96;pct&#96;TIME:~0,2&#96;pct&#96; hours, &#96;pct&#96;TIME:~3,2&#96;pct&#96; minutes, and &#96;pct&#96;TIME:~6,2&#96;pct&#96; seconds
 
 ------------------------
@@ -323,7 +324,7 @@ offer specific services. ADJUST the &#34;d:\path&#92;&#34; to the programs!
 
 ------------------------
 
-Messages (whether typed, extracted from the Clipboard, or from a file) are filtered
+Messages (whether typed, extracted from the Clipboard, or from a file) are piped
  &nbsp;through MORE.COM, with the following extended features enabled:
  &nbsp; &nbsp;Q&nbsp; &nbsp; &nbsp; &nbsp;Quit
  &nbsp; &nbsp;&#60;space&#62; Display next page
