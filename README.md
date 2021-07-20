@@ -93,19 +93,19 @@ Cancel Alarm|Wake/Repeat: &nbsp;Alarm.bat /X[A[A]] {/X selects one alarm among s
 
  &nbsp; &nbsp; &nbsp; &nbsp;Notes:
 Configure User Variables on lines 4-27 of &#34;Alarm.bat&#34;
-Message Content: Single-byte characters &#34;|&<> and characters 160, 174, and 175 are DISALLOWED.
- &nbsp;&#34;|&<> may be displayed using substitute strings, most commonly &#96;quo&#96; (with backquotes &#96;)
- &nbsp;to display quotes. For a complete substitution list, see &#34;AlarmBat_ReadMe.txt&#34;
-Default Alarm Sound: In recent Windows versions, the equivalent .WAVfile for DOS Ascii-07|Ctrl-G &#34;bell&#34;
- &nbsp;is specified in MMSYS.CPL -> Sounds -> &#34;Critical Stop&#34;
 External file &#34;bell.exe&#34; (bundled herewith) is used by default instead of cmd.exe. Bell.exe is Cmd.exe
  &nbsp;with a bell icon, to distinguish Alarms from ordinary CMD sessions in the Taskbar. For a &#34;pure&#34;
  &nbsp;standalone BATch with no external dependencies, replace bell.exe with cmd.exe (erase &#34;REM &#34;
  &nbsp;on line 7 of Alarm.bat).
+Message Content: Single-byte characters &#34;|&<> and characters 160, 174, and 175 are DISALLOWED.
+ &nbsp;&#34;|&<> may be displayed using substitute strings, most commonly &#96;quo&#96; (with backquotes &#96;)
+ &nbsp;to display quotes. For a complete substitution list, see &#34;AlarmBat_ReadMe.txt&#34;
+Default Alarm Sound: In recent Windows versions, the .WAVfile equivalent of DOS Ascii-07|Ctrl-G &#34;bell&#34;
+ &nbsp;is specified in MMSYS.CPL -> Sounds -> &#34;Critical Stop&#34;
 If at alarm time Sound is Muted or below 80% (and no /Q{uiet} command), Alarm UnMutes the system and/or
  &nbsp;raises the sound level to 80%, then on exit (&#42;unless /S{poken}&#42;) restores original Mute|Volume
- &nbsp;settings. To disable this function, change the &#34;UnMute&#34; variable from &#34;On&#34; to &#34;Off&#34; (line 14
- &nbsp;of Alarm.bat). Change the threshold Volume level from 80% to another value on line 18.
+ &nbsp;settings. To disable this function, change the &#34;UnMute&#34; variable from &#34;On&#34; to &#34;Off&#34; (line 10
+ &nbsp;of Alarm.bat). Change the threshold Volume level from 80% to another value on line 14.
 If your (uncommon) Windows system disallows &#34;short&#34; (8.3) filenames, locate Alarm.bat in a directory
  &nbsp;tree with NO spaces! Find out: execute &#34;TestForShortDirectoryNames.bat&#34; (bundled herewith).
 Do not locate &#34;Alarm.bat&#34; and &#34;bell.exe&#34; in a Windows-protected directory
@@ -123,7 +123,7 @@ Executes as a Scheduled Task in the Local User account: &nbsp;you MUST be signed
  &nbsp;28 days. For long intervals, click a Bell icon in the Taskbar and hit any key, to remove a persistent
  &nbsp;icon without removing the Task (verify with &#34;Alarm /V&#34;). &#34;Alarm /X&#34; destroys both the icon window
  &nbsp;and the Task.
-/R{epeat}: adjust the CPU-dependent &#34;Delay&#34; variable as necessary (see comments at line 9 of Alarm.bat).
+/R{epeat}: adjust the CPU-dependent &#34;Delay&#34; variable as necessary (see comments at line 23 of Alarm.bat).
 Task Scheduler is a temperamental program. See further comments below.
 
  ------------------------
@@ -262,8 +262,8 @@ Further Comments about Repeat (and Wake)
 High-order single-byte characters (128-255):
 Almost all US-ASCII (CP437) accented alphabetics in range 128-159, and Windows-ANSI characters in
  &nbsp; &nbsp;range 161-255, display correctly in Messages. Unicode messages in range 32-255 also display
- &nbsp; &nbsp;correctly with /C <i><b>if Clipboarded as Unicode</b></i>. Select the ANSI codepage for your
- &nbsp; &nbsp;locale in User Configuration, line 21 (default=1252). YMMV -- test individual characters to
+ &nbsp; &nbsp;correctly with /C <i>if Clipboarded as Unicode</i>. Select the ANSI codepage for your locale
+ &nbsp; &nbsp;in User Configuration, line 21 (default=1252). YMMV -- test individual characters to
  &nbsp; &nbsp;ascertain that they display.
 
  ------------------------
