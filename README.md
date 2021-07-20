@@ -94,8 +94,8 @@ Cancel Alarm|Wake/Repeat: &nbsp;Alarm.bat /X[A[A]] {/X selects one alarm among s
  &nbsp; &nbsp; &nbsp; &nbsp;Notes:
 Configure User Variables on lines 4-27 of &#34;Alarm.bat&#34;
 Message Content: Single-byte characters &#34;|&<> and characters 160, 174, and 175 are DISALLOWED.
- &nbsp;&#34;|&<> may be printed using substitute strings, most commonly &#96;quo&#96; (with backquotes &#96;)
- &nbsp;to print quotes. For a complete substitution list, see &#34;AlarmBat_ReadMe.txt&#34;
+ &nbsp;&#34;|&<> may be displayed using substitute strings, most commonly &#96;quo&#96; (with backquotes &#96;)
+ &nbsp;to display quotes. For a complete substitution list, see &#34;AlarmBat_ReadMe.txt&#34;
 Default Alarm Sound: In recent Windows versions, the equivalent .WAVfile for DOS Ascii-07|Ctrl-G &#34;bell&#34;
  &nbsp;is specified in MMSYS.CPL -> Sounds -> &#34;Critical Stop&#34;
 External file &#34;bell.exe&#34; (bundled herewith) is used by default instead of cmd.exe. Bell.exe is Cmd.exe
@@ -264,11 +264,11 @@ Almost all US-ASCII (CP437) accented alphabetics in range 128-159, and Windows-A
  &nbsp; &nbsp;range 161-255, display correctly in Messages. Unicode messages in range 32-255 also display
  &nbsp; &nbsp;correctly with /C <i><b>if Clipboarded as Unicode</b></i>. Select the ANSI codepage for your
  &nbsp; &nbsp;locale in User Configuration, line 21 (default=1252). YMMV -- test individual characters to
- &nbsp; &nbsp;ascertain that they print.
+ &nbsp; &nbsp;ascertain that they display.
 
  ------------------------
 
-Substitution strings may be used to print (and, if sensible, speak) messages containing control
+Substitution strings may be used to display (or, if sensible, speak) messages containing control
  &nbsp; &nbsp;characters which have special meaning to Windows/DOS, or to the Batch processor, in
  &nbsp; &nbsp;contexts particular to each character. Many control characters cannot be directly
  &nbsp; &nbsp;manipulated by BATch files. Mileage WILL vary; the only way to know for sure whether
