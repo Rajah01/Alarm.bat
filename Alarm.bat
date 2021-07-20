@@ -1244,11 +1244,11 @@ set hlp= ^>^>%~dpsn0.txt
 @echo External file "%~dps0bell.exe" ^(bundled herewith^) is used by default instead of cmd.exe. Bell.exe is Cmd.exe%hlp%
 @echo   with a bell icon, to distinguish Alarms from ordinary CMD sessions in the Taskbar. For a "pure" standalone%hlp%
 @echo   BATch with no external dependencies, replace bell.exe with cmd.exe ^(erase "REM " on line 7 of %~nx0^).%hlp%
-@echo Message Content: Single-byte characters ^"^|^&^<^> and chars 160, 174, and 175 are DISALLOWED. ^"^|^&^<^> may%hlp%
-@echo   be displayed using substitute strings, most commonly ^`quo^` ^(with backquotes ^`^) to display quotes.%hlp%
-@echo   See "%~dps0AlarmBat_ReadMe.txt" for a complete substitution list.%hlp%
+@echo Message Content: Single-byte characters ^"^|^&^<^> are DISALLOWED. ^"^|^&^<^> may be displayed using%hlp%
+@echo   substitute strings, most commonly ^`quo^` ^(with backquotes ^`^) to display quotes.%hlp%
+@echo   See "%~dps0AlarmBat_ReadMe.txt" for the complete substitution list.%hlp%
 @echo Default Alarm Sound: In recent Windows versions, the .WAVfile equivalent of DOS Ascii-07^|Ctrl-G "bell" is%hlp%
-@echo   specified in MMSYS.CPL -^> Sounds -^> "Critical Stop"%hlp%
+@echo   specified ^(and may be changed^) in MMSYS.CPL -^> Sounds -^> "Critical Stop".%hlp%
 @echo If at alarm time Sound is Muted or below %Volume%^%% ^(and no /Q{uiet} command^), %~n0 UnMutes the system and/or%hlp%
 @echo   raises the sound level to %Volume%^%%, then on exit ^(*unless /S{poken}*^) restores original Mute^|Volume%hlp%
 @echo   settings. To disable this function, change the "UnMute" variable from "On" to "Off" ^(line 10%hlp%
