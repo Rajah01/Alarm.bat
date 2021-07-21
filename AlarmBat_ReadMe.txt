@@ -152,6 +152,7 @@ Substitution strings may be used to print (and, if sensible, speak) messages con
 		`lp`		=	(
 		`rp`		=	 )
 		`sl`		=	/
+		`bq`		=	`
 		`crt`		=	^
 		`pct`		=	% (assumed to bracket an environmental or user %VARIABLE% {e.g. `pct`VARIABLE`pct`},
 						and converted at alarm time to the value it represents)

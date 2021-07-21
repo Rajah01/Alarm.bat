@@ -1046,6 +1046,7 @@ goto :eof
 @echo 	txt=Replace(txt,"`rp`",")",1,-1,1)>>%w%
 @echo 	txt=Replace(txt,"`lp`","(",1,-1,1)>>%w%
 @echo 	txt=Replace(txt,"`sl`","/",1,-1,1)>>%w%
+@echo 	txt=Replace(txt,"`bq`","`",1,-1,1)>>%w%
 @echo 	txt=Replace(txt,"`q`","""",1,-1,1)>>%w%
 @echo 	txt=Replace(txt,"`quo`","""",1,-1,1)>>%w%
 @echo End If>>%w%

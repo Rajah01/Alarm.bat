@@ -166,7 +166,7 @@ Do not locate &#34;Alarm.bat&#34; and &#34;bell.exe&#34; in a Windows-protected 
 All files in the %TEMP%\ALRM\ directory are RESERVED.
 Alarm assumes the existence of system files chcp.com, cmd.exe, csc.exe, cscript.exe, findstr.exe,
  &nbsp; &nbsp;forfiles.exe, more.com, powercfg.exe, powershell.exe, reg.exe, sc.exe, schtasks.exe, tasklist.exe,
- &nbsp; &nbsp;timeout.exe, WMIC.exe,, and xcopy.exe. If any of these built-in executables are absent in your
+ &nbsp; &nbsp;timeout.exe, WMIC.exe, and xcopy.exe. If any of these built-in executables are absent in your
  &nbsp; &nbsp;system, Alarm will abort. Alarm expects built-in executables to exist in the
  &nbsp; &nbsp;&#34;%SystemRoot%\System32&#92;&#34; directory (usually &#34;C:\Windows\System32&#92;&#34;) EXCEPT:
  &nbsp; &nbsp; &nbsp; &nbsp;csc.exe, which is part of the Windows .NET Framework (install NET!)
@@ -283,15 +283,16 @@ In contrast, substitution strings are reliable alternatives that always work. No
  &nbsp; &nbsp;use of backquote &#34;&#96;&#34;. Full list (the &#34;hottest&#34; characters are asterisked;
  &nbsp; &nbsp;they almost always require substitution):
  
- &nbsp; &nbsp; &nbsp;&#96;q&#96;|&#96;quo&#96; = &nbsp; &nbsp;&#34; &nbsp; &nbsp;&#42; 
- &nbsp; &nbsp; &nbsp;&#96;amp&#96; &nbsp; &nbsp; = &nbsp; &nbsp;& &nbsp; &nbsp;&#42; 
- &nbsp; &nbsp; &nbsp;&#96;xcl&#96; &nbsp; &nbsp; = &nbsp; &nbsp;! 
- &nbsp; &nbsp; &nbsp;&#96;bar&#96; &nbsp; &nbsp; = &nbsp; &nbsp;| &nbsp; &nbsp;&#42; 
- &nbsp; &nbsp; &nbsp;&#96;lt&#96; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp;< &nbsp; &nbsp;&#42; 
- &nbsp; &nbsp; &nbsp;&#96;gt&#96; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp; > &nbsp; &#42; 
- &nbsp; &nbsp; &nbsp;&#96;lp&#96; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp;( 
- &nbsp; &nbsp; &nbsp;&#96;rp&#96; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp; ) 
- &nbsp; &nbsp; &nbsp;&#96;sl&#96; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp;/ 
+ &nbsp; &nbsp; &nbsp;&#96;q&#96;|&#96;quo&#96; = &nbsp; &nbsp;&#34; &nbsp; &nbsp;&#42;
+ &nbsp; &nbsp; &nbsp;&#96;amp&#96; &nbsp; &nbsp; = &nbsp; &nbsp;& &nbsp; &nbsp;&#42;
+ &nbsp; &nbsp; &nbsp;&#96;xcl&#96; &nbsp; &nbsp; = &nbsp; &nbsp;!
+ &nbsp; &nbsp; &nbsp;&#96;bar&#96; &nbsp; &nbsp; = &nbsp; &nbsp;| &nbsp; &nbsp;&#42;
+ &nbsp; &nbsp; &nbsp;&#96;lt&#96; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp;< &nbsp; &nbsp;&#42;
+ &nbsp; &nbsp; &nbsp;&#96;gt&#96; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp; > &nbsp; &#42;
+ &nbsp; &nbsp; &nbsp;&#96;lp&#96; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp;(
+ &nbsp; &nbsp; &nbsp;&#96;rp&#96; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp; )
+ &nbsp; &nbsp; &nbsp;&#96;bq&#96; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp;`
+ &nbsp; &nbsp; &nbsp;&#96;sl&#96; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp;/
  &nbsp; &nbsp; &nbsp;&#96;crt&#96; &nbsp; &nbsp; = &nbsp; &nbsp;^ 
  &nbsp; &nbsp; &nbsp;&#96;pct&#96; &nbsp; &nbsp; = &nbsp; &nbsp;% (assumed to bracket an environmental or user %VARIABLE%, e.g.
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&#96;pct&#96;USERPROFILE&#96;pct&#96;, and converted at alarm time to the value it represents)
