@@ -164,9 +164,9 @@ If your (uncommon) Windows system disallows &#34;short&#34; (8.3) filenames, loc
  &nbsp; &nbsp;tree with NO spaces! Find out: execute &#34;TestForShortDirectoryNames.bat&#34; (bundled herewith).
 Do not locate &#34;Alarm.bat&#34; and &#34;bell.exe&#34; in a Windows-protected directory (e.g. &#34;System32&#34;).
 All files in the %TEMP%\ALRM\ directory are RESERVED.
-Alarm assumes the existence of system files chcp.com, cmd.exe, csc.exe, cscript.exe, findstr.exe,
+Alarm assumes the existence of system files <b>chcp.com, cmd.exe, csc.exe, cscript.exe, findstr.exe,
  &nbsp; &nbsp;forfiles.exe, more.com, powercfg.exe, powershell.exe, reg.exe, sc.exe, schtasks.exe, tasklist.exe,
- &nbsp; &nbsp;timeout.exe, WMIC.exe, and xcopy.exe. If any of these built-in executables are absent in your
+ &nbsp; &nbsp;timeout.exe, WMIC.exe, and xcopy.exe</b>. If any of these built-in executables are absent in your
  &nbsp; &nbsp;system, Alarm will abort. Alarm expects built-in executables to exist in the
  &nbsp; &nbsp;&#34;%SystemRoot%\System32&#92;&#34; directory (usually &#34;C:\Windows\System32&#92;&#34;) EXCEPT:
  &nbsp; &nbsp; &nbsp; &nbsp;csc.exe, which is part of the Windows .NET Framework (install NET!)
