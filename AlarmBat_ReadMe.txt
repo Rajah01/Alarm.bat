@@ -12,8 +12,9 @@ Alarm.bat commands fall into 3 categories:
 	Alarm Time (required; first argument)
 	Switches (optional; relaxed order)
 	Action (optional; last argument)
-	  The Action, if a text message, should not contain a "/" slash
+	  The Action, if a text message, should not contain a literal "/" slash
 	  followed by certain Switch-letters ("DPQRSW")! It may be misinterpreted.
+	  (Use the substitute string `sl` instead.)
 
 Alarm.bat has been tested under Windows 7 Ultimate | Professional and Windows 10 Home | Pro ONLY,
 	from an elevated (Administrator) command prompt, with UAC disabled and a minimal
@@ -33,7 +34,7 @@ The Windows %TEMP% (or %TMP%) directory must exist for the current user account.
 If your (uncommon) Windows system disallows "short" (8.3) filenames, locate "Alarm.bat" in a directory
 	tree with NO spaces! Find out: execute "TestForShortDirectoryNames.bat" (bundled herewith).
 Do not locate "Alarm.bat" and "bell.exe" in a Windows-protected directory (e.g. "System32").
-Filenames "ALRM*.bat|exe|ps1|txt|vbs|xml" in the %TEMP%\ALRM directory are RESERVED.
+All files in the %TEMP%\ALRM\ directory are RESERVED.
 Alarm assumes the existence of system files chcp.com, cmd.exe, csc.exe, cscript.exe, findstr.exe,
 	more.com, powercfg.exe, powershell.exe, reg.exe, sc.exe, schtasks.exe, tasklist.exe, timeout.exe, WMIC.exe,
 	and xcopy.exe. If any of these built-in executables are absent in your system, Alarm will abort.
@@ -142,7 +143,7 @@ Substitution strings may be used to print (and, if sensible, speak) messages con
   In contrast, substitution strings are reliable alternatives that always work. Note the systematic
 	use of backquote "`". Full list (the "hottest" characters are asterisked; they almost always
 	require substitution):
-		`quo`		=	"	*
+		`q`|`quo`	=	"	*
 		`amp`		=	&	*
 		`xcl`		=	!
 		`bar`		=	|	*
@@ -150,6 +151,7 @@ Substitution strings may be used to print (and, if sensible, speak) messages con
 		`gt`		=	 >	*
 		`lp`		=	(
 		`rp`		=	 )
+		`sl`		=	/
 		`crt`		=	^
 		`pct`		=	% (assumed to bracket an environmental or user %VARIABLE% {e.g. `pct`VARIABLE`pct`},
 						and converted at alarm time to the value it represents)

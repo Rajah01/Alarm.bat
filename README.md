@@ -2,8 +2,8 @@
 <html><pre>
  &nbsp; &nbsp; &nbsp; &nbsp;Alarm.bat v20210720 &nbsp; &nbsp; &nbsp; &nbsp;Notification program for the Windows command line
 
-NOTIFY Usage: Alarm.bat AlarmTime [Switches] [Action] (in order)
-====== Syntax: Alarm[.bat] HH[:]MM[A|P[M]] | +m ...&nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Alarm_Time
+<b>NOTIFY Usage</b>: &nbsp;Alarm.bat AlarmTime [Switches] [Action] (in order)
+====== Syntax: Alarm[.bat] HH[:]MM[A|P[M]] | +m ...&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Alarm_Time
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ... [/D[d]d[-[m]m[-yy]] | /D+n] [/Q[Q[Q]]] [/Rm [/Em]] [/S] [/W ] ...&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;Switches
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ... [Typed Message] | [/C{lipboard}] | [/F{ile}] | [/P{rogram} [arguments]] &nbsp;Action
 
@@ -33,7 +33,7 @@ NOTIFY Usage: Alarm.bat AlarmTime [Switches] [Action] (in order)
 3&#41; &nbsp; &nbsp; &nbsp;/C {CLIPBOARD text, any length}
 4&#41; &nbsp; &nbsp; &nbsp;/F[&#34;][d:\path\]textfile_name[&#34;] {FILE text, any length}
 
-INFO Usage: Alarm.bat /H /T /U /V /X[A[A]] /?|-h|--help|{no_arguments}
+<b>INFO Usage</b>: Alarm.bat /H /T /U /V /X[A[A]] /?|-h|--help|{no_arguments}
 ==== &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Five alternatives:
  &nbsp; &nbsp; &nbsp; &nbsp;/H {Print Help (<b>THIS</b>) to file &#34;.\Alarm.txt&#34;}
  &nbsp; &nbsp; &nbsp; &nbsp;/T {Test bell audibility & volume}
@@ -54,7 +54,7 @@ Time Declaration: 0050 :50 50a 1250AM 12:50a &nbsp; &nbsp;0150 150 1:50 1:50am &
  &nbsp; &nbsp;7:00am in 9 days= 7:00a /D+9 {<b>ditto</b>; simpler}
  &nbsp; &nbsp; &nbsp;N.B.: &#34;7am&#34; = [000]7 = 12:07am, not 0700|7:00am! 
 
-Examples:
+<b>Examples</b>:
  &nbsp; &nbsp;Alarm.bat 530p {TIME is the only required argument; default alarm is 3 audible bells}
  &nbsp; &nbsp;Alarm.bat 1730 Call home
  &nbsp; &nbsp;Alarm 300pm /Q Baby still napping?
@@ -98,7 +98,7 @@ External file &#34;bell.exe&#34; (bundled herewith) is used by default instead o
  &nbsp;standalone BATch with no external dependencies, replace bell.exe with cmd.exe (erase &#34;REM &#34;
  &nbsp;on line 7 of Alarm.bat).
 Message Content: Single-byte characters &#34;|&<> are DISALLOWED. &#34;|&<> may be displayed using substitute
- &nbsp;strings, most commonly &#96;quo&#96; (with backquotes &#96;) to display quotes. See &#34;AlarmBat_ReadMe.txt&#34;
+ &nbsp;strings, most commonly &#96;q&#96; (with backquotes &#96;) to display quotes. See &#34;AlarmBat_ReadMe.txt&#34;
  &nbsp;for the complete substitution list,
 Default Alarm Sound: In recent Windows versions, the .WAVfile equivalent of DOS Ascii-07|Ctrl-G &#34;bell&#34;
  &nbsp;is specified in MMSYS.CPL -> Sounds -> &#34;Critical Stop&#34;
@@ -140,8 +140,9 @@ Alarm.bat commands fall into 3 categories:
  &nbsp; &nbsp;Alarm Time (required; first argument)
  &nbsp; &nbsp;Switches (optional; relaxed order)
  &nbsp; &nbsp;Action (optional; last argument)
- &nbsp; &nbsp; &nbsp;The Action, if a Text message, should not contain a &#34;/&#34; slash
+ &nbsp; &nbsp; &nbsp;The Action, if a Text message, should not contain a literal &#34;/&#34; slash
  &nbsp; &nbsp; &nbsp;followed by certain Switch-letters (&#34;DPQRSW&#34;)! It may be misinterpreted.
+ &nbsp; &nbsp; &nbsp;(Use the substitute string `sl` instead. See <b>Substitution strings</b>, below.)
 
 Alarm.bat has been tested under Windows 7 Ultimate | Professional and Windows 10 Home | Pro ONLY,
  &nbsp; &nbsp;from an elevated (Administrator) command prompt, with UAC disabled and a minimal
@@ -162,12 +163,12 @@ The Windows %TEMP% (or %TMP%) directory must exist for the current user account.
 If your (uncommon) Windows system disallows &#34;short&#34; (8.3) filenames, locate &#34;Alarm.bat&#34; in a directory
  &nbsp; &nbsp;tree with NO spaces! Find out: execute &#34;TestForShortDirectoryNames.bat&#34; (bundled herewith).
 Do not locate &#34;Alarm.bat&#34; and &#34;bell.exe&#34; in a Windows-protected directory (e.g. &#34;System32&#34;).
-Filenames &#34;ALRM&#42;.bat|exe|ps1|txt|vbs|xml&#34; in the %TEMP%\ALRM directory are RESERVED.
+All files in the %TEMP%\ALRM\ directory are RESERVED.
 Alarm assumes the existence of system files chcp.com, cmd.exe, csc.exe, cscript.exe, findstr.exe,
- &nbsp; &nbsp;more.com, powercfg.exe, powershell.exe, reg.exe, sc.exe, schtasks.exe, tasklist.exe, timeout.exe,
- &nbsp; &nbsp;WMIC.exe,, and xcopy.exe. If any of these built-in executables are absent in your system,
- &nbsp; &nbsp;Alarm will abort. Alarm expects built-in executables to exist in the &#34;%SystemRoot%\System32&#92;&#34;
- &nbsp; &nbsp;directory (usually &#34;C:\Windows\System32&#92;&#34;) EXCEPT:
+ &nbsp; &nbsp;forfiles.exe, more.com, powercfg.exe, powershell.exe, reg.exe, sc.exe, schtasks.exe, tasklist.exe,
+ &nbsp; &nbsp;timeout.exe, WMIC.exe,, and xcopy.exe. If any of these built-in executables are absent in your
+ &nbsp; &nbsp;system, Alarm will abort. Alarm expects built-in executables to exist in the
+ &nbsp; &nbsp;&#34;%SystemRoot%\System32&#92;&#34; directory (usually &#34;C:\Windows\System32&#92;&#34;) EXCEPT:
  &nbsp; &nbsp; &nbsp; &nbsp;csc.exe, which is part of the Windows .NET Framework (install NET!)
  &nbsp; &nbsp; &nbsp; &nbsp;powershell.exe, usually in a subdirectory of &#34;%SystemRoot%\System32\WindowsPowerShell&#92;&#34;
  &nbsp; &nbsp; &nbsp; &nbsp;WMIC.exe, usually in &#34;%SystemRoot%\System32\wbem&#92;&#34;
@@ -175,7 +176,7 @@ Alarm assumes the existence of system files chcp.com, cmd.exe, csc.exe, cscript.
 ------------------------
 
 Test whether Alarm's &#34;Wake&#34; (/W) function works correctly on your computer.
- &nbsp; &nbsp;Command: (include the ^ carets)
+ &nbsp; &nbsp;<b>Command</b>: (include the ^ carets)
  &nbsp; &nbsp; &nbsp; &nbsp;Alarm.bat +1 /W /Pcmd.exe /k echo ^%DATE^% ^%TIME^%
  &nbsp; &nbsp;then Hibernate:
  &nbsp; &nbsp; &nbsp; &nbsp;shutdown.exe /H
@@ -191,7 +192,7 @@ There is NO ERROR CHECKING for /P{rogram} commands (existence of files, validity
 /P{rogram} commands may be tested in the present moment with &#34;Alarm.bat +0 [/Q|/S] /P{command}&#34;
 If an Alarm command works in the present (+0), it will work in the future as an Alarm, Wake, or Repeat.
 
-If Alarm crashes due to faulty commands or untrapped errors, issue:
+If Alarm crashes due to faulty commands or untrapped errors, <b>issue</b>:
  &nbsp;Alarm.bat /XAA
 to clean the first 1001 Scheduled Tasks created by Alarm (including orphans), and remove all Alarm
 programming, for a fresh start.
@@ -268,7 +269,7 @@ Almost all US-ASCII (CP437) accented alphabetics in range 128-159, and Windows-A
 
  ------------------------
 
-Substitution strings may be used to display (or, if sensible, speak) messages containing control
+<b>Substitution strings</b> may be used to display (or, if sensible, speak) messages containing control
  &nbsp; &nbsp;characters which have special meaning to Windows/DOS, or to the Batch processor, in
  &nbsp; &nbsp;contexts particular to each character. Many control characters cannot be directly
  &nbsp; &nbsp;manipulated by BATch files. Mileage WILL vary; the only way to know for sure whether
@@ -282,18 +283,19 @@ In contrast, substitution strings are reliable alternatives that always work. No
  &nbsp; &nbsp;use of backquote &#34;&#96;&#34;. Full list (the &#34;hottest&#34; characters are asterisked;
  &nbsp; &nbsp;they almost always require substitution):
  
- &nbsp; &nbsp; &nbsp;&#96;quo&#96; &nbsp; &nbsp;= &nbsp; &nbsp;&#34; &nbsp; &nbsp;&#42; 
- &nbsp; &nbsp; &nbsp;&#96;amp&#96; &nbsp; &nbsp;= &nbsp; &nbsp;& &nbsp; &nbsp;&#42; 
- &nbsp; &nbsp; &nbsp;&#96;xcl&#96; &nbsp; &nbsp;= &nbsp; &nbsp;! 
- &nbsp; &nbsp; &nbsp;&#96;bar&#96; &nbsp; &nbsp;= &nbsp; &nbsp;| &nbsp; &nbsp;&#42; 
- &nbsp; &nbsp; &nbsp;&#96;lt&#96; &nbsp; &nbsp; = &nbsp; &nbsp;< &nbsp; &nbsp;&#42; 
- &nbsp; &nbsp; &nbsp;&#96;gt&#96; &nbsp; &nbsp; = &nbsp; &nbsp; > &nbsp; &#42; 
- &nbsp; &nbsp; &nbsp;&#96;lp&#96; &nbsp; &nbsp; = &nbsp; &nbsp;( 
- &nbsp; &nbsp; &nbsp;&#96;rp&#96; &nbsp; &nbsp; = &nbsp; &nbsp; ) 
- &nbsp; &nbsp; &nbsp;&#96;crt&#96; &nbsp; &nbsp;= &nbsp; &nbsp;^ 
- &nbsp; &nbsp; &nbsp;&#96;pct&#96; &nbsp; &nbsp;= &nbsp; &nbsp;% (assumed to bracket an environmental or user %VARIABLE%, e.g.
+ &nbsp; &nbsp; &nbsp;&#96;q&#96;|&#96;quo&#96; = &nbsp; &nbsp;&#34; &nbsp; &nbsp;&#42; 
+ &nbsp; &nbsp; &nbsp;&#96;amp&#96; &nbsp; &nbsp; = &nbsp; &nbsp;& &nbsp; &nbsp;&#42; 
+ &nbsp; &nbsp; &nbsp;&#96;xcl&#96; &nbsp; &nbsp; = &nbsp; &nbsp;! 
+ &nbsp; &nbsp; &nbsp;&#96;bar&#96; &nbsp; &nbsp; = &nbsp; &nbsp;| &nbsp; &nbsp;&#42; 
+ &nbsp; &nbsp; &nbsp;&#96;lt&#96; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp;< &nbsp; &nbsp;&#42; 
+ &nbsp; &nbsp; &nbsp;&#96;gt&#96; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp; > &nbsp; &#42; 
+ &nbsp; &nbsp; &nbsp;&#96;lp&#96; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp;( 
+ &nbsp; &nbsp; &nbsp;&#96;rp&#96; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp; ) 
+ &nbsp; &nbsp; &nbsp;&#96;sl&#96; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp;/ 
+ &nbsp; &nbsp; &nbsp;&#96;crt&#96; &nbsp; &nbsp; = &nbsp; &nbsp;^ 
+ &nbsp; &nbsp; &nbsp;&#96;pct&#96; &nbsp; &nbsp; = &nbsp; &nbsp;% (assumed to bracket an environmental or user %VARIABLE%, e.g.
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&#96;pct&#96;USERPROFILE&#96;pct&#96;, and converted at alarm time to the value it represents)
- &nbsp; &nbsp;&#96;pct&#96;&#96;pct&#96; = &nbsp; &nbsp;% (as string literal)
+ &nbsp; &nbsp;&#96;pct&#96;&#96;pct&#96; &nbsp;= &nbsp; &nbsp;% (as string literal)
 
 Example:
 -------
@@ -301,7 +303,7 @@ Example:
 alarm.bat +1 /S /R5 /E30 The time is %TIME:~0,2% hours, %TIME:~3,2% minutes, and %TIME:~6,2% seconds
  &nbsp;The above command executes, but it hard-codes the TIME at the moment of issue, and repeats
  &nbsp; &nbsp;that static time at each of seven alarms. It does suffice if you only issue the command once.
- &nbsp;SUBSTITUTED [<i>CORRECT</i>]:
+ &nbsp;SUBSTITUTED [<i>CORRECT</i>] <b>Example</b>:
 alarm.bat +1 /S /R5 /E30 The time is &#96;pct&#96;TIME:~0,2&#96;pct&#96; hours, &#96;pct&#96;TIME:~3,2&#96;pct&#96; minutes, and &#96;pct&#96;TIME:~6,2&#96;pct&#96; seconds
  &nbsp;The above command reports the CORRECT current %TIME% at each of seven alarms.
 

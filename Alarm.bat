@@ -997,10 +997,9 @@ call :dc wm WMIC "process where"
 for /R "%win%WindowsPowershell\" %%A in ("*powershell.exe") do set dummy=%%A
 call :dc pw powershell "-ExecutionPolicy Bypass"
 if %bad% GTR 0 @echo/&@echo %~n0 cannot continue^^^! Install or otherwise acquire *%bad%* missing file^(s^):&echo %dummy2%&set er=5&goto :eof
-pushd %~dps0
-for %%A in (a0 ae af ab bb) do for /F %%B in ('%win%forfiles.exe /m "%~nx0" /c "%win%cmd.exe /c echo 0x%%A"') do set %%A=%%B
-popd
-for %%A in (cp cs csc mr pw reg TMPO to tsk tskv ver win wm a0 ae af ab bb) do echo set %%A=!%%A!>>%TMPO%ALRMG.bat
+set ret=%~dps0
+for %%A in (a0 ae af ab bb) do @for /F %%B in ('%win%forfiles.exe /P "%ret:~0,-1%" /M "%~nx0" /C "%win%cmd.exe /c echo 0x%%A"') do set %%A=%%B
+for %%A in (a0 ab ae af bb cp cs csc mr pw reg TMPO to tsk tskv ver win wm) do @echo set %%A=!%%A!>>%TMPO%ALRMG.bat
 set dummy=&set bad=0
 goto :eof
 :fc
@@ -1046,6 +1045,8 @@ goto :eof
 @echo 	txt=Replace(txt,"`crt`","^",1,-1,1)>>%w%
 @echo 	txt=Replace(txt,"`rp`",")",1,-1,1)>>%w%
 @echo 	txt=Replace(txt,"`lp`","(",1,-1,1)>>%w%
+@echo 	txt=Replace(txt,"`sl`","/",1,-1,1)>>%w%
+@echo 	txt=Replace(txt,"`q`","""",1,-1,1)>>%w%
 @echo 	txt=Replace(txt,"`quo`","""",1,-1,1)>>%w%
 @echo End If>>%w%
 @echo lenm=Len(txt)>>%w%
@@ -1245,7 +1246,7 @@ set hlp= ^>^>%~dpsn0.txt
 @echo   with a bell icon, to distinguish Alarms from ordinary CMD sessions in the Taskbar. For a "pure" standalone%hlp%
 @echo   BATch with no external dependencies, replace bell.exe with cmd.exe ^(erase "REM " on line 7 of %~nx0^).%hlp%
 @echo Message Content: Single-byte characters ^"^|^&^<^> are DISALLOWED. ^"^|^&^<^> may be displayed using%hlp%
-@echo   substitute strings, most commonly ^`quo^` ^(with backquotes ^`^) to display quotes.%hlp%
+@echo   substitute strings, most commonly ^`q^` ^(with backquotes ^`^) to display quotes.%hlp%
 @echo   See "%~dps0AlarmBat_ReadMe.txt" for the complete substitution list.%hlp%
 @echo Default Alarm Sound: In recent Windows versions, the .WAVfile equivalent of DOS Ascii-07^|Ctrl-G "bell" is%hlp%
 @echo   specified ^(and may be changed^) in MMSYS.CPL -^> Sounds -^> "Critical Stop".%hlp%
