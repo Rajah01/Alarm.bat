@@ -347,7 +347,7 @@ if "%dummy4:~0,1%#"=="/#" shift /2&goto :la
 set dummy=%cml:"=%
 for /F "tokens=2 delims=" %%A in ("!dummy:%dummy4%=%dummy4%!") do set msg=%%A
 set msg=%msg:=%
-if "%msg%" NEQ "%msg:`pct`=%" set pct=1
+if "%msg%" NEQ "%msg:`var`=%" set pct=1
 set dummy4=%msg%Ó
 for %%A in (4096 2048 1024 512 256 128 64 32 16 8 4 2 1) do @if "!dummy4:~%%A,1!" NEQ "" set /a "len+=%%A"&set "dummy4=!dummy4:~%%A!"
 if %prg%==0 if %len% GTR 0 set prg=1
@@ -1019,8 +1019,8 @@ goto :eof
 @echo 	End If>>%w%
 @echo End If>>%w%
 @echo If InStr(1,Mid(txt,1),"`",1)^>0 Then>>%w%
-@echo 	If InStr(1,txt,"`pct`",1)^>0 Then>>%w%
-@echo 		txt=Replace(txt,"`pct`","%%",1,-1,1)>>%w%
+@echo 	If InStr(1,txt,"`var`",1)^>0 Then>>%w%
+@echo 		txt=Replace(txt,"`var`","%%",1,-1,1)>>%w%
 @echo 		Set objExec=wsh.Exec("%win%cmd.exe /c echo " ^& txt)>>%w%
 @echo 		With objExec>>%w%
 @echo 			Do While .Status=0 >>%w%
@@ -1047,6 +1047,7 @@ goto :eof
 @echo 	txt=Replace(txt,"`lp`","(",1,-1,1)>>%w%
 @echo 	txt=Replace(txt,"`sl`","/",1,-1,1)>>%w%
 @echo 	txt=Replace(txt,"`bq`","`",1,-1,1)>>%w%
+@echo 	txt=Replace(txt,"`pct`","%%",1,-1,1)>>%w%
 @echo 	txt=Replace(txt,"`q`","""",1,-1,1)>>%w%
 @echo 	txt=Replace(txt,"`quo`","""",1,-1,1)>>%w%
 @echo End If>>%w%
@@ -1217,7 +1218,7 @@ set hlp= ^>^>%~dpsn0.txt
 @echo 	%~n0 715 /R1440 Daily reminder to wake {at 7:15a every 24 hours=1440 minutes}%hlp%
 @echo 	%~n0 715 /R1440 /Pcmd.exe /c %~dpsnx0 +1 /R1 /S Get going`xcl` {at 7:15a every%hlp%
 @echo 	  morning, /S{peaks} reminder every minute until terminated with "%~n0 /X"}%hlp%
-@echo 	%~n0 810 /R3 /E36 /S It's `pct`TIME:~0,2`pct`:`pct`TIME:~3,2`pct`. Train leaves at 9 {Speak "nag"%hlp%
+@echo 	%~n0 810 /R3 /E36 /S It's `var`TIME:~0,2`var`:`var`TIME:~3,2`var`. Train leaves at 9 {Speak "nag"%hlp%
 @echo 	  every 3 minutes; Repeat expires in 36 minutes}%hlp%
 @echo 	%~n0 510a /D+3 Taxi to airport%hlp%
 @echo 	%~n0 510p /d15-6 Conference with Lawyer {15th of June}%hlp%
@@ -1246,9 +1247,9 @@ set hlp= ^>^>%~dpsn0.txt
 @echo External file "%~dps0bell.exe" ^(bundled herewith^) is used by default instead of cmd.exe. Bell.exe is Cmd.exe%hlp%
 @echo   with a bell icon, to distinguish Alarms from ordinary CMD sessions in the Taskbar. For a "pure" standalone%hlp%
 @echo   BATch with no external dependencies, replace bell.exe with cmd.exe ^(erase "REM " on line 7 of %~nx0^).%hlp%
-@echo Message Content: Single-byte characters ^"^|^&^<^> are DISALLOWED. ^"^|^&^<^> may be displayed using%hlp%
-@echo   substitute strings, most commonly ^`q^` ^(with backquotes ^`^) to display quotes.%hlp%
-@echo   See "%~dps0AlarmBat_ReadMe.txt" for the complete substitution list.%hlp%
+@echo Message Content: Single-byte characters ^"^|^&`^<^> are DISALLOWED. Chars ^"^|^&`/!%%^^()^<^> may be displayed using%hlp%
+@echo   backquoted substitute strings, most commonly ^`q^` to display quotes.%hlp%
+@echo   See "%~dps0AlarmBat_ReadMe.txt" for the substitution string list.%hlp%
 @echo Default Alarm Sound: In recent Windows versions, the .WAVfile equivalent of DOS Ascii-07^|Ctrl-G "bell" is%hlp%
 @echo   specified ^(and may be changed^) in MMSYS.CPL -^> Sounds -^> "Critical Stop".%hlp%
 @echo If at alarm time Sound is Muted or below %Volume%^%% ^(and no /Q{uiet} command^), %~n0 UnMutes the system and/or%hlp%

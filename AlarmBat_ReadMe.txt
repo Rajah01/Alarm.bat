@@ -154,20 +154,21 @@ Substitution strings may be used to print (and, if sensible, speak) messages con
 		`sl`		=	/
 		`bq`		=	`
 		`crt`		=	^
-		`pct`		=	% (assumed to bracket an environmental or user %VARIABLE% {e.g. `pct`VARIABLE`pct`},
+		`var`		=	% (bracket an environmental or user %VARIABLE% {e.g. `var`VARIABLE`var`},
 						and converted at alarm time to the value it represents)
-		`pct``pct`	=	% (as string literal)
+		`pct`		=	% (as string literal)
 
 	Example:
 	-------
-		An !!INCORRECT!! /S{poken} source command:
+			An !!INCORRECT!! /S{poken} source command:
 alarm.bat +1 /S /R5 /E30 The time is %TIME:~0,2% hours, %TIME:~3,2% minutes, and %TIME:~6,2% seconds
-		The above command executes, but it hard-codes the TIME at the moment of issue, and repeats that static time at each of seven alarms.
-		SUBSTITUTED [CORRECT]:
-alarm.bat +1 /S /R5 /E30 The time is `pct`TIME:~0,2`pct` hours, `pct`TIME:~3,2`pct` minutes, and `pct`TIME:~6,2`pct` seconds
+		The above command executes, but it hard-codes the TIME at the moment of issue, and repeats that static time at
+		each of seven alarms. It _does_ suffice if you only execute the command ONCE.
+			SUBSTITUTED [CORRECT]:
+alarm.bat +1 /S /R5 /E30 The time is `var`TIME:~0,2`var` hours, `var`TIME:~3,2`var` minutes, and `var`TIME:~6,2`var` seconds
 		This command reports the CORRECT current time at each of seven alarms.
 
-	Try it!  Alarm.bat +0 The time is `pct`TIME:~0,2`pct` hours, `pct`TIME:~3,2`pct` minutes, and `pct`TIME:~6,2`pct` seconds
+	Try it!  Alarm.bat +0 The time is `var`TIME:~0,2`var` hours, `var`TIME:~3,2`var` minutes, and `var`TIME:~6,2`var` seconds
 
 ------------------------
 

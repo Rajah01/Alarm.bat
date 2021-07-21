@@ -64,7 +64,7 @@ Time Declaration: 0050 :50 50a 1250AM 12:50a &nbsp; &nbsp;0150 150 1:50 1:50am &
  &nbsp; &nbsp;Alarm 715 /R1440 Daily reminder to wake {at 7:15a every 24 hours=1440 minutes}
  &nbsp; &nbsp;Alarm 715 /R1440 /Pcmd.exe /c Alarm.bat +1 /R1 /S Get going&#96;xcl&#96; {at 7:15a every
  &nbsp; &nbsp; &nbsp;morning, /S{peaks} reminder every minute until terminated with &#34;Alarm /X&#34;}
- &nbsp; &nbsp;Alarm 810 /R3 /E36 /S It's &#96;pct&#96;TIME:~0,2&#96;pct&#96;:&#96;pct&#96;TIME:~3,2&#96;pct&#96;. Train leaves at 9 {Speak &#34;nag&#34;
+ &nbsp; &nbsp;Alarm 810 /R3 /E36 /S It's &#96;var&#96;TIME:~0,2&#96;var&#96;:&#96;var&#96;TIME:~3,2&#96;var&#96;. Train leaves at 9 {Speak &#34;nag&#34;
  &nbsp; &nbsp; &nbsp;every 3 minutes; Repeat expires in 36 minutes}
  &nbsp; &nbsp;Alarm 510a /D+3 Taxi to airport
  &nbsp; &nbsp;Alarm 510p /d15-6 Conference with Lawyer {15th of June}
@@ -97,9 +97,9 @@ External file &#34;bell.exe&#34; (bundled herewith) is used by default instead o
  &nbsp;with a bell icon, to distinguish Alarms from ordinary CMD sessions in the Taskbar. For a &#34;pure&#34;
  &nbsp;standalone BATch with no external dependencies, replace bell.exe with cmd.exe (erase &#34;REM &#34;
  &nbsp;on line 7 of Alarm.bat).
-Message Content: Single-byte characters &#34;|&<> are DISALLOWED. &#34;|&<> may be displayed using substitute
- &nbsp;strings, most commonly &#96;q&#96; (with backquotes &#96;) to display quotes. See &#34;AlarmBat_ReadMe.txt&#34;
- &nbsp;for the complete substitution list,
+Message Content: Single-byte characters &#34;|&`<> are DISALLOWED. Chars &#34;|&`%/!^()<> may be displayed
+ &nbsp;using backquoted substitute strings, most commonly &#96;q&#96; to display quotes. See &#34;AlarmBat_ReadMe.txt&#34;
+ &nbsp;for the substitution string list.
 Default Alarm Sound: In recent Windows versions, the .WAVfile equivalent of DOS Ascii-07|Ctrl-G &#34;bell&#34;
  &nbsp;is specified in MMSYS.CPL -> Sounds -> &#34;Critical Stop&#34;
 If at alarm time Sound is Muted or below 80% (and no /Q{uiet} command), Alarm UnMutes the system and/or
@@ -294,22 +294,22 @@ In contrast, substitution strings are reliable alternatives that always work. No
  &nbsp; &nbsp; &nbsp;&#96;bq&#96; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp;`
  &nbsp; &nbsp; &nbsp;&#96;sl&#96; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp;/
  &nbsp; &nbsp; &nbsp;&#96;crt&#96; &nbsp; &nbsp; = &nbsp; &nbsp;^ 
- &nbsp; &nbsp; &nbsp;&#96;pct&#96; &nbsp; &nbsp; = &nbsp; &nbsp;% (assumed to bracket an environmental or user %VARIABLE%, e.g.
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&#96;pct&#96;USERPROFILE&#96;pct&#96;, and converted at alarm time to the value it represents)
- &nbsp; &nbsp;&#96;pct&#96;&#96;pct&#96; &nbsp;= &nbsp; &nbsp;% (as string literal)
+ &nbsp; &nbsp; &nbsp;&#96;var&#96; &nbsp; &nbsp; = &nbsp; &nbsp;% (bracket an environmental or user %VARIABLE%, e.g. &#96;var&#96;USERPROFILE&#96;var&#96;,
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;and converted at alarm time to the value it represents)
+ &nbsp; &nbsp; &nbsp;&#96;pct&#96; &nbsp; &nbsp; = &nbsp; &nbsp;% (as string literal)
 
 Example:
 -------
  &nbsp;An !!<i>INCORRECT</i>!! /S{poken} source command:
 alarm.bat +1 /S /R5 /E30 The time is %TIME:~0,2% hours, %TIME:~3,2% minutes, and %TIME:~6,2% seconds
  &nbsp;The above command executes, but it hard-codes the TIME at the moment of issue, and repeats
- &nbsp; &nbsp;that static time at each of seven alarms. It does suffice if you only issue the command once.
+ &nbsp; &nbsp;that static time at each of seven alarms. It <b>does</b> suffice if you only execute the command ONCE.
  &nbsp;SUBSTITUTED [<i>CORRECT</i>] <b>Example</b>:
-alarm.bat +1 /S /R5 /E30 The time is &#96;pct&#96;TIME:~0,2&#96;pct&#96; hours, &#96;pct&#96;TIME:~3,2&#96;pct&#96; minutes, and &#96;pct&#96;TIME:~6,2&#96;pct&#96; seconds
+alarm.bat +1 /S /R5 /E30 The time is &#96;var&#96;TIME:~0,2&#96;var&#96; hours, &#96;var&#96;TIME:~3,2&#96;var&#96; minutes, and &#96;var&#96;TIME:~6,2&#96;var&#96; seconds
  &nbsp;The above command reports the CORRECT current %TIME% at each of seven alarms.
 
  &nbsp;Try it! (<b>Example</b>):
- &nbsp; &nbsp;Alarm.bat +0 The time is &#96;pct&#96;TIME:~0,2&#96;pct&#96; hours, &#96;pct&#96;TIME:~3,2&#96;pct&#96; minutes, and &#96;pct&#96;TIME:~6,2&#96;pct&#96; seconds
+ &nbsp; &nbsp;Alarm.bat +0 The time is &#96;var&#96;TIME:~0,2&#96;var&#96; hours, &#96;var&#96;TIME:~3,2&#96;var&#96; minutes, and &#96;var&#96;TIME:~6,2&#96;var&#96; seconds
 
 ------------------------
 
