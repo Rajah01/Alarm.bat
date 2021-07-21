@@ -19,7 +19,7 @@ NOTIFY Usage: Alarm.bat AlarmTime [Switches] [Action] (in order)
  &nbsp; &nbsp; &nbsp; &nbsp;/Q[Q[Q]] {/Q Quiet, Mute Audio+Bells; /QQ UnMute Audio; /QQQ UnMute Audio+Bells}
  &nbsp; &nbsp; &nbsp; &nbsp;/Rm {Repeat alarm every m minutes (minimum=1); initial instance occurs at HHMM; implies /W}.
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Repeats until:
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;/Em {m=Expiration in minutes after HHMM (explicit duration)}; or
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;/Em {m=Expiration in minutes after HHMM (explicit duration)}; <i><b>or</b></i>
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;{manual cancellation with &#34;Alarm /X&#34; (indefinite duration)}
  &nbsp; &nbsp; &nbsp; &nbsp;/S {Speak (instead of display) TYPED | CLIPBOARD | FILE text; implies /QQ}
  &nbsp; &nbsp; &nbsp; &nbsp;/W {Wake computer from future Sleep | Hibernation, and persist through Restarts}
@@ -97,9 +97,9 @@ External file &#34;bell.exe&#34; (bundled herewith) is used by default instead o
  &nbsp;with a bell icon, to distinguish Alarms from ordinary CMD sessions in the Taskbar. For a &#34;pure&#34;
  &nbsp;standalone BATch with no external dependencies, replace bell.exe with cmd.exe (erase &#34;REM &#34;
  &nbsp;on line 7 of Alarm.bat).
-Message Content: Single-byte characters &#34;|&<> and characters 160, 174, and 175 are DISALLOWED.
- &nbsp;&#34;|&<> may be displayed using substitute strings, most commonly &#96;quo&#96; (with backquotes &#96;)
- &nbsp;to display quotes. For a complete substitution list, see &#34;AlarmBat_ReadMe.txt&#34;
+Message Content: Single-byte characters &#34;|&<> are DISALLOWED. &#34;|&<> may be displayed using substitute
+ &nbsp;strings, most commonly &#96;quo&#96; (with backquotes &#96;) to display quotes. See &#34;AlarmBat_ReadMe.txt&#34;
+ &nbsp;for the complete substitution list,
 Default Alarm Sound: In recent Windows versions, the .WAVfile equivalent of DOS Ascii-07|Ctrl-G &#34;bell&#34;
  &nbsp;is specified in MMSYS.CPL -> Sounds -> &#34;Critical Stop&#34;
 If at alarm time Sound is Muted or below 80% (and no /Q{uiet} command), Alarm UnMutes the system and/or
