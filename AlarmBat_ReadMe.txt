@@ -133,8 +133,8 @@ Almost all US-ASCII (CP437) accented alphabetics in range 128-159, and Windows-A
 
  ------------------------
 
-Substitution strings may be used to print (and, if sensible, speak) messages containing control characters
-	which have special meaning to Windows/DOS, or to the Batch processor, in contexts particular to each character.
+Substitution strings may be used to print (or, if sensible, speak) messages containing control characters
+	that have special meaning to Windows/DOS, or to the Batch processor, in contexts particular to each character.
 	Many control characters cannot be directly manipulated by BATch files. Mileage WILL vary; the only way to know
 	for sure whether you may use a particular character directly in a given context is to test it (clean up
 	failure by issuing "Alarm.bat /X[A]" and/or restarting the CMD session if the environment is corrupted).
@@ -154,7 +154,7 @@ Substitution strings may be used to print (and, if sensible, speak) messages con
 		`sl`		=	/
 		`bq`		=	`
 		`crt`		=	^
-		`var`		=	% (bracket an environmental or user %VARIABLE% {e.g. `var`VARIABLE`var`},
+		`var`		=	% (bracket an environmental or user %VARIABLE% {e.g. `var`USERPROFILE`var`},
 						and converted at alarm time to the value it represents)
 		`pct`		=	% (as string literal)
 

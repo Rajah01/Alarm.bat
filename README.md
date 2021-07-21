@@ -270,7 +270,7 @@ Almost all US-ASCII (CP437) accented alphabetics in range 128-159, and Windows-A
  ------------------------
 
 <b>Substitution strings</b> may be used to display (or, if sensible, speak) messages containing control
- &nbsp; &nbsp;characters which have special meaning to Windows/DOS, or to the Batch processor, in
+ &nbsp; &nbsp;characters that have special meaning to Windows/DOS, or to the Batch processor, in
  &nbsp; &nbsp;contexts particular to each character. Many control characters cannot be directly
  &nbsp; &nbsp;manipulated by BATch files. Mileage WILL vary; the only way to know for sure whether
  &nbsp; &nbsp;you may use a particular character directly in a given context is to test it (clean up
