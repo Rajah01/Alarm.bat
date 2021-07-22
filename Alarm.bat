@@ -27,7 +27,7 @@ set Delay=4
 rem * END USER CONFIGURATION *
 
 rem ---------------- DO NOT WRITE BELOW THIS LINE! ----------------
-set Version=20210720
+set Version=20210721
 goto :x
 --------
 SBCP 437 chars: =" &=<temp_delimiters> <ANSI:>«(ab)=®(ae) »(bb)=¯(af) <+NBSP  (a0)>
@@ -342,13 +342,16 @@ if %prg%==2 goto :ma
 :la
 if "%~2#"=="#" goto :ma
 set dummy4=%2
-set dummy4=%dummy4:"=%
+set dummy4=%dummy4:"=%
 if "%dummy4:~0,1%#"=="/#" shift /2&goto :la
-set dummy=%cml:"=%
-for /F "tokens=2 delims=" %%A in ("!dummy:%dummy4%=%dummy4%!") do set msg=%%A
+set dummy=%cml:"=%
+for /F "tokens=1 delims=" %%A in ("!dummy: %dummy4%= %dummy4%!") do set dummy4=%%A#
+for %%A in (64 32 16 8 4 2 1) do @if "!dummy4:~%%A,1!" NEQ "" set /a "len+=%%A"&set "dummy4=!dummy4:~%%A!"
+set msg=!dummy:~%len%!
 set msg=%msg:=%
 if "%msg%" NEQ "%msg:`var`=%" set pct=1
-set dummy4=%msg%Ó
+set dummy4=%msg%#
+set len=0
 for %%A in (4096 2048 1024 512 256 128 64 32 16 8 4 2 1) do @if "!dummy4:~%%A,1!" NEQ "" set /a "len+=%%A"&set "dummy4=!dummy4:~%%A!"
 if %prg%==0 if %len% GTR 0 set prg=1
 :ma
@@ -826,8 +829,6 @@ set num=%~n1
 set num=%num:~5%
 set wmsg=
 if exist %TMPO%ALRMW%num%.bat set /a wcnt+=1&goto :eof
-
-
 set /a acnt+=1
 if %acnt%==1 echo/&echo Alarm number^(s^):
 set just1=0
