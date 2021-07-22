@@ -142,7 +142,7 @@ Alarm.bat commands fall into 3 categories:
  &nbsp; &nbsp;Action (optional; last argument)
  &nbsp; &nbsp; &nbsp;The Action, if a Text message, should not contain a literal &#34;/&#34; slash
  &nbsp; &nbsp; &nbsp;followed by certain Switch-letters (&#34;DPQRSW&#34;)! It may be misinterpreted.
- &nbsp; &nbsp; &nbsp;(Use the substitute string `sl` instead. See <b>Substitution strings</b>, below.)
+ &nbsp; &nbsp; &nbsp;(Use the substitute string &#96;sl&#96; instead. See <b>Substitution strings</b>, below.)
 
 Alarm.bat has been tested under Windows 7 Ultimate | Professional and Windows 10 Home | Pro ONLY,
  &nbsp; &nbsp;from an elevated (Administrator) command prompt, with UAC disabled and a minimal
