@@ -97,7 +97,7 @@ External file &#34;bell.exe&#34; (bundled herewith) is used by default instead o
  &nbsp;with a bell icon, to distinguish Alarms from ordinary CMD sessions in the Taskbar. For a &#34;pure&#34;
  &nbsp;standalone BATch with no external dependencies, replace bell.exe with cmd.exe (erase &#34;REM &#34;
  &nbsp;on line 7 of Alarm.bat).
-Message Content: Single-byte characters &#34;|&`<> are DISALLOWED. Chars &#34;|&`%/!^()<> may be displayed
+Message Content: Single-byte characters &#34;|&`<> are DISALLOWED. Chars &"|&`%/!^()<> may be displayed
  &nbsp;using backquoted substitute strings, most commonly &#96;q&#96; to display quotes. See &#34;AlarmBat_ReadMe.txt&#34;
  &nbsp;for the substitution string list.
 Default Alarm Sound: In recent Windows versions, the .WAVfile equivalent of DOS Ascii-07|Ctrl-G &#34;bell&#34;
