@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html><pre>
- &nbsp; &nbsp; &nbsp; &nbsp;Alarm.bat v20210721 &nbsp; &nbsp; &nbsp; &nbsp;Notification program for the Windows command line
+ &nbsp; &nbsp; &nbsp; &nbsp;Alarm.bat v20210724 &nbsp; &nbsp; &nbsp; &nbsp;Notification program for the Windows command line
 
 <b>NOTIFY Usage</b>: &nbsp;Alarm.bat AlarmTime [Switches] [Action] (in order)
-====== Syntax: Alarm[.bat] HH[:]MM[A|P[M]] | +m ...&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Alarm_Time
+====== Syntax: Alarm[.bat] HH[:]MM[A|P[M]] | +m ...&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Alarm_Time
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ... [/D[d]d[-[m]m[-yy]] | /D+n] [/Q[Q[Q]]] [/Rm [/Em]] [/S] [/W ] ...&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;Switches
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ... [Typed Message] | [/C{lipboard}] | [/F{ile}] | [/P{rogram} [arguments]] &nbsp;Action
 
@@ -44,7 +44,7 @@
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;/XAA &nbsp; &nbsp; &nbsp; {Cancel Alarms 0-1000; Reset (wipe) system}
  &nbsp; &nbsp; &nbsp; &nbsp;/?|-h|--help|no_arguments {Display <b>THIS</b>}
 
-Time Declaration: 0050 :50 50a 1250AM 12:50a &nbsp; &nbsp;0150 150 1:50 1:50am &nbsp; &nbsp;1350 13:50 150p 1:50PM &nbsp; &nbsp;+90 &nbsp; 
+Time Declaration: 0050 :50 50a 1250AM 12:50a &nbsp; 0150 150 1:50 1:50am &nbsp; 1350 13:50 150p 1:50PM &nbsp; +90 &nbsp; 
  &nbsp; &nbsp; &nbsp;{For each future day, add 2400 to HHMM time: &#34;time+(days&#42;2400)&#34;} &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
  &nbsp; &nbsp;7:00am today &nbsp; &nbsp;= &nbsp;700 {if time today earlier than 7:00am}
  &nbsp; &nbsp;7:00am tomorrow = &nbsp;700 {if time today later than 7:00am}
@@ -197,6 +197,9 @@ If Alarm crashes due to faulty commands or untrapped errors, <b>issue</b>:
 to clean the first 1001 Scheduled Tasks created by Alarm (including orphans), and remove all Alarm
 programming, for a fresh start.
 
+Each Alarm error generates an explanatory message and a unique %ERRORLEVEL% upon EXIT (established
+in the code at "set er=[%ERRORLEVEL%]"). Note that a /Program may generate its own %ERRORLEVEL%.
+
 N.B.: If Alarm detects files in the %TEMP%\ALRM\ folder that pertain to an earlier version of Alarm,
 it will autonomously wipe the Alarm system (clean it) before executing any command.
 
@@ -295,7 +298,7 @@ In contrast, substitution strings are reliable alternatives that always work. No
  &nbsp; &nbsp; &nbsp;&#96;sl&#96; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp;/
  &nbsp; &nbsp; &nbsp;&#96;crt&#96; &nbsp; &nbsp; = &nbsp; &nbsp;^ 
  &nbsp; &nbsp; &nbsp;&#96;var&#96; &nbsp; &nbsp; = &nbsp; &nbsp;% (bracket an environmental or user %VARIABLE%, e.g. &#96;var&#96;USERPROFILE&#96;var&#96;,
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;and converted at alarm time to the value it represents)
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;converted at alarm time to the value it represents)
  &nbsp; &nbsp; &nbsp;&#96;pct&#96; &nbsp; &nbsp; = &nbsp; &nbsp;% (as string literal)
 
 Example:

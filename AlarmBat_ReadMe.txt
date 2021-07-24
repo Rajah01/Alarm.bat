@@ -68,6 +68,9 @@ If Alarm crashes due to faulty commands or untrapped errors, issue:
 to clean the first 1001 Scheduled Tasks created by Alarm (including orphans), and remove all Alarm
 programming, for a fresh start.
 
+Each Alarm error generates an explanatory message and a unique %ERRORLEVEL% upon EXIT (established
+in the code at "set er=[%ERRORLEVEL%]"). Note that a /Program may generate its own %ERRORLEVEL%.
+
 N.B.: If Alarm detects files in the %TEMP%\ALRM folder that pertain to an earlier version of Alarm, it will
 autonomously wipe the Alarm system (clean it) before executing any command.
 
