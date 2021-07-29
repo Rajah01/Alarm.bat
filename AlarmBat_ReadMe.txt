@@ -130,25 +130,25 @@ Further Comments about Repeat (and Wake)
 
 High-order single-byte characters (128-255):
 Almost all US-ASCII (CP437) accented alphabetics in range 128-159, and Windows-ANSI characters in range 160-255,
-	display in Messages, either correctly (if the equivalent representation exists in CP437) or as an unaccented version of the
-	character. YMMV -- test individual characters to ascertain that they print.
+	display in Messages, either correctly (if the equivalent representation exists in CP437) or as an unaccented version of
+	the character. YMMV -- test individual characters to ascertain that they print.
 	Select the ANSI codepage for your locale in User Configuration, line 17 (default=1252).
 
  ------------------------
 
-Substitution strings may be used to print (or, if sensible, speak) messages containing control characters
+Substitution strings may be used to print (or, if sensible, speak) messages containing control characters (listed below)
 	that have special meaning to Windows/DOS, or to the Batch processor, in contexts particular to each character.
 	Many control characters cannot be directly manipulated by BATch files. Mileage WILL vary; the only way to know
 	for sure whether you may use a particular character directly in a given context is to test it (clean up
 	failure by issuing "Alarm.bat /X[A]" and/or restarting the CMD session if the environment is corrupted).
 	Note that Alarm temporarily changes the CodePage during execution to CP437, then restores your original CP
-	on exit. A crashed Alarm session could leave you with the wrong CodePage, so a cmd restart is advised.
+	on exit. A crashed Alarm session could leave you with the wrong CodePage, so a CMD restart is prudent.
   In contrast, substitution strings are reliable alternatives that always work. Note the systematic
 	use of backquote "`". Full list (the "hottest" characters are asterisked; they almost always
 	require substitution):
 		`q`|`quo`	=	"	*
 		`amp`		=	&	*
-		`xcl`		=	!
+		`x`|`xcl`	=	!
 		`bar`		=	|	*
 		`lt`		=	<	*
 		`gt`		=	 >	*
@@ -158,7 +158,7 @@ Substitution strings may be used to print (or, if sensible, speak) messages cont
 		`bq`		=	`
 		`crt`		=	^
 		`var`		=	% (bracket an environmental or user %VARIABLE% {e.g. `var`USERPROFILE`var`},
-						and converted at alarm time to the value it represents)
+						and convert at alarm time to the value it represents)
 		`pct`		=	% (as string literal)
 
 	Example:
@@ -225,7 +225,7 @@ CAUTION: Edit Alarm.bat in an environment that uses 8-bit (single byte) characte
   	Credits:
 	-------
 	Vasil Arnaudov (https://github.com/npocmaka/batch.scripts/blob/master/hybrids/.net/c/mouse.bat and http://ss64.org/viewtopic.php?id=1687)
+	Carl Distefano (http://xywwweb.ammaze.net/dls/TalkTock.zip)
 	Alexandre Jasmin and Anchmerama (https://stackoverflow.com/questions/255419/how-can-i-mute-unmute-my-sound-from-powershell)
 	Ritchie Lawrence (https://github.com/ritchielawrence/batchfunctionlibrary/tree/master/Date%20and%20Time%20Functions)
-	Carl Distefano (http://xywwweb.ammaze.net/dls/TalkTock.zip)
 

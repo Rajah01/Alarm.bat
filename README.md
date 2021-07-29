@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html><pre>
- &nbsp; &nbsp; &nbsp; &nbsp;Alarm.bat v20210724 &nbsp; &nbsp; &nbsp; &nbsp;Notification program for the Windows command line
+ &nbsp; &nbsp; &nbsp; &nbsp;Alarm.bat v20210728 &nbsp; &nbsp; &nbsp; &nbsp;Notification program for the Windows command line
 
 <b>NOTIFY Usage</b>: &nbsp;Alarm.bat AlarmTime [Switches] [Action] (in order)
 ====== Syntax: Alarm[.bat] HH[:]MM[A|P[M]] | +m ...&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Alarm_Time
@@ -101,7 +101,7 @@ Message Content: Single-byte characters &#34;|&`<> are DISALLOWED. Chars &"|&`%/
  &nbsp;using backquoted substitute strings, most commonly &#96;q&#96; to display quotes. See &#34;AlarmBat_ReadMe.txt&#34;
  &nbsp;for the substitution string list.
 Default Alarm Sound: In recent Windows versions, the .WAVfile equivalent of DOS Ascii-07|Ctrl-G &#34;bell&#34;
- &nbsp;is specified in MMSYS.CPL -> Sounds -> &#34;Critical Stop&#34;
+ &nbsp;is specified (and may be changed) in MMSYS.CPL -> Sounds -> &#34;Critical Stop&#34;
 If at alarm time Sound is Muted or below 80% (and no /Q{uiet} command), Alarm UnMutes the system and/or
  &nbsp;raises the sound level to 80%, then on exit (&#42;unless /S{poken}&#42;) restores original Mute|Volume
  &nbsp;settings. To disable this function, change the &#34;UnMute&#34; variable from &#34;On&#34; to &#34;Off&#34; (line 10
@@ -197,8 +197,8 @@ If Alarm crashes due to faulty commands or untrapped errors, <b>issue</b>:
 to clean the first 1001 Scheduled Tasks created by Alarm (including orphans), and remove all Alarm
 programming, for a fresh start.
 
-Each Alarm error generates an explanatory message and a unique %ERRORLEVEL% upon EXIT (established
-in the code at "set er=[%ERRORLEVEL%]"). Note that a /Program may generate its own %ERRORLEVEL%.
+Each Alarm error generates an explanatory message and a unique %ERRORLEVEL% (established in the code
+at "set er=[ERRORLEVEL]") upon EXIT. Note that /Programs may generate their own %ERRORLEVEL%s.
 
 N.B.: If Alarm detects files in the %TEMP%\ALRM\ folder that pertain to an earlier version of Alarm,
 it will autonomously wipe the Alarm system (clean it) before executing any command.
@@ -220,13 +220,13 @@ Differences between Alarms and Wakes|Repeats
 Further Comments about Repeat (and Wake)
 -----------------------------
  &nbsp;Repeats are a reiterative form of Wake.
- &nbsp;Repeats have an optional /E{xpiration}, stated as the total duration of the repeat in minutes
+ &nbsp;Repeats have an optional /E{xpiration}, stated as the total duration of the repeat in minutes.
  &nbsp;The Task Scheduler has many quirks. For example, a repeat interval greater than 9999 minutes must be
  &nbsp; &nbsp;evenly divisible by 60 (thus, &#34;Hourly&#34;). Alarm manages this inexplicable requirement
  &nbsp; &nbsp;by raising an uneven interval over 9999 to the next-higher hourly value.
  &nbsp;Relative to the Task Scheduler, Alarm is simple. If you request monthly notification, Alarm notifies
  &nbsp; &nbsp;EVERY month. If you want notification in January, April, July, and October (quarterly), or the
- &nbsp; &nbsp;1st and 15th of each month, or every Friday in the third week, then use TASKSCHD.MSC
+ &nbsp; &nbsp;1st and 15th of each month, or every Friday in the third week, then use TASKSCHD.MSC.
  &nbsp;Bearing Alarm's &#42;relative&#42; simplicity in mind, for:
  &nbsp; &nbsp;<b>Daily</b> scheduling, use a Repeat interval of 1440 minutes (/R1440).
  &nbsp; &nbsp;<b>Weekly</b>, use a Repeat interval of 10080 (/R10080) and schedule the initial instance for the DAY of
@@ -273,22 +273,22 @@ Almost all US-ASCII (CP437) accented alphabetics in range 128-159, and Windows-A
  ------------------------
 
 <b>Substitution strings</b> may be used to display (or, if sensible, speak) messages containing control
- &nbsp; &nbsp;characters that have special meaning to Windows/DOS, or to the Batch processor, in
- &nbsp; &nbsp;contexts particular to each character. Many control characters cannot be directly
+ &nbsp; &nbsp;characters (listed below) that have special meaning to Windows/DOS, or to the Batch processor,
+ &nbsp; &nbsp;in contexts particular to each character. Many control characters cannot be directly
  &nbsp; &nbsp;manipulated by BATch files. Mileage WILL vary; the only way to know for sure whether
  &nbsp; &nbsp;you may use a particular character directly in a given context is to test it (clean up
  &nbsp; &nbsp;failure by issuing &#34;Alarm.bat /X[A]&#34; and/or restarting the CMD session if the
  &nbsp; &nbsp;environment is corrupted).
  &nbsp; &nbsp;Note that Alarm temporarily changes the CodePage during execution to CP437, then restores
  &nbsp; &nbsp;your original CP on exit. A crashed Alarm session could leave you with the wrong CodePage, so
- &nbsp; &nbsp;a CMD restart is advised.
+ &nbsp; &nbsp;a CMD restart is prudent.
 In contrast, substitution strings are reliable alternatives that always work. Note the systematic
  &nbsp; &nbsp;use of backquote &#34;&#96;&#34;. Full list (the &#34;hottest&#34; characters are asterisked;
  &nbsp; &nbsp;they almost always require substitution):
  
  &nbsp; &nbsp; &nbsp;&#96;q&#96;|&#96;quo&#96; = &nbsp; &nbsp;&#34; &nbsp; &nbsp;&#42;
  &nbsp; &nbsp; &nbsp;&#96;amp&#96; &nbsp; &nbsp; = &nbsp; &nbsp;& &nbsp; &nbsp;&#42;
- &nbsp; &nbsp; &nbsp;&#96;xcl&#96; &nbsp; &nbsp; = &nbsp; &nbsp;!
+ &nbsp; &nbsp; &nbsp;&#96;x&#96;|&#96;xcl&#96; = &nbsp; &nbsp;!
  &nbsp; &nbsp; &nbsp;&#96;bar&#96; &nbsp; &nbsp; = &nbsp; &nbsp;| &nbsp; &nbsp;&#42;
  &nbsp; &nbsp; &nbsp;&#96;lt&#96; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp;< &nbsp; &nbsp;&#42;
  &nbsp; &nbsp; &nbsp;&#96;gt&#96; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp; > &nbsp; &#42;
@@ -298,7 +298,7 @@ In contrast, substitution strings are reliable alternatives that always work. No
  &nbsp; &nbsp; &nbsp;&#96;sl&#96; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp;/
  &nbsp; &nbsp; &nbsp;&#96;crt&#96; &nbsp; &nbsp; = &nbsp; &nbsp;^ 
  &nbsp; &nbsp; &nbsp;&#96;var&#96; &nbsp; &nbsp; = &nbsp; &nbsp;% (bracket an environmental or user %VARIABLE%, e.g. &#96;var&#96;USERPROFILE&#96;var&#96;,
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;converted at alarm time to the value it represents)
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;and convert at alarm time to the value it represents)
  &nbsp; &nbsp; &nbsp;&#96;pct&#96; &nbsp; &nbsp; = &nbsp; &nbsp;% (as string literal)
 
 Example:
@@ -371,7 +371,7 @@ List Text-to-Speech (TTS) Voices installed on your computer (default Voice is li
  &nbsp; &nbsp; &nbsp;Credits:
  &nbsp; &nbsp; &nbsp;-------
  &nbsp; &nbsp;Vasil Arnaudov (https://github.com/npocmaka/batch.scripts/blob/master/hybrids/.net/c/mouse.bat and http://ss64.org/viewtopic.php?id=1687)
+ &nbsp; &nbsp;Carl Distefano (http://xywwweb.ammaze.net/dls/TalkTock.zip)
  &nbsp; &nbsp;Alexandre Jasmin and Anchmerama (https://stackoverflow.com/questions/255419/how-can-i-mute-unmute-my-sound-from-powershell)
  &nbsp; &nbsp;Ritchie Lawrence (https://github.com/ritchielawrence/batchfunctionlibrary/tree/master/Date%20and%20Time%20Functions)
- &nbsp; &nbsp;Carl Distefano (http://xywwweb.ammaze.net/dls/TalkTock.zip)
 </pre></html>
