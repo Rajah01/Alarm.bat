@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html><pre>
- &nbsp; &nbsp; &nbsp; &nbsp;Alarm.bat v20210728 &nbsp; &nbsp; &nbsp; &nbsp;Notification program for the Windows command line
+ &nbsp; &nbsp; &nbsp; &nbsp;Alarm.bat v20210805 &nbsp; &nbsp; &nbsp; &nbsp;Notification program for the Windows command line
 
 <b>NOTIFY Usage</b>: &nbsp;Alarm.bat AlarmTime [Switches] [Action] (in order)
 ====== Syntax: Alarm[.bat] HH[:]MM[A|P[M]] | +m ...&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Alarm_Time
@@ -33,8 +33,9 @@
 3&#41; &nbsp; &nbsp; &nbsp;/C {CLIPBOARD text, any length}
 4&#41; &nbsp; &nbsp; &nbsp;/F[&#34;][d:\path\]textfile_name[&#34;] {FILE text, any length}
 
-<b>INFO Usage</b>: Alarm.bat /H /T /U /V /X[A[A]] /?|-h|--help|{no_arguments}
-==== &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Five alternatives:
+<b>INFO Usage</b>: Alarm.bat /B /H /T /U /V /X[A[A]] /?|-h|--help|{no_arguments}
+==== &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Seven alternatives:
+ &nbsp; &nbsp; &nbsp; &nbsp;/B {(re)Build Alarm system variables}
  &nbsp; &nbsp; &nbsp; &nbsp;/H {Print Help (<b>THIS</b>) to file &#34;.\Alarm.txt&#34;}
  &nbsp; &nbsp; &nbsp; &nbsp;/T {Test bell audibility & volume}
  &nbsp; &nbsp; &nbsp; &nbsp;/U {Check for Alarm.bat update}
@@ -92,25 +93,29 @@ Cancel Alarm|Wake/Repeat: &nbsp;Alarm.bat /X[A[A]] {/X selects one alarm among s
  &nbsp;Terminate PowerShell manually to kill Speech.
 
  &nbsp; &nbsp; &nbsp; &nbsp;Notes:
-Configure User Variables on lines 4-27 of &#34;Alarm.bat&#34;
+Configure User Variables on lines 4-26 of &#34;Alarm.bat&#34;
+Reset the Alarm system after changes to Alarm config, Power Config, Locale, or CodePage: &#34;Alarm.bat /B&#34;
 External file &#34;bell.exe&#34; (bundled herewith) is used by default instead of cmd.exe. Bell.exe is Cmd.exe
  &nbsp;with a bell icon, to distinguish Alarms from ordinary CMD sessions in the Taskbar. For a &#34;pure&#34;
  &nbsp;standalone BATch with no external dependencies, replace bell.exe with cmd.exe (erase &#34;REM &#34;
- &nbsp;on line 7 of Alarm.bat).
+ &nbsp;on line 9 of Alarm.bat).
 Message Content: Single-byte characters &#34;|&`<> are DISALLOWED. Chars &"|&`%/!^()<> may be displayed
  &nbsp;using backquoted substitute strings, most commonly &#96;q&#96; to display quotes. See &#34;AlarmBat_ReadMe.txt&#34;
  &nbsp;for the substitution string list.
-Default Alarm Sound: In recent Windows versions, the .WAVfile equivalent of DOS Ascii-07|Ctrl-G &#34;bell&#34;
+Default Alarm Sound: In recent Windows versions, the .WAVfile equivalent of DOS Ascii-07|Ctrl-G (^G) &#34;bell&#34;
  &nbsp;is specified (and may be changed) in MMSYS.CPL -> Sounds -> &#34;Critical Stop&#34;
 If at alarm time Sound is Muted or below 80% (and no /Q{uiet} command), Alarm UnMutes the system and/or
  &nbsp;raises the sound level to 80%, then on exit (&#42;unless /S{poken}&#42;) restores original Mute|Volume
- &nbsp;settings. To disable this function, change the &#34;UnMute&#34; variable from &#34;On&#34; to &#34;Off&#34; (line 10
- &nbsp;of Alarm.bat). Change the threshold Volume level from 80% to another value on line 14.
+ &nbsp;settings. To disable this function, change the &#34;UnMute&#34; variable from &#34;On&#34; to &#34;Off&#34; (line 12
+ &nbsp;of Alarm.bat). Change the threshold Volume level from 80% to another value on line 16.
 If your (uncommon) Windows system disallows &#34;short&#34; (8.3) filenames, locate Alarm.bat in a directory
  &nbsp;tree with NO spaces! Find out: execute &#34;TestForShortDirectoryNames.bat&#34; (bundled herewith).
 Do not locate &#34;Alarm.bat&#34; and &#34;bell.exe&#34; in a Windows-protected directory
  &nbsp;(e.g. &#34;C:\Windows\System32&#92;&#34;).
-All files in the %TEMP%\ALRM\ directory are RESERVED.
+Recommended: Situate Alarm.bat in the %PATH%, or append ";D:\PATH\" to the %PATH%, to obviate
+  specifying "{D:\PATH\}Alarm[.bat]" in commands. Use Powershell (<b>not SETX</b>) to append:
+  powershell -c "[Environment]::SetEnvironmentVariable('Path', $env:Path + ';D:\PATH', 'User')"
+All files in the {Alarm.bat directory}\ALRM\ subdirectory are RESERVED.
 
  &nbsp; &nbsp; &nbsp; &nbsp;Wake/Repeat:
 Enables Task Scheduler service &#34;Schedule&#34; (if not running).
@@ -123,7 +128,7 @@ Executes as a Scheduled Task in the Local User account: &nbsp;you MUST be signed
  &nbsp;28 days. For long intervals, click a Bell icon in the Taskbar and hit any key, to remove a persistent
  &nbsp;icon without removing the Task (verify with &#34;Alarm /V&#34;). &#34;Alarm /X&#34; destroys both the icon window
  &nbsp;and the Task.
-/R{epeat}: adjust the CPU-dependent &#34;Delay&#34; variable as necessary (see comments at line 23 of Alarm.bat).
+/R{epeat}: adjust the CPU-dependent &#34;Delay&#34; variable as necessary (see comments at line 22 of Alarm.bat).
 Task Scheduler is a temperamental program. See further comments below.
 
  ------------------------
@@ -157,13 +162,10 @@ Bell.exe is a copy of cmd.exe from Windows XP SP3 (32-bit Version 6.2.9200; runs
 Your computer MUST know the correct local time and time zone. It should be synchronizing with an
  &nbsp; &nbsp;external time server such as 0.pool.ntp.org or time.nist.gov. See the Date and Time settings.
 /W{akes} and /R{epeats} execute as Scheduled Tasks in the current user account: you MUST be signed in!
-The Windows %TEMP% (or %TMP%) directory must exist for the current user account. In the (highly
- &nbsp; &nbsp;unusual!) circumstance that it does not exist, or is not identified by variables %TEMP% | %TMP%,
- &nbsp; &nbsp;Alarm.bat aborts.
 If your (uncommon) Windows system disallows &#34;short&#34; (8.3) filenames, locate &#34;Alarm.bat&#34; in a directory
  &nbsp; &nbsp;tree with NO spaces! Find out: execute &#34;TestForShortDirectoryNames.bat&#34; (bundled herewith).
 Do not locate &#34;Alarm.bat&#34; and &#34;bell.exe&#34; in a Windows-protected directory (e.g. &#34;System32&#34;).
-All files in the %TEMP%\ALRM\ directory are RESERVED.
+All files in the {Alarm.bat directory}\ALRM\ subdirectory are RESERVED.
 Alarm assumes the existence of system files <b>chcp.com, cmd.exe, csc.exe, cscript.exe, findstr.exe,
  &nbsp; &nbsp;forfiles.exe, more.com, powercfg.exe, powershell.exe, reg.exe, sc.exe, schtasks.exe, tasklist.exe,
  &nbsp; &nbsp;timeout.exe, WMIC.exe, and xcopy.exe</b>. If any of these built-in executables are absent in your
@@ -200,8 +202,11 @@ programming, for a fresh start.
 Each Alarm error generates an explanatory message and a unique %ERRORLEVEL% (established in the code
 at "set er=[ERRORLEVEL]") upon EXIT. Note that /Programs may generate their own %ERRORLEVEL%s.
 
-N.B.: If Alarm detects files in the %TEMP%\ALRM\ folder that pertain to an earlier version of Alarm,
-it will autonomously wipe the Alarm system (clean it) before executing any command.
+N.B.: If Alarm detects files in the {Alarm.bat directory}\ALRM\ subfolder that pertain to an earlier
+version of Alarm, it will autonomously wipe the Alarm system (clean it) before executing any command.
+
+IMPORTANT: If you ALTER any variable in User Configuration, or change your CodePage or Power
+Configuration, you MUST execute "Alarm.bat /XAA", to clean the system before next use!
 
 ------------------------
 
@@ -287,7 +292,7 @@ In contrast, substitution strings are reliable alternatives that always work. No
  &nbsp; &nbsp;they almost always require substitution):
  
  &nbsp; &nbsp; &nbsp;&#96;q&#96;|&#96;quo&#96; = &nbsp; &nbsp;&#34; &nbsp; &nbsp;&#42;
- &nbsp; &nbsp; &nbsp;&#96;amp&#96; &nbsp; &nbsp; = &nbsp; &nbsp;& &nbsp; &nbsp;&#42;
+ &nbsp; &nbsp; &nbsp;&#96;a&#96;|&#96;amp&#96; = &nbsp; &nbsp;& &nbsp; &nbsp;&#42;
  &nbsp; &nbsp; &nbsp;&#96;x&#96;|&#96;xcl&#96; = &nbsp; &nbsp;!
  &nbsp; &nbsp; &nbsp;&#96;bar&#96; &nbsp; &nbsp; = &nbsp; &nbsp;| &nbsp; &nbsp;&#42;
  &nbsp; &nbsp; &nbsp;&#96;lt&#96; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp;< &nbsp; &nbsp;&#42;
@@ -297,7 +302,7 @@ In contrast, substitution strings are reliable alternatives that always work. No
  &nbsp; &nbsp; &nbsp;&#96;bq&#96; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp;`
  &nbsp; &nbsp; &nbsp;&#96;sl&#96; &nbsp; &nbsp; &nbsp;= &nbsp; &nbsp;/
  &nbsp; &nbsp; &nbsp;&#96;crt&#96; &nbsp; &nbsp; = &nbsp; &nbsp;^ 
- &nbsp; &nbsp; &nbsp;&#96;var&#96; &nbsp; &nbsp; = &nbsp; &nbsp;% (bracket an environmental or user %VARIABLE%, e.g. &#96;var&#96;USERPROFILE&#96;var&#96;,
+ &nbsp; &nbsp; &nbsp;&#96;v&#96;|&#96;var&#96; = &nbsp; &nbsp;% (bracket an environmental or user %VARIABLE%, e.g. &#96;var&#96;USERPROFILE&#96;var&#96;,
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;and convert at alarm time to the value it represents)
  &nbsp; &nbsp; &nbsp;&#96;pct&#96; &nbsp; &nbsp; = &nbsp; &nbsp;% (as string literal)
 
@@ -319,13 +324,13 @@ alarm.bat +1 /S /R5 /E30 The time is &#96;var&#96;TIME:~0,2&#96;var&#96; hours, 
 The Auxiliaries directory contains optional programs that operate in conjunction with Alarm and
 offer specific services. ADJUST the &#34;d:\path&#92;&#34; to the programs!
 
- &nbsp; &nbsp;CountDwn: verbal countdown to (and beyond) a specific time (e.g. start at 9:00am, for
+ &nbsp;CountDwn: verbal countdown to (and beyond) a specific time (e.g. start at 9:00am, for
  &nbsp; &nbsp;a total duration of 20 minutes)
  &nbsp; &nbsp;<b>Example</b>: Alarm.bat +1 /R1 /E20 /P/MIN d:\path\CountDwn.bat 0900
- &nbsp; &nbsp;TimeOfDay {&#34;TalkTock&#34;}: e.g. starting at 4:30am, announce the current Time every
+ &nbsp;TimeOfDay {&#34;TalkTock&#34;}: e.g. starting at 4:30am, announce the current Time every
  &nbsp; &nbsp;15 minutes, until terminated (Alarm /X)
  &nbsp; &nbsp;<b>Example</b>: Alarm.bat 4:30a /R15 /P/MIN d:\path\TimeOfDay.bat
- &nbsp; &nbsp;BigBen.wav: e.g. chime hourly from 12 Noon until 9:00pm
+ &nbsp;BigBen.wav: e.g. chime hourly from 12 Noon until 9:00pm
  &nbsp; &nbsp;<b>Example</b>: Alarm.bat 1200 /R60 /E540 /P/MIN powershell.exe -c (New-Object Media.SoundPlayer &#34;d:\path\BigBen.wav&#34;).PlaySync()
 
 ------------------------

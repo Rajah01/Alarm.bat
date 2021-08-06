@@ -29,13 +29,11 @@ Bell.exe is a copy of cmd.exe from Windows XP SP3 (32-bit Version 6.2.9200; runs
 Your computer MUST know the correct local time and time zone. It should be synchronizing with an
 	external time server such as 0.pool.ntp.org or time.nist.gov. See the Date and Time settings.
 /W{akes} and /R{epeats} execute as Scheduled Tasks in the current user account: you MUST be signed in!
-The Windows %TEMP% (or %TMP%) directory must exist for the current user account. In the (highly unusual!)
-	circumstance that it does not exist, or is not identified by variables %TEMP% | %TMP%, Alarm.bat aborts.
 If your (uncommon) Windows system disallows "short" (8.3) filenames, locate "Alarm.bat" in a directory
 	tree with NO spaces! Find out: execute "TestForShortDirectoryNames.bat" (bundled herewith).
 Do not locate "Alarm.bat" and "bell.exe" in a Windows-protected directory (e.g. "System32").
-All files in the %TEMP%\ALRM\ directory are RESERVED.
-Alarm assumes the existence of system files chcp.com, cmd.exe, csc.exe, cscript.exe, findstr.exe,
+All files in the {Alarm.bat directory}\ALRM\ subdirectory are RESERVED.
+Alarm assumes the existence of system files chcp.com, cmd.exe, csc.exe, cscript.exe, findstr.exe, forfiles.exe,
 	more.com, powercfg.exe, powershell.exe, reg.exe, sc.exe, schtasks.exe, tasklist.exe, timeout.exe, WMIC.exe,
 	and xcopy.exe. If any of these built-in executables are absent in your system, Alarm will abort.
 	Alarm expects built-in executables to exist in the "%SystemRoot%\System32\" directory
@@ -71,8 +69,11 @@ programming, for a fresh start.
 Each Alarm error generates an explanatory message and a unique %ERRORLEVEL% upon EXIT (established
 in the code at "set er=[%ERRORLEVEL%]"). Note that a /Program may generate its own %ERRORLEVEL%.
 
-N.B.: If Alarm detects files in the %TEMP%\ALRM folder that pertain to an earlier version of Alarm, it will
-autonomously wipe the Alarm system (clean it) before executing any command.
+N.B.: If Alarm detects files in the {Alarm.bat directory}\ALRM subfolder that pertain to an earlier
+version of Alarm, it will autonomously wipe the Alarm system (clean it) before executing any command.
+
+IMPORTANT: If you ALTER any variable in User Configuration, or change your CodePage or Power Configuration,
+you MUST execute "Alarm.bat /XAA", to clean the system before next use!
 
 ------------------------
 
@@ -147,7 +148,7 @@ Substitution strings may be used to print (or, if sensible, speak) messages cont
 	use of backquote "`". Full list (the "hottest" characters are asterisked; they almost always
 	require substitution):
 		`q`|`quo`	=	"	*
-		`amp`		=	&	*
+		`a`|`amp`	=	&	*
 		`x`|`xcl`	=	!
 		`bar`		=	|	*
 		`lt`		=	<	*
@@ -157,7 +158,7 @@ Substitution strings may be used to print (or, if sensible, speak) messages cont
 		`sl`		=	/
 		`bq`		=	`
 		`crt`		=	^
-		`var`		=	% (bracket an environmental or user %VARIABLE% {e.g. `var`USERPROFILE`var`},
+		`v`|`var`	=	% (bracket an environmental or user %VARIABLE% {e.g. `var`USERPROFILE`var`},
 						and convert at alarm time to the value it represents)
 		`pct`		=	% (as string literal)
 
@@ -178,12 +179,12 @@ alarm.bat +1 /S /R5 /E30 The time is `var`TIME:~0,2`var` hours, `var`TIME:~3,2`v
 The Auxiliaries directory contains optional programs that operate in conjunction with Alarm and offer specific services.
 ADJUST the "d:\path\" to the programs!
 
-	CountDwn: verbal countdown to (and beyond) a specific time (e.g. start at 9:00am, for total duration of 20 minutes)
-		Example: Alarm.bat +1 /R1 /E20 /P/MIN d:\path\CountDwn.bat 0900
-	TimeOfDay {"TalkTock"}: e.g. starting at 4:30am, announce the current Time every 15 minutes, until terminated (Alarm /X)
-		Example: Alarm.bat 4:30a /R15 /P/MIN d:\path\TimeOfDay.bat
-	BigBen.wav: e.g. chime hourly from 12 Noon until 9:00pm
-		Alarm.bat 1200 /R60 /E540 /P/MIN powershell.exe -c (New-Object Media.SoundPlayer "d:\path\BigBen.wav").PlaySync()
+    CountDwn: verbal countdown to (and beyond) a specific time (e.g. start at 9:00am, for total duration of 20 minutes)
+	Example: Alarm.bat +1 /R1 /E20 /P/MIN d:\path\CountDwn.bat 0900
+    TimeOfDay {"TalkTock"}: e.g. starting at 4:30am, announce the current Time every 15 minutes, until terminated (Alarm /X)
+	Example: Alarm.bat 4:30a /R15 /P/MIN d:\path\TimeOfDay.bat
+    BigBen.wav: e.g. chime hourly from 12 Noon until 9:00pm
+	Alarm.bat 1200 /R60 /E540 /P/MIN powershell.exe -c (New-Object Media.SoundPlayer "d:\path\BigBen.wav").PlaySync()
 
 ------------------------
 
@@ -205,7 +206,7 @@ N.B.: This strategy may or may not work, depending on the integrity of the under
 
 ------------------------
 
-List Text-to-Speech (TTS) Voices installed on your computer:
+List Text-to-Speech (TTS) Voices installed on your computer (default Voice is listed first):
 	powershell.exe -ExecutionPolicy Bypass -Command "Add-Type -AssemblyName System.Speech;$speak=New-Object System.Speech.Synthesis.SpeechSynthesizer;$speak.GetInstalledVoices()|Select-Object -ExpandProperty VoiceInfo|Select-Object -Property Name,Gender,Description"
 
 ------------------------
