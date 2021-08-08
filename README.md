@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html><pre>
- &nbsp; &nbsp; &nbsp; &nbsp;Alarm.bat v20210805 &nbsp; &nbsp; &nbsp; &nbsp;Notification program for the Windows command line
+ &nbsp; &nbsp; &nbsp; &nbsp;Alarm.bat v20210807 &nbsp; &nbsp; &nbsp; &nbsp;Notification program for the Windows command line
 
 <b>NOTIFY Usage</b>: &nbsp;Alarm.bat AlarmTime [Switches] [Action] (in order)
 ====== Syntax: Alarm[.bat] HH[:]MM[A|P[M]] | +m ...&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Alarm_Time
