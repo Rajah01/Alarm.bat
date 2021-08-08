@@ -214,7 +214,6 @@ List Text-to-Speech (TTS) Voices installed on your computer (default Voice is li
 CAUTION: Edit Alarm.bat in an environment that uses 8-bit (single byte) character encodings ONLY!
 	Do NOT edit with a word processor! Notepad may be used to adjust the User Configuration, ONLY!
 	Alarm.bat was written in CodePage 437 (a.k.a. "US-ASCII", "OEM-US").
-	Low-order characters 28-30 are used for certain functions, and may not display correctly in some editors!
 	Multiple-byte editors using UTF (Unicode) will corrupt the file. Caveat emptor.
 	Notepad++ (https://notepad-plus-plus.org/) is recommended (set Encoding -> Character sets -> Western European -> OEM-US).
 

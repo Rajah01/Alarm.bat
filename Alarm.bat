@@ -26,10 +26,10 @@ set Delay=4
 rem * END USER CONFIGURATION *
 
 rem ---------------- DO NOT WRITE BELOW THIS LINE! ----------------
-set Version=20210805
+set Version=20210807
 goto :s
 --------
-SBCP 437 chars: =" &=delims ANSI: «(ab)=®(ae) »(bb)=¯(af) NBSP  (a0)
+SBCP 437 chars: %v1c%=FS=" %v1d%/GS&%v1e%/RS=delims ANSI: «(ab)=®(ae) »(bb)=¯(af) NBSP  (a0)
 :a
 set /a udd=100%udd%%%100,umm=100%umm%%%100
 set /a z=14-umm,z/=12,y=uyy+4800-z,m=umm+12*z-3,secs=153*m+2
@@ -47,7 +47,7 @@ set /a udd=-udd+e+1,umm=-m/10,umm*=12,umm+=m+3,uyy=b*100+d-4800+m/10
 (if %uhh% LSS 10 set uhh=0%uhh%)&(if %unn% LSS 10 set unn=0%unn%)
 if %uss% LSS 10 set uss=0%uss%
 goto :eof
-::DayOfWeek
+DayOfWeek
 :c
 set dowyy=%1&set dowmm=%2&set dowdd=%3
 set /a dowdd=100%dowdd%%%100,dowmm=100%dowmm%%%100
@@ -67,7 +67,7 @@ if %ret:~0,1%==0 if "%ret:~1,1%#" NEQ "#" set ret=%ret:~1,1%
 set /a %2=%ret%
 goto :eof
 :g
-@for /F "delims=0123456789" %%D in ("%1%2%3") do @if "%%D" NEQ "" goto :d
+@for /F "delims=0123456789" %%D in ("%1%2%3%v1d%") do @if "%%D" NEQ "%v1d%" goto :d
 if "%1#"=="#" goto :d
 set fd=%1
 call :f %fd% fd
@@ -106,7 +106,7 @@ set prevrmk=%prevrmk:~4%
 if "%rptltr%"=="A" goto :eof
 if exist %TMPA%ALRMW%fnb:~5,-4%.BAT if exist %win%Tasks\ALRMW%fnb:~5,-4% goto :eof
 set just1=0
-for /F %%B in ('%tsk% %ex%" /FI "WINDOWTITLE eq %rmk%"') do if !just1!==1 (goto :eof) else call :h %%B
+for /F %%B in ('%tsk% %exe%" /FI "WINDOWTITLE eq %rmk%"') do if !just1!==1 (goto :eof) else call :h %%B
 goto :eof
 :j
 set dummy4=%~1
@@ -116,8 +116,8 @@ set %2=%dummy4%
 goto :eof
 :k
 set ret=
-set dummy4=!dummy4:/%1=!
-for /F "tokens=1,* delims=" %%A in ("%dummy4%") do if "%%B"=="" (set bad=1) else set "ret=%%B"&set "cml=%%A"&set "dummy4=%%A"
+set dummy4=!dummy4:/%1=%v1e%!
+for /F "tokens=1,* delims=%v1e%" %%A in ("%dummy4%") do if "%%B"=="" (set bad=1) else set "ret=%%B"&set "cml=%%A"&set "dummy4=%%A"
 :l
 if "%ret:~0,1%"==" " set ret=%ret:~1%&goto :l
 goto :eof
@@ -128,13 +128,13 @@ if "%dummy5:~0,1%"==" " (set bad=1) else set ret=%~1&set "ret=!ret:~0,-1!"
 goto :eof
 :n
 set ret=
-set dummy5=!cml:/%1=!
+set dummy5=!cml:/%1=%v1e%!
 set dummy5=!dummy5:"=!
-for /F "tokens=1,* delims=" %%A in ("%dummy5%") do for /F "tokens=1 delims=/ " %%C in ("%%B ") do call :m "%%C " %1
+for /F "tokens=1,* delims=%v1e%" %%A in ("%dummy5%") do for /F "tokens=1 delims=/ " %%C in ("%%B ") do call :m "%%C " %1
 goto :eof
 :o
 if "%~1"=="" goto :eof
-for /F "skip=3 tokens=2 delims= " %%A in ('%tsk% %ex%" /FI "WINDOWTITLE eq %~1"') do if "%%A" NEQ "" %kill%
+for /F "skip=3 tokens=2 delims= " %%A in ('%tsk% %exe%" /FI "WINDOWTITLE eq %~1"') do if "%%A" NEQ "" %kill%
 for /F "skip=3 tokens=2 delims= " %%A in ('%tsk% timeout.exe" /FI "WINDOWTITLE eq %~1"') do if "%%A" NEQ "" %kill%
 goto :eof
 :p
@@ -153,8 +153,9 @@ set ermsg=/W{akes} and /R{epeats} are future, not present (+0), events&set er=6
 set dummy5=0&if exist %~dps0ALRM\ALRMV.txt for /F %%A in (%~dps0ALRM\ALRMV.txt) do if %%A NEQ %Version% set dummy5=1
 set cp=REM/&set cml=%~1#&set er=0
 if /I "%~1x"=="/Bx" call :ac&if !er!==0 echo/&echo Rebuilt Alarm system variables
-if /I "%~1x"=="/Bx" %cp%&exit /B %er%
+if /I "%~1x"=="/Bx" @%cp%&exit /B %er%
 if exist "%~dps0ALRM\ALRG.bat" (call "%~dps0ALRM\ALRG.bat") else call :ac
+if %er%==1 (set er=0)&call :ac
 if %er% NEQ 0 @%cp%&exit /B %er%
 if "%cp%"=="REM/" (set ANSI=REM/) else set ANSI=%cp:~0,-4%^^^^^^^>NUL
 for %%A in (allargs dhm hlp) do set %%A=
@@ -162,12 +163,12 @@ set kill=%wm% "processid=%%A" delete^>NUL 2^>^&1
 set /a autokil=-1,clip=0,dummy2=0,prg=0,spk=0,wake=0
 if %~1#==# goto :gc
 set cml=%*
-set dummy=%cml:"=%
+set dummy=%cml:"=!v1c!%
 if "%~1x"=="/?x" goto :gc
 if /I "%~1x"=="-hx" goto :gc
 if /I "%~1x"=="--helpx" goto :gc
 if /I "%~1x"=="/Hx" set er=2&echo/&echo Help printed to file "%~dpsn0.txt", q.v.&goto :gc
-if not exist %exe% goto :gc
+if not exist %ex% goto :gc
 if not exist %TMPA%ALRMV.txt echo %Version%>%TMPA%ALRMV.txt
 if /I "%~1x"=="/Tx" goto :tb
 if /I "%~1x"=="/Ux" goto :ub
@@ -194,7 +195,7 @@ set /a nwy=%uyy%,nwn=%umm%,nwd=%udd%,nh=%uhh%,nm=%unn%,ns=%uss%
 call :a
 set orgsecs=%secs%
 set t=%~1
-for /F "delims=0123456789+:APMapm" %%A in ("%t%") do if "%%A" NEQ "" set ermsg=Alarm time ("[[[h]h[:]]m]m[A|P[M]]" or "+m") is required. Command "%~nx0 /?" for Help&set er=9&goto :r
+for /F "delims=0123456789+:APMapm" %%A in ("%t%%v1d%") do if "%%A" NEQ "%v1d%" set ermsg=Alarm time ("[[[h]h[:]]m]m[A|P[M]]" or "+m") is required. Command "%~nx0 /?" for Help&set er=9&goto :r
 set /a bad=0,fncnt=0,len=0,var=0,rptexp=-1,rptintvl=1,rptmins=0
 for %%A in (amk bel fdt ffn msg rptA rptfnnum ret tmg) do set %%A=
 set repeat=#&set rptfrq=ONCE&set rptltr=N&set torg=%t%
@@ -205,15 +206,15 @@ if exist %TMPA%ALRMA*.BAT for /F %%A in ('dir /B %TMPA%ALRMA*.BAT') do call :i %
 set dummy=0
 if exist %TMPA%ALRMA%fncnt%.BAT set dummy=1&for /F "delims=" %%B in ('%win%findstr.exe /bc:"REM " %TMPA%ALRMA%fncnt%.BAT') do set amk=%%B
 if %dummy%==1 set amk=%amk:~4%
-if %dummy%==1 for /F "skip=3 tokens=2 delims= " %%A in ('%tsk% %ex%" /FI "WINDOWTITLE eq %amk%"') do if "%%A" NEQ "" set dummy=3
+if %dummy%==1 for /F "skip=3 tokens=2 delims= " %%A in ('%tsk% %exe%" /FI "WINDOWTITLE eq %amk%"') do if "%%A" NEQ "" set dummy=3
 if %dummy% LSS 3 if exist %TMPA%ALRMW%fncnt%.BAT set dummy=2
 if %dummy%==2 %win%schtasks.exe /query /tn "ALRMW%fncnt%" >NUL 2>&1
-if %dummy%==2 if %errorlevel%==0 set dummy=3
+if %dummy%==2 if %ERRORLEVEL%==0 set dummy=3
 if %dummy% LSS 3 (
 	if exist %TMPA%ALRM?%fncnt%.BAT del %TMPA%ALRM?%fncnt%.BAT
 	set fn=%TMPA%ALRMA%fncnt%.BAT
 ) else set /a "fncnt+=1"&set rmk=&goto :u
-set dummy4=%cml:"=%
+set dummy4=%cml:"=!v1c!%
 for /F "tokens=2 delims= " %%A in ("%dummy4%") do if "%%A#"=="#" goto :ha
 if "%dummy4%"=="%dummy4:/p=%" goto :v
 call :k p
@@ -223,11 +224,11 @@ set prg=2&set bel= /QQ&set allargs=/P%ret%&goto :x
 if "%dummy4%"=="%dummy4:/f=%" goto :w
 call :k f
 if %bad%==1 set ermsg=No filename given&set er=11&goto :r
-if not exist "%ret:=%" set ermsg=File "%ret:=%" not found&set er=12&goto :r
+if not exist "%ret:!v1c!=%" set ermsg=File "%ret:!v1c!=%" not found&set er=12&goto :r
 set allargs=/F%ret%
 set prg=1&set ffn=%ret%
 :w
-if "%dummy4%" NEQ "%dummy4:/c=%" for /F "tokens=1 delims=" %%A in ("!dummy4:/c=!") do set "cml=%%A"&set "dummy4=%%A"&set clip=1&set prg=1&set allargs=/C
+if "%dummy4%" NEQ "%dummy4:/c=%" for /F "tokens=1 delims=%v1e%" %%A in ("!dummy4:/c=%v1e%!") do set "cml=%%A"&set "dummy4=%%A"&set clip=1&set prg=1&set allargs=/C
 :x
 if "%dummy4%"=="%dummy4:/d=%" goto :y
 if %dummy4:~0,1%==+ goto :d
@@ -236,7 +237,7 @@ if %bad%==1 goto :d
 set fdt=%ret%
 if "%fdt:~8,1%#" NEQ "#" goto :d
 if "%fdt:~0,1%"=="+" set plus=-3&set fdt=%fdt:~1%
-for /F "delims=0123456789-" %%A in ("%fdt%") do if "%%A" NEQ "" goto :d
+for /F "delims=0123456789-" %%A in ("%fdt%%v1d%") do if "%%A" NEQ "%v1d%" goto :d
 set wake=1
 if %plus%==-3 set /a "dhm=%fdt%*24"&goto :y
 set /a plus=-3,bad=0
@@ -266,7 +267,7 @@ goto :ba
 :aa
 call :n r
 if %bad%==1 set ermsg=Missing "/Rm" m{inutes} interval&set er=14&goto :r
-for /F "delims=0123456789" %%A in ("%ret%") do if "%%A" NEQ "" set ermsg=Non-numeric "/Rm" m{inutes} interval "%ret%"&set er=15&goto :r
+for /F "delims=0123456789" %%A in ("%ret%%v1d%") do if "%%A" NEQ "" set ermsg=Non-numeric "/Rm" m{inutes} interval "%ret%"&set er=15&goto :r
 set rptltr=R&set rptmins=%ret%&set rptfnnum=%fncnt%&set wake=1&set repeat= /R%rptmins%
 if "%t%"=="+0" if %wake%==1 goto :q
 if %rptmins%==0 set ermsg=/R0 does not Repeat&set er=16&goto :r
@@ -306,10 +307,10 @@ set dummy4=%2
 set dummy4=%dummy4:"=%
 if "%dummy4:~0,1%#"=="/#" shift /2&goto :ga
 set dummy=%cml:"=%
-for /F "tokens=1 delims=" %%A in ("!dummy: %dummy4%= %dummy4%!") do set dummy4=%%A#
+for /F "tokens=1 delims=%v1e%" %%A in ("!dummy: %dummy4%= %v1e%%dummy4%!") do set dummy4=%%A#
 for %%A in (64 32 16 8 4 2 1) do @if "!dummy4:~%%A,1!" NEQ "" set /a "len+=%%A"&set "dummy4=!dummy4:~%%A!"
 set msg=!dummy:~%len%!
-set msg=%msg:=%
+set msg=%msg:!v1c!=%
 if "%msg%" NEQ "%msg:`v=%" set var=1
 set len=0&set dummy4=%msg%#
 for %%A in (4096 2048 1024 512 256 128 64 32 16 8 4 2 1) do @if "!dummy4:~%%A,1!" NEQ "" set /a "len+=%%A"&set "dummy4=!dummy4:~%%A!"
@@ -389,11 +390,11 @@ if %wake%==0 goto :ra
 ::Wake code
 call :f %dt:~4,2% m
 call :f %dt:~6,2% d
-:: What does this add? Sets m=m etc, uses y which is meaningless?
-::set /a %dtfmt:~0,1%=!%dtfmt:~0,1%!
-::set /a %dtfmt:~1,1%=!%dtfmt:~1,1%!
-::set /a %dtfmt:~2,1%=!%dtfmt:~2,1%!
-::ECHO m=%m% d=%d% y=%y% uyy=%uyy% nwy=%nwy%
+
+::Purpose?
+set %dtfmt:~0,1%=!%dtfmt:~0,1%!
+set %dtfmt:~1,1%=!%dtfmt:~1,1%!
+set %dtfmt:~2,1%=!%dtfmt:~2,1%!
 set waketh=%ah%
 if %days% GTR 0 set /a waketh=%ah%+24*%days%
 if %waketh% LSS 10 set waketh=0%waketh%
@@ -464,7 +465,7 @@ if %wake%==1 if %rptltr%==N (set tmg=Wake  %tmg:~6%) else set tmg=Repeat%tmg:~6%
 set msg=%msg% (%s1% seconds
 set dummy3=0
 if %m1% GTR 0 (set dummy3=1) else if %h1% GTR 0 set dummy3=1
-if %dummy3%==1 if %mod%==0 (set msg=%msg%, %hours%%minutes%) else set msg=%msg%, ñ%hours%%minutes%
+if %dummy3%==1 if %mod%==0 (set msg=%msg%, %hours%%minutes%) else set msg=%msg%, %f1%%hours%%minutes%
 set msg=%msg%^^^)
 if /I "%UnMute%"=="On" if not exist %TMPA%ALRM.ps1 call :cc
 if %wake%==0 goto :write
@@ -481,7 +482,7 @@ if %rptltr% NEQ N if "%repeat:~0,3%#"==" /R#" set dummy=%repeat:~3%
 echo %TMPA%ALRM.exe>>%k%
 if %rptltr% NEQ N goto :ta
 call :j "%tmg%" dummy4
-echo for /F "tokens=1 delims= " %%%%A in ^('%tsk% %ex%" /FI "WINDOWTITLE eq %tmg%"'^) do if "%%%%A"=="Image" for /F "skip=3 tokens=2 delims= " %%%%B in ^('%tsk% %ex%" /FI "WINDOWTITLE eq %tmg%"'^) do if "%%%%B" NEQ "" %wm% "processid=%%%%B" delete^>NUL 2^>^&1 >>%k%
+echo for /F "tokens=1 delims= " %%%%A in ^('%tsk% %exe%" /FI "WINDOWTITLE eq %tmg%"'^) do if "%%%%A"=="Image" for /F "skip=3 tokens=2 delims= " %%%%B in ^('%tsk% %exe%" /FI "WINDOWTITLE eq %tmg%"'^) do if "%%%%B" NEQ "" %wm% "processid=%%%%B" delete^>NUL 2^>^&1 >>%k%
 if %prg%==0 echo call %~fs0 +0%bel% %allargs% >>%k%
 if %prg% NEQ 1 goto :sa
 if %spk%==0 if %clip%==0 echo call %~fs0 +0%bel% %allargs% >>%k%
@@ -489,15 +490,15 @@ if %spk%==1 if "%ffn%" NEQ "" echo call %~fs0 +0%bel% %allargs% >>%k%
 if %spk%==1 if "%ffn%"=="" if %clip%==0 echo %~fs0 +0%bel% /S %allargs% >>%k%
 if %clip%==1 echo call %~fs0 +0%bel% %allargs%>>%k%
 :sa
-if %prg%==2 if %spk% LSS 2 echo call %~fs0 +0%bel% %allargs:="% >>%k%
-if %prg%==2 if "%bel%" NEQ "" if %spk%==2 echo call %~fs0 +0%bel% /S %allargs:="% >>%k%
+if %prg%==2 if %spk% LSS 2 echo call %~fs0 +0%bel% %allargs:!v1c!="% >>%k%
+if %prg%==2 if "%bel%" NEQ "" if %spk%==2 echo call %~fs0 +0%bel% /S %allargs:!v1c!="% >>%k%
 echo ^(goto^) 2^>NUL^&if exist %TMPA%ALRMA%fncnt%.BAT del /F %TMPA%ALRMA%fncnt%.BAT>>%k%
 goto :ua
 :ta
-if "%allargs%"=="" (set dummy3=) else set dummy3=%allargs:="%
+if "%allargs%"=="" (set dummy3=) else set dummy3=%allargs:!v1c!="%
 if "%bel%"=="" echo start /MIN %win%cmd.exe /c %~fs0 +0%rptA% %dummy3% >>%k%
 if "%bel%"=="" goto :ua
-echo start "Wake/Repeat-%fncnt%" /MIN %exe% /c %~fs0 +0%rptA%%bel% %dummy3% >>%k%
+echo start "Wake/Repeat-%fncnt%" /MIN %ex% /c %~fs0 +0%rptA%%bel% %dummy3% >>%k%
 :ua
 if %rptltr%==R (
 	@echo exit>>%k%
@@ -513,8 +514,8 @@ if %ver% LSS 10 (
 	set et=
 )
 ::"/rl HIGHEST"=Title "Administator: ..." AND requires permission
-if %rptltr%==N "%win%schtasks.exe" /create /sc %rptfrq% /tn ALRMW%fncnt% /tr "%ComSpec% /c start %exe% /c %k%" /st %strtact1%%et% /sd %strtdt% /ri %rptmins%%du% >NUL
-if %rptltr% NEQ N "%win%schtasks.exe" /create /sc %rptfrq% /tn ALRMW%fncnt% /tr "%exe% /c call %k%&exit" /st %strtact1%%et% /sd %strtdt% /ri %rptmins%%du% >NUL
+if %rptltr%==N "%win%schtasks.exe" /create /sc %rptfrq% /tn ALRMW%fncnt% /tr "%ComSpec% /c start %ex% /c %k%" /st %strtact1%%et% /sd %strtdt% /ri %rptmins%%du% >NUL
+if %rptltr% NEQ N "%win%schtasks.exe" /create /sc %rptfrq% /tn ALRMW%fncnt% /tr "%ex% /c call %k%&exit" /st %strtact1%%et% /sd %strtdt% /ri %rptmins%%du% >NUL
 "%win%schtasks.exe" /query /tn ALRMW%fncnt% /xml >%TMPA%ALRMW%fncnt%.xml
 set w="%TMPA%ALRMW%fncnt%.vbs"
 echo Dim fn,txt,pos1,pos2,pos3 >%w%
@@ -615,7 +616,7 @@ set ps=0
 if /I %UnMute%==On if /I "%bel%" NEQ " /Q" (
 	set ps=1
 	echo %pw% -file "%TMPA%ALRM.ps1" -snd 1 -vol %vol%>>%fn%
-	if %spk%==0 echo set e=%%errorlevel%% >>%fn%
+	if %spk%==0 echo set e=%%ERRORLEVEL%% >>%fn%
 )
 ::Can't set dummy2 for spk=1 because shuts off sound before speech is finished
 if /I "%bel%" NEQ " /Q" if %ps%==1 if %spk%==0 (
@@ -625,7 +626,7 @@ if /I "%bel%" NEQ " /Q" if %ps%==1 if %spk%==0 (
 	echo set dummy2=%pw% -file "%TMPA%ALRM.ps1" -snd %%e:~0,1%% -vol %%vol%%>>%fn%
 	echo :[>>%fn%
 )
-if %prg%==0 if "%rptltr%" NEQ "N" @echo start "%rmsg%" /MIN %exe% /c %to% %Delay% /NOBREAK ^^^>NUL>>%fn%
+if %prg%==0 if "%rptltr%" NEQ "N" @echo start "%rmsg%" /MIN %ex% /c %to% %Delay% /NOBREAK ^^^>NUL>>%fn%
 if "%rmk%"=="" (set dummy3=%tmg%) else set dummy3=%rmk%
 call :j "%dummy3%" dummy4
 if "%rmk%" NEQ "%prevrmk%" call :j "%prevrmk%" dummy5
@@ -633,24 +634,24 @@ if %spk%==0 if %prg%==1 for /F "usebackq" %%A in (`%wm% "caption='more.com' and 
 if %var%==1 for /F "tokens=*" %%A in ('%cs% "%allargs%" "M" %fncnt%') do for /F "tokens=*" %%B in ("%%A") do set allargs=%%B
 if %spk%==0 if %prg%==1 if %rptltr%==N (
 	if %clip%==1 (
-		echo start "%tmg%" %exe% /c %cs% %fncnt% "C"^^^&echo/^^^&echo/^^^&%ANSI%^^^&%mr% "%TMPA%ALRMC%fncnt%.txt"^^^&pause^^^>NUL>>%fn%
+		echo start "%tmg%" %ex% /c %cs% %fncnt% "C"^^^&echo/^^^&echo/^^^&%ANSI%^^^&%mr% "%TMPA%ALRMC%fncnt%.txt"^^^&pause^^^>NUL>>%fn%
 	) else (
 		if "%ffn%" NEQ "" (
-			echo start "%tmg%" %exe% /c echo/^^^&echo/^^^&%ANSI%^^^&%mr% "%ffn:=%"^^^&echo/^^^&echo/^^^&echo 			    ^^^^^^^< Hit any key to Dismiss ^^^^^^^>^^^&pause^^^>NUL>>%fn%
+			echo start "%tmg%" %ex% /c echo/^^^&echo/^^^&%ANSI%^^^&%mr% "%ffn:!v1c!=%"^^^&echo/^^^&echo/^^^&echo 			    ^^^^^^^< Hit any key to Dismiss ^^^^^^^>^^^&pause^^^>NUL>>%fn%
 		) else (
-			if %wake%==0 echo start "%tmg%" %exe% /c echo/^^^&echo/^^^&%ANSI%^^^&%cs% "%allargs%" "M" %fncnt%^^^&%mr% "%TMPA%ALRMC%fncnt%.txt"^^^&pause^^^>NUL>>%fn%
-			if %wake%==1 echo start "%dummy4%" %exe% /c echo/^^^&echo/^^^&%ANSI%^^^&%cs% "%allargs%" "M" %fncnt%^^^&%mr% "%TMPA%ALRMC%fncnt%.txt"^^^&pause^^^>NUL>>%fn%
+			if %wake%==0 echo start "%tmg%" %ex% /c echo/^^^&echo/^^^&%ANSI%^^^&%cs% "%allargs%" "M" %fncnt%^^^&%mr% "%TMPA%ALRMC%fncnt%.txt"^^^&pause^^^>NUL>>%fn%
+			if %wake%==1 echo start "%dummy4%" %ex% /c echo/^^^&echo/^^^&%ANSI%^^^&%cs% "%allargs%" "M" %fncnt%^^^&%mr% "%TMPA%ALRMC%fncnt%.txt"^^^&pause^^^>NUL>>%fn%
 		)
 	)
 )
 if %spk%==0 if %prg%==1 if %rptltr% NEQ N (
 	if %clip%==0 (
 		if "%ffn%"=="" (
-			echo start "%dummy3%" %exe% /c echo/^^^&echo/^^^&%ANSI%^^^&%cs% "%allargs%" "M" %fncnt%^^^&%mr% "%TMPA%ALRMC%fncnt%.txt"^^^&pause^^^>NUL^^^&exit>>%fn%
+			echo start "%dummy3%" %ex% /c echo/^^^&echo/^^^&%ANSI%^^^&%cs% "%allargs%" "M" %fncnt%^^^&%mr% "%TMPA%ALRMC%fncnt%.txt"^^^&pause^^^>NUL^^^&exit>>%fn%
 		) else (
-			echo start "%tmg%" %exe% /c echo/^^^&echo/^^^&%ANSI%^^^&%mr% "%ffn:=%"^^^&echo/^^^&echo/^^^&echo 			    ^^^^^^^< Hit any key to Dismiss ^^^^^^^>^^^&pause^^^>NUL>>%fn%
+			echo start "%tmg%" %ex% /c echo/^^^&echo/^^^&%ANSI%^^^&%mr% "%ffn:!v1c!=%"^^^&echo/^^^&echo/^^^&echo 			    ^^^^^^^< Hit any key to Dismiss ^^^^^^^>^^^&pause^^^>NUL>>%fn%
 		)
-	) else echo start "%dummy3%" %exe% /c echo/^^^&echo/^^^&%ANSI%^^^&%cs% %fncnt% "C"^^^&%mr% "%TMPA%ALRMC%fncnt%.txt"^^^&pause^^^>NUL^^^&exit>>%fn%
+	) else echo start "%dummy3%" %ex% /c echo/^^^&echo/^^^&%ANSI%^^^&%cs% %fncnt% "C"^^^&%mr% "%TMPA%ALRMC%fncnt%.txt"^^^&pause^^^>NUL^^^&exit>>%fn%
 	
 )
 set dummy6="%TMPA%ALRMR%rptfnnum%.BAT"
@@ -665,7 +666,7 @@ if exist %dummy6% del /F %dummy6%
 if %rptltr% NEQ A goto :xa
 echo @echo off>%dummy6%
 if %rptexp%==0 goto :va
-echo start "%tmg%" /MIN %exe% /c echo/^^^&echo/^^^&pause^^^>NUL>>%dummy6%
+echo start "%tmg%" /MIN %ex% /c echo/^^^&echo/^^^&pause^^^>NUL>>%dummy6%
 echo echo @echo off^>"%TMPA%ALRMA%rptfnnum%.BAT">>%dummy6%
 echo @echo REM %tmg%^>^>"%TMPA%ALRMA%rptfnnum%.BAT">>%dummy6%
 echo @echo rem %rmk%^>^>"%TMPA%ALRMA%rptfnnum%.BAT">>%dummy6%
@@ -681,19 +682,19 @@ echo %to% %dummy4% /NOBREAK^>NUL>>%dummy6%
 echo %win%schtasks.exe /delete /tn ALRMW%rptfnnum% /F>>%dummy6%
 echo if exist "%TMPA%ALRMC%fncnt%.txt" del /F "%TMPA%ALRMC%fncnt%.txt">>%dummy6%
 echo if exist "%TMPA%ALRMW%rptfnnum%.bat" del /F "%TMPA%ALRMW%rptfnnum%.bat">>%dummy6%
-echo start /MIN %exe% /c %~fs0 /X%rptfnnum% >>%dummy6%
+echo start /MIN %ex% /c %~fs0 /X%rptfnnum% >>%dummy6%
 :wa
 echo exit>>%dummy6%
 :xa
 if %spk%==1 if /I "%bel%" NEQ " /QQQ" goto :ya
 if /I "%bel%"==" /Q" goto :ya
 if /I "%bel%"==" /QQ" goto :ya
-echo for %%%%A in (2 1 2) do echo ^&%to% %%%%A /NOBREAK^>NUL>>%fn%
+echo for %%%%A in (2 1 2) do echo %v07%^&%to% %%%%A /NOBREAK^>NUL>>%fn%
 :ya
 if %prg% NEQ 2 goto :za
 if %spk%==2 goto :za
 if "%allargs%" NEQ "" set allargs=%allargs:/P=%
-if "%allargs%" NEQ "" set allargs=%allargs:="%
+if "%allargs%" NEQ "" set allargs=%allargs:!v1c!="%
 if %ps%==0 echo start "%dummy%" %allargs% >>%fn%
 if %ps%==1 echo start "%dummy%" /WAIT %allargs%^&%%dummy2%% >>%fn%
 echo ^(goto^) 2^>NUL^&if exist "%%~dpsnx0" del /F "%%~dpsnx0">>%fn%
@@ -701,23 +702,23 @@ goto :ab
 :za
 if %spk%==1 echo %to% 1 /NOBREAK^>NUL>>%fn%
 if %spk%==1 if %rptltr% NEQ R echo start /MIN %cs% "%allargs%" "S" "%voice%">>%fn%
-if %clip%==0 if %spk%==2 if %rptltr% NEQ R echo start /MIN %pw% -c "Add-Type -AssemblyName System.Speech;$words=(Get-Content '%ffn:=%');$speak=(New-Object System.Speech.Synthesis.SpeechSynthesizer);%Voice%$speak.Speak($words);">>%fn%
+if %clip%==0 if %spk%==2 if %rptltr% NEQ R echo start /MIN %pw% -c "Add-Type -AssemblyName System.Speech;$words=(Get-Content '%ffn:!v1c!=%');$speak=(New-Object System.Speech.Synthesis.SpeechSynthesizer);%Voice%$speak.Speak($words);">>%fn%
 if %clip%==2 if %rptltr% NEQ R echo start /MIN %pw% -c "Add-Type -AssemblyName System.Speech;$words=(Get-Clipboard);$speak=(New-Object System.Speech.Synthesis.SpeechSynthesizer);%Voice%$speak.Speak($words);">>%fn%
 if %ps%==1 if %spk%==0 echo %%dummy2%% >>%fn%
 echo ^(goto^) 2^>NUL^&if exist %fn% del /F %fn%>>%fn%
 ::Execute
 :ab
 if %rptltr%==N if %spk% GTR 0 (
-	start "Launcher" /MIN %exe% /c start "%tmg%" /MIN /WAIT %exe% /c %fn%
+	start "Launcher" /MIN %ex% /c start "%tmg%" /MIN /WAIT %ex% /c %fn%
 	%to% %Delay% /NOBREAK>NUL
 	call :o Launcher
 )
-if %spk%==0 start "%tmg%" /MIN %exe% /c %fn%
-if %rptltr%==R if %spk% GTR 0 start "%tmg%" /MIN %exe% /c "%TMPA%ALRMA%rptfnnum%.BAT"
+if %spk%==0 start "%tmg%" /MIN %ex% /c %fn%
+if %rptltr%==R if %spk% GTR 0 start "%tmg%" /MIN %ex% /c "%TMPA%ALRMA%rptfnnum%.BAT"
 if %rptltr%==A (
 	%to% %Delay% /NOBREAK>NUL
-	if %spk% GTR 0 start "%tmg%" /MIN /WAIT %exe% /c %fn%
-	if %rptexp%==0 (start "Expiration Pending ..." /MIN /WAIT %exe% /c %dummy6%) else (start "%tmg%" /MIN /WAIT %exe% /c %dummy6%)
+	if %spk% GTR 0 start "%tmg%" /MIN /WAIT %ex% /c %fn%
+	if %rptexp%==0 (start "Expiration Pending ..." /MIN /WAIT %ex% /c %dummy6%) else (start "%tmg%" /MIN /WAIT %ex% /c %dummy6%)
 	%to% %Delay% /NOBREAK>NUL
 	if exist %dummy6% del /F %dummy6%
 	if exist %fn% del /F %fn%
@@ -847,7 +848,7 @@ if %dummy%==1 %wm% "processid=%~1" delete>NUL 2>&1
 goto :eof 
 ::Kill ALL
 :rb
-if /I %ex%==bell.exe for /F "skip=3 tokens=2,10 delims= " %%A in ('%tskv% %ex%"') do if "%%A" NEQ "" call :qb "%%A" "%%B" 1
+if /I %exe%==bell.exe for /F "skip=3 tokens=2,10 delims= " %%A in ('%tskv% %exe%"') do if "%%A" NEQ "" call :qb "%%A" "%%B" 1
 for /F "skip=3 tokens=2,10 delims= " %%A in ('%tskv% timeout.exe"') do if "%%A" NEQ "" call :qb "%%A" "%%B" 1
 set cspec=%ComSpec%
 :sb
@@ -872,7 +873,7 @@ if "%cml:~4,1%" NEQ "N" (@echo %~nx0 system cleaned) else @echo New %~nx0 versio
 if not exist %TMPA%ALRM.ps1 call :cc
 set pw2=%pw% -file "%TMPA%ALRM.ps1" -snd
 if /I %UnMute%==On (%pw2% 1 -vol %vol%) else %pw2% 0
-set e=%errorlevel%
+set e=%ERRORLEVEL%
 set s=%e:~1%
 if %s%==0 (set vol=0) else if %s%==100 (set vol=1.00) else set vol=0.%s%
 if %s% NEQ 0 if %s:~0,1%==0 set s=%s:~1%
@@ -886,14 +887,14 @@ for /F "tokens=4 delims=. " %%A in ('ver') do if %%A GEQ 10 (
 	%pw% -file "%TMPA%ALRM2.ps1"
 )
 %to% %Delay% >NUL
-@echo 
+@echo %v07%
 %to% %Delay% >NUL
 if /I %UnMute%==On if "%e:~0,1%#" NEQ "1#" %pw% -file "%TMPA%ALRM.ps1" -snd %e:~0,1% -vol %vol%
 @%cp%&exit /B %er%
 :ub
-@echo/&for /F %%A in ('%pw% -c "Test-Connection -ComputerName holmgren.org -Quiet -Count 1"') do if %%A==False set ermsg=No connectivity&set er=28&goto :r
+@echo/&for /F %%A in ('%pw% -c "Test-Connection -ComputerName xywrite.org -Quiet -Count 1"') do if %%A==False set ermsg=No connectivity&set er=28&goto :r
 %cp%
-%pw% -c "(New-Object Net.WebClient).DownloadFile('https://holmgren.org/ALRMV.txt','%~dps0ALRMV.txt')"
+%pw% -c "(New-Object Net.WebClient).DownloadFile('http://xywrite.org/xywwweb/ALRMV.txt','%~dps0ALRMV.txt')"
 for /F %%A in (%~dps0ALRMV.txt) do set dummy=%%A
 if exist %~dps0ALRMV.txt del /F %~dps0ALRMV.txt
 if %dummy%==%Version% (
@@ -902,10 +903,11 @@ if %dummy%==%Version% (
 ) else set dummy2=Download ^"AlarmBat.zip^" version %dummy%? (you have v%Version%) [Y^^^|n
 set /p dummy2=%dummy2%]: 
 if %dummy%==%Version% (if /I "%dummy2%" NEQ "Y" exit /B %er%) else if /I "%dummy2%"=="N" exit /B %er%
-%pw% -c "(New-Object Net.WebClient).DownloadFile('https://holmgren.org/AlarmBat.zip','%~dps0AlarmBat.zip')"
+%pw% -c "(New-Object Net.WebClient).DownloadFile('http://xywrite.org/xywwweb/AlarmBat.zip','%~dps0AlarmBat.zip')"
 @echo Latest "AlarmBat.zip" v%dummy% downloaded to "%~dps0"
 @echo/
 set /p dummy2=Install ^"Alarm.bat^" and ^"AlarmBat_ReadMe.txt^" (replace 2 files)? [Y^|n]: 
+if /I "%dummy2%" NEQ "N" if exist "%~dpsn0.txt" del /F "%~dpsn0.txt"
 if /I "%dummy2%" NEQ "N" %pw% -c "$shell=New-Object -ComObject shell.application;$zip=$shell.NameSpace('%~dps0AlarmBat.zip');foreach($item in $zip.items()){if($item.Name -like 'Alarm*'){$shell.Namespace('%~dps0').CopyHere($item,0x14)}}"&@echo Done&exit /B %er%
 exit /B %er%
 :vb
@@ -954,41 +956,51 @@ call :zb wm WMIC "process where"
 set pw2=powershell -ExecutionPolicy Bypass -c
 for /R "%win%WindowsPowershell\" %%A in ("*powershell.exe") do set dummy=%%A
 call :zb pw powershell "-ExecutionPolicy Bypass"
+@echo for /F %%%%A in ('%pw% -c "Get-Date -Format 'yyyyMMddHHmmss'"') do set dt=%%%%A>>%TMPA%ALRG.bat
 if "%exe%"=="" set exe=cmd.exe
-set ex=%exe%
-if /I "%exe:~0,3%"=="cmd" (set exe=%win%cmd.exe) else set exe=%~dps0bell.exe&if not exist %~dps0bell.exe call :yb "%~dps0bell.exe"
+@echo set dummy=%%exe%%^&set exe=%exe%^&if "^!exe^!" NEQ "^!dummy^!" (set "exe=^!dummy^!"^&set er=1)>>%TMPA%ALRG.bat
+if /I "%exe:~0,3%"=="cmd" (set ex=%win%cmd.exe) else set ex=%~dps0bell.exe&if not exist !ex! call :yb "%ex%"
+set ret=%~dps0
+for %%A in (07 08) do @for /F %%B in ('%win%forfiles.exe /P "%ret:~0,-1%" /M "%~nx0" /C "%win%cmd.exe /c echo 0x%%A"') do set v%%A=%%B
 if %bad% GTR 0 (
 	if exist %TMPA%ALRG.bat del /F %TMPA%ALRG.bat
-	echo/&echo 		    Missing file^(s^)^^^!&echo/
-	set dummy=^^^!^^^!^^^!^^^!^^^!		%~n0 cannot continue^^^!		^^^!^^^!^^^!^^^!^^^!
-	<NUL set /p dummy3=!dummy!
-	for /L %%A in (1,1,2) do call :fc 52
+	echo %v07%&echo 		Missing file^(s^)^^^!&echo/
+	set dummy=^^^!^^^!^^^!^^^!^^^!    %~n0 cannot continue^^^!    ^^^!^^^!^^^!^^^!^^^!
+	set dummy3=!dummy!
+	set len=11
+	for %%A in (64 32 16 8 4 2 1) do @if "!dummy3:~%%A,1!" NEQ "" set /a "len+=%%A"&set "dummy3=!dummy3:~%%A!"
+	<NUL set /p=!dummy!
+	for /L %%A in (1,1,2) do call :fc !len!
 	%to% 1 >NUL
-	@echo/&echo/&@echo Install or otherwise acquire *%bad%* missing file^(s^):&echo %dummy2%&set er=3&goto :eof
+	@echo/&echo/&@echo Install or otherwise acquire *%bad%* file^(s^):&echo %dummy2%&set er=3&goto :eof
 	
 )
 if "%Delay%"=="" set Delay=4
 for /F "delims=0123456789" %%A in ("%Delay%") do if "%%A" NEQ "" set ermsg="Delay" variable must be numeric (currently "%Delay%")&set er=7&call :r&goto :eof
+if "%VOld%"=="" set VOld=%Voice%&@echo set VOld=%Voice%>>%TMPA%ALRG.bat
+@echo if "%%VOld%%" NEQ "%%Voice%%" set "VOld=%%Voice%%"^&set er=1 >>%TMPA%ALRG.bat
+@echo if "%%Voice%%X"=="X" goto :qqq>>%TMPA%ALRG.bat
+if "%Voice%" NEQ "" set "Voice=$speak.SelectVoice('%Voice%');"&echo if "%%Voice%%"=="%%Voice:$=%%" set Voice=$speak.SelectVoice('%%Voice%%');>>%TMPA%ALRG.bat
+@echo :qqq>>%TMPA%ALRG.bat
 if "%Volume%"=="" set Volume=80
 if /I "%UnMute%X" NEQ "OnX" set UnMute=Off
 for /F "delims=0123456789" %%A in ("%Volume%") do if "%%A" NEQ "" set ermsg="Volume" threshold must be numeric, in range 0-100 ^(currently "%Volume%"^)&set er=8&call :r&goto :eof
 if %Volume% GTR 99 (set vol=1.00) else set vol=0.%Volume%&if %Volume% LSS 10 set vol=0.0%Volume%&if %Volume% LSS 1 set vol=0
-if "%Voice%" NEQ "" set Voice=$speak.SelectVoice('%Voice%');
 @for /F "tokens=4" %%A in ('%win%powercfg.exe /getactivescheme') do set GUID=%%A
 for /F "delims=" %%A in ('%win%powercfg.exe -q %GUID% ^|%win%findstr.exe /c:"(Sleep)"') do for /F "tokens=3 delims= " %%B in ("%%A") do set SleepGUID=%%B
 for /F "delims=" %%A in ('%win%powercfg.exe -q %GUID% ^|%win%findstr.exe /c:"(Allow wake timers)"') do for /F "tokens=4 delims= " %%B in ("%%A") do set WakeGUID=%%B
-@for %%A in (ac dc) do %win%powercfg.exe -set%%Avalueindex %GUID% %SleepGUID% %WakeGUID% 001
+for %%A in (ac dc) do %win%powercfg.exe -set%%Avalueindex %GUID% %SleepGUID% %WakeGUID% 001
 for /F "tokens=3" %%A in ('%reg% sDate 2^>NUL') do set dtsep=%%A
 if "%dtsep%"=="" set dtsep=/
 for /F "tokens=3" %%A in ('%reg% iDate 2^>NUL') do set iDate=%%A
-if "%iDate%"=="0" set dtfmt=mdy
-if "%iDate%"=="1" set dtfmt=dmy
-if "%iDate%"=="2" set dtfmt=ymd
+if "%iDate%"=="0" (set dtfmt=mdy) else if "%iDate%"=="1" (set dtfmt=dmy) else set dtfmt=ymd
 for /F %%A in ('%pw% -c "Get-Date -Format 'yyyyMMddHHmmss'"') do set dt=%%A
-@echo for /F %%%%A in ('%pw% -c "Get-Date -Format 'yyyyMMddHHmmss'"') do set dt=%%%%A>>%TMPA%ALRG.bat
-set ret=%~dps0
-for %%A in (a0 ab ae af bb) do @for /F %%B in ('%win%forfiles.exe /P "%ret:~0,-1%" /M "%~nx0" /C "%win%cmd.exe /c echo 0x%%A"') do set %%A=%%B
-for %%A in (a0 ab ae af bb cs csc Delay dtfmt dtsep ex exe mr pw pw2 TMPA to tsk tskv UnMute ver Voice vol Volume win wm) do @echo set %%A=!%%A!>>%TMPA%ALRG.bat
+for %%A in (1c 1d 1e) do @for /F %%B in ('%win%forfiles.exe /P "%ret:~0,-1%" /M "%~nx0" /C "%win%cmd.exe /c echo 0x%%A"') do set v%%A=%%B
+for %%A in (a0 ab ae af bb f1) do @for /F %%B in ('%win%forfiles.exe /P "%ret:~0,-1%" /M "%~nx0" /C "%win%cmd.exe /c echo 0x%%A"') do set %%A=%%B
+for %%A in (a0 ab ae af bb cs csc dtfmt dtsep ex f1 mr pw pw2 TMPA to tsk tskv v07 v08 v1c v1d v1e ver vol win wm) do @echo set %%A=!%%A!>>%TMPA%ALRG.bat
+@echo (set /a dummy=%%Delay%%,Delay=%Delay%)^&if "^!Delay^!" NEQ "^!dummy^!" (set "Delay=^!dummy^!"^&set er=1)>>%TMPA%ALRG.bat
+@echo set dummy=%%UnMute%%^&set UnMute=%UnMute%^&if "^!UnMute^!" NEQ "^!dummy^!" (set "UnMute=^!dummy^!"^&set er=1)>>%TMPA%ALRG.bat
+@echo (set /a dummy=%%Volume%%,Volume=%Volume%)^&if "^!Volume^!" NEQ "^!dummy^!" (set "Volume=^!dummy^!"^&set er=1)>>%TMPA%ALRG.bat
 set bad=0&for %%A in (dummy dummy2 dummy3 GUID reg ret SleepGUID WakeGUID) do set %%A=
 goto :eof
 :bc
@@ -1139,18 +1151,18 @@ if %er%==4 set ermsg=Error creating "%TMPA%ALRM.exe"
 goto :eof
 :fc
 %to% 1 >NUL
-for /L %%B in (0,1,%1) do <NUL set /p= 
+for /L %%B in (0,1,%1) do <NUL set /p=%v08% %v08%
 %to% 1 >NUL
 <NUL set /p dummy3=!dummy!
 goto :eof
 :gc
-if not exist %exe% (
-	@echo/
-	set dummy=^^^!^^^!^^^!^^^!^^^!		FATAL ERROR: "%ex%" DOES NOT EXIST^^^!		^^^!^^^!^^^!^^^!^^^!
+if not exist %ex% (
+	@echo %v07%
+	set dummy=^^^!^^^!^^^!^^^!^^^!		FATAL ERROR: "%exe%" DOES NOT EXIST^^^!		^^^!^^^!^^^!^^^!^^^!
 	<NUL set /p dummy3=!dummy!
 	for /L %%A in (1,1,3) do call :fc 68
 	%to% 1 >NUL
-	if /I %exe:~-8%==bell.exe echo/&echo/&@echo  UnZIP "bell.exe" from AlarmBat.zip and locate it in the same "%~dps0" directory as %~nx0&@echo/&pause
+	if /I %ex:~-8%==bell.exe echo/&echo/&@echo  UnZIP "bell.exe" from AlarmBat.zip and locate it in the same "%~dps0" directory as %~nx0&@echo/&pause
 )
 setlocal disableDelayedExpansion
 if /I "%~1x" NEQ "/Hx" if exist "%~dpsn0.txt" goto :hc
@@ -1181,7 +1193,7 @@ set hlp= ^>^>%~dpsn0.txt
 @echo   Action. DEFAULT: Three alarm Bells {override with /Q}. Four supplementary arguments:%hlp%
 @echo 	/P[START_command_switches ]["][d:\path\]PROGRAM["] [arguments] {implies /QQ; override with /Q ^| /QQQ}%hlp%
 @echo      Messages {displayed in Foreground window; hit any key to Dismiss; imply Bells unless /S[poken], override with /Q}:%hlp%
-@echo 	TYPED text {max chars ñ8170}%hlp%
+@echo 	TYPED text {max chars %f1%8170}%hlp%
 @echo 	/C {CLIPBOARD text, any length}%hlp%
 @echo 	/F["][d:\path\]textfile_name["] {FILE text, any length}%hlp%
 @echo/%hlp%
@@ -1244,7 +1256,7 @@ set hlp= ^>^>%~dpsn0.txt
 @echo/%hlp%
 @echo 	Notes:%hlp%
 @echo Configure User Variables on lines 4-26 of "%~dpsn0.bat"%hlp%
-@echo Reset the Alarm system after changes to Alarm config, Power Config, Locale, or CodePage: "Alarm.bat /B"%hlp%
+@echo Reset the Alarm system after changes to Power Config, Locale, or CodePage: "Alarm.bat /B"%hlp%
 @echo External file "%~dps0bell.exe" ^(bundled herewith^) is used by default instead of cmd.exe. Bell.exe is Cmd.exe%hlp%
 @echo   with a bell icon, to distinguish Alarms from ordinary CMD sessions in the Taskbar. For a "pure" standalone%hlp%
 @echo   BATch with no external dependencies, replace bell.exe with cmd.exe ^(erase "REM " on line 9 of %~nx0^).%hlp%

@@ -94,7 +94,7 @@ Cancel Alarm|Wake/Repeat: &nbsp;Alarm.bat /X[A[A]] {/X selects one alarm among s
 
  &nbsp; &nbsp; &nbsp; &nbsp;Notes:
 Configure User Variables on lines 4-26 of &#34;Alarm.bat&#34;
-Reset the Alarm system after changes to Alarm config, Power Config, Locale, or CodePage: &#34;Alarm.bat /B&#34;
+Reset the Alarm system after changes to Power Config, Locale, or CodePage: &#34;Alarm.bat /B&#34;
 External file &#34;bell.exe&#34; (bundled herewith) is used by default instead of cmd.exe. Bell.exe is Cmd.exe
  &nbsp;with a bell icon, to distinguish Alarms from ordinary CMD sessions in the Taskbar. For a &#34;pure&#34;
  &nbsp;standalone BATch with no external dependencies, replace bell.exe with cmd.exe (erase &#34;REM &#34;
@@ -324,13 +324,13 @@ alarm.bat +1 /S /R5 /E30 The time is &#96;var&#96;TIME:~0,2&#96;var&#96; hours, 
 The Auxiliaries directory contains optional programs that operate in conjunction with Alarm and
 offer specific services. ADJUST the &#34;d:\path&#92;&#34; to the programs!
 
- &nbsp;CountDwn: verbal countdown to (and beyond) a specific time (e.g. start at 9:00am, for
+ &nbsp;<b>CountDwn.bat</b>: verbal countdown to (and beyond) a specific time (e.g. start at 9:00am, for
  &nbsp; &nbsp;a total duration of 20 minutes)
  &nbsp; &nbsp;<b>Example</b>: Alarm.bat +1 /R1 /E20 /P/MIN d:\path\CountDwn.bat 0900
- &nbsp;TimeOfDay {&#34;TalkTock&#34;}: e.g. starting at 4:30am, announce the current Time every
+ &nbsp;<b>TimeOfDay.bat</b> {&#34;TalkTock&#34;}: e.g. starting at 4:30am, announce the current Time every
  &nbsp; &nbsp;15 minutes, until terminated (Alarm /X)
  &nbsp; &nbsp;<b>Example</b>: Alarm.bat 4:30a /R15 /P/MIN d:\path\TimeOfDay.bat
- &nbsp;BigBen.wav: e.g. chime hourly from 12 Noon until 9:00pm
+ &nbsp;<b>BigBen.wav</b>: e.g. chime hourly from 12 Noon until 9:00pm
  &nbsp; &nbsp;<b>Example</b>: Alarm.bat 1200 /R60 /E540 /P/MIN powershell.exe -c (New-Object Media.SoundPlayer &#34;d:\path\BigBen.wav&#34;).PlaySync()
 
 ------------------------
@@ -362,8 +362,6 @@ List Text-to-Speech (TTS) Voices installed on your computer (default Voice is li
 <b>CAUTION</b>: Edit Alarm.bat in an environment that uses 8-bit (single byte) character encodings ONLY!
  &nbsp; &nbsp; Do NOT edit with a word processor! Notepad may be used to adjust the User Configuration, ONLY!
  &nbsp; &nbsp; Alarm.bat was written in CodePage 437 (a.k.a. &#34;US-ASCII&#34;, &#34;OEM-US&#34;).
- &nbsp; &nbsp; Low-order characters 28-30 are used for certain functions, and may not display correctly
- &nbsp; &nbsp; &nbsp;in some editors!
  &nbsp; &nbsp; Multiple-byte editors using UTF (Unicode) <b>will</b> corrupt the file. Caveat emptor.
  &nbsp; &nbsp; Notepad++ (https://notepad-plus-plus.org/) is recommended (set Encoding -> Character sets
   &nbsp; &nbsp; -> Western European -> OEM-US).
