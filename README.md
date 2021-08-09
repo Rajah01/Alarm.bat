@@ -372,7 +372,7 @@ Only add language packs that have an associated TTS (Text-To-Speech) capability 
 
 Activate Voices: Edit exported Registry files
 <a target="_blank" href="https://www.ghacks.net/2018/08/11/unlock-all-windows-10-tts-voices-system-wide-to-get-more-of-them/">https://www.ghacks.net/2018/08/11/unlock-all-windows-10-tts-voices-system-wide-to-get-more-of-them/</a>
- &nbsp; &nbsp;A compendium of some Windows 10 TTS REG files is available on the Web.
+ &nbsp; &nbsp;A compendium of some Windows 10 TTS REG files is available on the Web: <a target="_blank" href="http://xywrite.org/xywwweb/Voices.reg.zip">Voices.reg.zip</a>
  &nbsp; &nbsp;<b>BACKUP YOUR EXISTING REGISTRY FIRST!</b> No warranties! No guarantees!
  &nbsp; &nbsp;Do NOT run a REG file unless the corresponding Language pack is installed!
  &nbsp; &nbsp;Contents include Cortana and Mobile voices - try ONE first:
@@ -387,7 +387,6 @@ French Paul, Hortense, Julie
 Indonesian Andika
 Italian Cosimo, Elsa
 Spanish Pablo, Helena, Laura
- &nbsp; &nbsp; &nbsp; &nbsp;<a target="_blank" href="http://xywrite.org/xywwweb/Voices.reg.zip">Voices.reg.zip</a>
 
 Select one activated voice as default:
  &nbsp; &nbsp;Control Panel (control.exe) > Speech Recognition > Text to Speech > Voice selection (and "Apply")
