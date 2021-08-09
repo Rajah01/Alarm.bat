@@ -182,7 +182,7 @@ Test whether Alarm's &#34;Wake&#34; (/W) function works correctly on your comput
  &nbsp; &nbsp; &nbsp; &nbsp;Alarm.bat +1 /W /Pcmd.exe /k echo ^%DATE^% ^%TIME^%
  &nbsp; &nbsp;then Hibernate:
  &nbsp; &nbsp; &nbsp; &nbsp;shutdown.exe /H
- &nbsp; &nbsp;or Sleep: (https://www.nirsoft.net/utils/nircmd[-x64].zip)
+ &nbsp; &nbsp;or Sleep: (<a target="_blank" href="https://www.nirsoft.net/utils/nircmd-x64.zip">https://www.nirsoft.net/utils/nircmd[-x64].zip</a>)
  &nbsp; &nbsp; &nbsp; &nbsp;nircmdc.exe standby
 The computer should Wake in 60 seconds and display precise date/time in a new window.
 
@@ -348,7 +348,7 @@ Multiple blank lines are reduced to a single line.
 ------------------------
 
 Speak or Display PDF Text: Convert PDF to text first!
-Try a port of the Unix public-domain &#34;pdftotext&#34; executable, e.g. Xpdf (https://www.xpdfreader.com/download.html).
+Try a port of the Unix public-domain &#34;pdftotext&#34; executable, e.g. Xpdf (<a target="_blank" href="https://www.xpdfreader.com/download.html">https://www.xpdfreader.com/download.html</a>).
  &nbsp; &nbsp;Tip: Use the &#34;-layout&#34; switch.
 N.B.: This strategy may or may not work, depending on the integrity of the underlying PDF text.
 
@@ -357,24 +357,56 @@ N.B.: This strategy may or may not work, depending on the integrity of the under
 List Text-to-Speech (TTS) Voices installed on your computer (default Voice is listed first):
  &nbsp; &nbsp;powershell.exe -ExecutionPolicy Bypass -Command &#34;Add-Type -AssemblyName System.Speech;$speak=New-Object System.Speech.Synthesis.SpeechSynthesizer;$speak.GetInstalledVoices()|Select-Object -ExpandProperty VoiceInfo|Select-Object -Property Name,Gender,Description&#34;
 
+Tip: If you find David, Hazel, Zira, Mark wooden or artificial, try Sean (IE), George (GB), or Heera (IN)
+
+<b>How To</b>: &nbsp; &nbsp;Add, then Activate, "Foreign" Voices in Windows 10:
+
+Add Languages: Settings > Time & Language > Language > Add a preferred language
+Only add language packs that have an associated TTS (Text-To-Speech) capability (look for a little TTS icon).
+ &nbsp; &nbsp; &nbsp; &nbsp;List of languages and TTS-capable voices:
+<a target="_blank" href="https://support.office.com/en-us/article/how-to-download-text-to-speech-languages-for-windows-10-d5a6b612-b3ae-423f-afa5-4f6caf1ec5d3">https://support.office.com/en-us/article/how-to-download-text-to-speech-languages-for-windows-10-d5a6b612-b3ae-423f-afa5-4f6caf1ec5d3</a>
+ &nbsp; &nbsp;N.B.: MORE voices are available with Cortana, e.g. Koyal (IN)
+
+Activate Voices: Edit exported Registry files
+<a target="_blank" href="https://www.ghacks.net/2018/08/11/unlock-all-windows-10-tts-voices-system-wide-to-get-more-of-them/">https://www.ghacks.net/2018/08/11/unlock-all-windows-10-tts-voices-system-wide-to-get-more-of-them/</a>
+ &nbsp; &nbsp;A compendium of some Windows 10 TTS REG files is available on the Web.
+ &nbsp; &nbsp;<b>BACKUP YOUR EXISTING REGISTRY FIRST!</b> No warranties! No guarantees!
+ &nbsp; &nbsp;Do NOT run a REG file unless the corresponding Language pack is installed!
+ &nbsp; &nbsp;Contents include Cortana and Mobile voices - try ONE first:
+Dutch Frank
+English (Australia) James, Catherine, Matilda
+English (Canada) Richard, Linda, Eva
+English (Great Britain)	George, Hazel, Susan, Sarah
+English (India)	Ravi, Heera, Koyal
+English (Ireland) Sean
+English (United States)	Mark, Eva
+French Paul, Hortense, Julie
+Indonesian Andika
+Italian Cosimo, Elsa
+Spanish Pablo, Helena, Laura
+ &nbsp; &nbsp; &nbsp; &nbsp;<a target="_blank" href="http://xywrite.org/xywwweb/Voices.reg.zip">Voices.reg.zip</a>
+
+Select one activated voice as default:
+ &nbsp; &nbsp;Control Panel (control.exe) > Speech Recognition > Text to Speech > Voice selection (and "Apply")
+
 ------------------------
 
 <b>CAUTION</b>: Edit Alarm.bat in an environment that uses 8-bit (single byte) character encodings ONLY!
  &nbsp; &nbsp; Do NOT edit with a word processor! Notepad may be used to adjust the User Configuration, ONLY!
  &nbsp; &nbsp; Alarm.bat was written in CodePage 437 (a.k.a. &#34;US-ASCII&#34;, &#34;OEM-US&#34;).
- &nbsp; &nbsp; Multiple-byte editors using UTF (Unicode) <b>will</b> corrupt the file. Caveat emptor.
- &nbsp; &nbsp; Notepad++ (https://notepad-plus-plus.org/) is recommended (set Encoding -> Character sets
+ &nbsp; &nbsp; Multiple-byte editors using UTF (Unicode) could corrupt the file. Caveat emptor.
+ &nbsp; &nbsp; Notepad++ (<a target="_blank" href="https://notepad-plus-plus.org/">https://notepad-plus-plus.org/</a>) is recommended (set Encoding -> Character sets
   &nbsp; &nbsp; -> Western European -> OEM-US).
 
 ------------------------
 
  &nbsp; &nbsp;Author: Robert Holmgren
- &nbsp; &nbsp;Download: &nbsp;https://github.com/Rajah01/Alarm.bat/releases/
+ &nbsp; &nbsp;Download: &nbsp;<a target="_blank" href="https://github.com/Rajah01/Alarm.bat/releases/">https://github.com/Rajah01/Alarm.bat/releases/</a>
 
  &nbsp; &nbsp; &nbsp;Credits:
  &nbsp; &nbsp; &nbsp;-------
- &nbsp; &nbsp;Vasil Arnaudov (https://github.com/npocmaka/batch.scripts/blob/master/hybrids/.net/c/mouse.bat and http://ss64.org/viewtopic.php?id=1687)
- &nbsp; &nbsp;Carl Distefano (http://xywwweb.ammaze.net/dls/TalkTock.zip)
- &nbsp; &nbsp;Alexandre Jasmin and Anchmerama (https://stackoverflow.com/questions/255419/how-can-i-mute-unmute-my-sound-from-powershell)
- &nbsp; &nbsp;Ritchie Lawrence (https://github.com/ritchielawrence/batchfunctionlibrary/tree/master/Date%20and%20Time%20Functions)
+ &nbsp; &nbsp;Vasil Arnaudov (<a target="_blank" href="https://github.com/npocmaka/batch.scripts/blob/master/hybrids/.net/c/mouse.bat">https://github.com/npocmaka/batch.scripts/blob/master/hybrids/.net/c/mouse.bat</a> and <a target="_blank" href="http://ss64.org/viewtopic.php?id=1687">http://ss64.org/viewtopic.php?id=1687</a>)
+ &nbsp; &nbsp;Carl Distefano (<a target="_blank" href="http://xywwweb.ammaze.net/dls/TalkTock.zip">http://xywwweb.ammaze.net/dls/TalkTock.zip</a>)
+ &nbsp; &nbsp;Alexandre Jasmin and Anchmerama (<a target="_blank" href="https://stackoverflow.com/questions/255419/how-can-i-mute-unmute-my-sound-from-powershell">https://stackoverflow.com/questions/255419/how-can-i-mute-unmute-my-sound-from-powershell</a>)
+ &nbsp; &nbsp;Ritchie Lawrence (<a target="_blank" href="https://github.com/ritchielawrence/batchfunctionlibrary/tree/master/Date%20and%20Time%20Functions">https://github.com/ritchielawrence/batchfunctionlibrary/tree/master/Date%20and%20Time%20Functions</a>)
 </pre></html>
