@@ -348,7 +348,8 @@ Multiple blank lines are reduced to a single line.
 ------------------------
 
 Speak or Display PDF Text: Convert PDF to text first!
-Try a port of the Unix public-domain &#34;pdftotext&#34; executable, e.g. Xpdf (<a target="_blank" href="https://www.xpdfreader.com/download.html">https://www.xpdfreader.com/download.html</a>).
+Try a port of the Unix public-domain &#34;pdftotext&#34; executable,
+ &nbsp;e.g. Xpdf (<a target="_blank" href="https://www.xpdfreader.com/download.html">https://www.xpdfreader.com/download.html</a>).
  &nbsp; &nbsp;Tip: Use the &#34;-layout&#34; switch.
 N.B.: This strategy may or may not work, depending on the integrity of the underlying PDF text.
 
@@ -357,12 +358,14 @@ N.B.: This strategy may or may not work, depending on the integrity of the under
 List Text-to-Speech (TTS) Voices installed on your computer (default Voice is listed first):
  &nbsp; &nbsp;powershell.exe -ExecutionPolicy Bypass -Command &#34;Add-Type -AssemblyName System.Speech;$speak=New-Object System.Speech.Synthesis.SpeechSynthesizer;$speak.GetInstalledVoices()|Select-Object -ExpandProperty VoiceInfo|Select-Object -Property Name,Gender,Description&#34;
 
-Tip: If you find David, Hazel, Zira, Mark wooden or artificial, try Sean (IE), George (GB), or Heera (IN)
+Tip: If you find David, Hazel, Zira, Mark wooden or artificial, try Sean (IE), George (GB),
+ &nbsp;or Heera (IN)
 
 <b>How To</b>: &nbsp; &nbsp;Add, then Activate, "Foreign" Voices in Windows 10:
 
 Add Languages: Settings > Time & Language > Language > Add a preferred language
-Only add language packs that have an associated TTS (Text-To-Speech) capability (look for a little TTS icon).
+Only add language packs that have an associated TTS (Text-To-Speech) capability (look for
+ &nbsp;a little TTS icon).
  &nbsp; &nbsp; &nbsp; &nbsp;List of languages and TTS-capable voices:
 <a target="_blank" href="https://support.office.com/en-us/article/how-to-download-text-to-speech-languages-for-windows-10-d5a6b612-b3ae-423f-afa5-4f6caf1ec5d3">https://support.office.com/en-us/article/how-to-download-text-to-speech-languages-for-windows-10-d5a6b612-b3ae-423f-afa5-4f6caf1ec5d3</a>
  &nbsp; &nbsp;N.B.: MORE voices are available with Cortana, e.g. Koyal (IN)
