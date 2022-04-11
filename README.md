@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html><pre>
- &nbsp; &nbsp; &nbsp; &nbsp;Alarm.bat v20210807 &nbsp; &nbsp; &nbsp; &nbsp;Notification program for the Windows command line
+ &nbsp; &nbsp; &nbsp; &nbsp;Alarm.bat v20220411 &nbsp; &nbsp; &nbsp; &nbsp;Notification program for the Windows command line
 
 <b>NOTIFY Usage</b>: &nbsp;Alarm.bat AlarmTime [Switches] [Action] (in order)
-====== Syntax: Alarm[.bat] HH[:]MM[A|P[M]] | +m ...&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <b>Alarm_Time</b>
+====== Syntax: Alarm[.bat] HH[:]MM[A|P[M]] | +m ...&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<b>Alarm_Time</b>
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ... [/D[d]d[-[m]m[-yy]] | /D+n] [/Q[Q[Q]]] [/Rm [/Em]] [/S] [/W ] ...&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;<b>Switches</b>
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ... [Typed Message] | [/C{lipboard}] | [/F{ile}] | [/P{rogram} [arguments]] &nbsp;<b>Action</b>
 
