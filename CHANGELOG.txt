@@ -1,0 +1,30 @@
+ChangeLog
+---------
+20220411
+ - Minor fixes
+20211030
+ - Added Enumeration of Activated Voices (Alarm /E)
+ - Repeat (/R) fixes
+ - Provisional fixes for awakening Display after Hibernation (some Windows 10 computers)
+ - Detect, and enable if available, ANSI display
+ - Minor fixes, tweaks
+20210812
+ - Enable full UnMute capability for /S{peech} (raise volume to threshold, then lower)
+   Interrupt or terminate Speech (powershell session) manually: original volume is restored
+ - Add TTS Speech Rate config
+ - List available/activated Speech %Voices%: Alarm /E
+ - Check %Voice% validity when building variable list
+ - Cancel one alarm by number: e.g. Alarm /X2
+ - Add required executable: SORT.EXE
+ - Fixes, concision, tweaks
+20210808
+ - Fix for changed %Voice% (User Configuration)
+20210807
+ - Detect changes to Alarm user configuration, and quietly reBuild variable file
+ - Move all Ascii characters <32 and >127 to variable file
+   contain Code within 32-127 to protect from editing programs
+ - Add blinking text and bell to "Fatal error" notification
+20210805
+ - Base CHANGELOG version
+
+Alarm.bat development 20190101-20210805
