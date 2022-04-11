@@ -21,7 +21,7 @@ Alarm.bat has been tested under Windows 7 Ultimate | Professional and Windows 10
 	Firewall. Your mileage may vary.
 Bell.exe is a copy of cmd.exe from Windows XP SP3 (32-bit Version 6.2.9200; runs under 64-bit),
 	modified to display a bell icon. Earlier versions of cmd.exe (tested: Win95|2000) are unreliable,
-	while later versions (Win7|10) are not downwardly compatible with earlier Windows versions.
+	while later versions (Win7|10) are not downwardly compatible with prior Windows versions.
 
 ------------------------
 
@@ -34,8 +34,8 @@ If your (uncommon) Windows system disallows "short" (8.3) filenames, locate "Ala
 Do not locate "Alarm.bat" and "bell.exe" in a Windows-protected directory (e.g. "System32").
 All files in the {Alarm.bat directory}\ALRM\ subdirectory are RESERVED.
 Alarm assumes the existence of system files chcp.com, cmd.exe, csc.exe, cscript.exe, findstr.exe, forfiles.exe,
-	more.com, powercfg.exe, powershell.exe, reg.exe, sc.exe, schtasks.exe, tasklist.exe, timeout.exe, WMIC.exe,
-	and xcopy.exe. If any of these built-in executables are absent in your system, Alarm will abort.
+	more.com, powercfg.exe, powershell.exe, reg.exe, sc.exe, schtasks.exe, sort.exe, tasklist.exe, timeout.exe,
+	WMIC.exe, and xcopy.exe. If any of these built-in executables are absent in your system, Alarm will abort.
 	Alarm expects built-in executables to exist in the "%SystemRoot%\System32\" directory
 	(usually "C:\Windows\System32\") EXCEPT:
 		csc.exe, which is part of the Windows .NET Framework (install NET!)
@@ -45,6 +45,17 @@ Alarm assumes the existence of system files chcp.com, cmd.exe, csc.exe, cscript.
 ------------------------
 
 Test whether Alarm's "Wake" (/W) function works correctly on your computer.
+NOTE WELL:
+If your computer requires a sign-in after sleep or hibernation, it will frustrate the purpose of Wake!
+Solution (Win10):
+ 1) Settings > Accounts > Sign-in options > Require sign-in > Never
+ 2) Command "netplwiz" and UNcheck "Users must enter a user name and password ..."
+If insufficient:
+ 3) Command "regedit", goto HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows. Click on
+ "Personalization" (if Personalization key doesn't exist, right-click and create a new DWORD).
+ Create new DWORD "NoLockScreen", value=1
+BIOS settings may also inhibit Wake, e.g. Power Management -> Block Sleep | USB Wake Support | Wake on LAN/WLAN | PLL Overvoltage ...
+
 	Command: (include the ^ carets)
 		Alarm.bat +1 /W /Pcmd.exe /k echo ^%DATE^% ^%TIME^%
 	then Hibernate:
@@ -56,6 +67,8 @@ The computer should Wake in 60 seconds and display precise date/time in a new wi
 ------------------------
 
 There is NO ERROR CHECKING for /P{rogram} commands (existence of files, validity of commands, etc.)
+There is no filtering or interpretation, e.g. for `v` Variables or other Substitution strings (q.v. further below),
+  e.g. instead of `v`DATE`v`, write ^%DATE^%
 /P{rogram} is an open-ended facility by design, and you are on your own.
 
 /P{rogram} commands may be tested in the present moment with "Alarm.bat +0 [/Q|/S] /P..."
@@ -67,13 +80,14 @@ to clean the first 1001 Scheduled Tasks created by Alarm (including orphans), an
 programming, for a fresh start.
 
 Each Alarm error generates an explanatory message and a unique %ERRORLEVEL% upon EXIT (established
-in the code at "set er=[%ERRORLEVEL%]"). Note that a /Program may generate its own %ERRORLEVEL%.
+in the code at "set er=[%ERRORLEVEL%]", returned on CLI as "echo %ERRORLEVEL%"). Note that a /Program
+may generate its own %ERRORLEVEL%.
 
 N.B.: If Alarm detects files in the {Alarm.bat directory}\ALRM subfolder that pertain to an earlier
 version of Alarm, it will autonomously wipe the Alarm system (clean it) before executing any command.
 
 IMPORTANT: If you ALTER any variable in User Configuration, or change your CodePage or Power Configuration,
-you MUST execute "Alarm.bat /XAA", to clean the system before next use!
+you MUST execute "Alarm.bat /B", to rewrite the variable file ("{Alarm dir}\ALRM\ALRG.bat") before next use!
 
 ------------------------
 
@@ -189,7 +203,7 @@ ADJUST the "d:\path\" to the programs!
 ------------------------
 
 Messages (whether typed, extracted from the Clipboard, or from a file) are filtered through MORE.COM, with the following extended features enabled:
-	Q	Quit
+	QQ	Quit (Q twice)
 	<space>	Display next page
 	<Enter>	Display next line
 	P n	Display next n lines
@@ -208,14 +222,49 @@ N.B.: This strategy may or may not work, depending on the integrity of the under
 
 List Text-to-Speech (TTS) Voices installed on your computer (default Voice is listed first):
 	powershell.exe -ExecutionPolicy Bypass -Command "Add-Type -AssemblyName System.Speech;$speak=New-Object System.Speech.Synthesis.SpeechSynthesizer;$speak.GetInstalledVoices()|Select-Object -ExpandProperty VoiceInfo|Select-Object -Property Name,Gender,Description"
+		*OR*
+	Alarm.bat /E
+
+Tip: If you find David, Hazel, or Zira wooden & artificial, try Sean (IE), George (GB), or Heera (IN)
+
+How To:	Add, then Activate, "Foreign" Voices in Windows 10:
+--- --
+Add Languages: Settings > Time & Language > Language > Add a preferred language
+Only add language packs that have an associated TTS (Text-To-Speech) capability.
+List installed languages:
+	powershell -ExecutionPolicy Bypass -c "(Get-WinUserLanguageList).LocalizedName"
+List of languages and TTS-capable voices:
+https://support.office.com/en-us/article/how-to-download-text-to-speech-languages-for-windows-10-d5a6b612-b3ae-423f-afa5-4f6caf1ec5d3
+  N.B.: ADDITIONAL voices are available with Cortana, e.g. Koyal ["Mobile"] (IN)
+
+Activate Voices: Edit exported Registry files
+https://www.ghacks.net/2018/08/11/unlock-all-windows-10-tts-voices-system-wide-to-get-more-of-them/
+  A compendium of *some* Windows 10+ TTS REG files is available on the Web:
+	http://xywrite.org/xywwweb/Voices.reg.zip
+  BACKUP YOUR EXISTING REGISTRY FIRST! No warranties/guarantees! N.B.: WINDOWS 11 NOT YET TESTED!
+  Do NOT run a REG file unless the corresponding Language pack is downloaded and installed!
+  Do NOT run a REG file for a Voice that is ALREADY INSTALLED, either in regular or "Desktop" versions! Check first with Alarm /E
+  ZIPfile contents include Cortana and Mobile voices. Try ONE voice first:
+Dutch Frank
+English (Australia) James, Catherine, Matilda
+English (Canada) Richard, Linda, Eva
+English (Great Britain)	George, Hazel, Susan, Sarah
+English (India)	Ravi, Heera, Koyal
+English (Ireland) Sean
+English (United States)	Mark, Eva
+French Paul, Hortense, Julie
+Indonesian Andika
+Italian Cosimo, Elsa
+Spanish Pablo, Helena, Laura
+
+Select one activated voice as default:
+  Control Panel [control.exe] > Speech Recognition > Text to Speech > Voice selection (and "Apply")
 
 ------------------------
 
 CAUTION: Edit Alarm.bat in an environment that uses 8-bit (single byte) character encodings ONLY!
-	Do NOT edit with a word processor! Notepad may be used to adjust the User Configuration, ONLY!
-	Alarm.bat was written in CodePage 437 (a.k.a. "US-ASCII", "OEM-US").
-	Multiple-byte editors using UTF (Unicode) will corrupt the file. Caveat emptor.
-	Notepad++ (https://notepad-plus-plus.org/) is recommended (set Encoding -> Character sets -> Western European -> OEM-US).
+	Do NOT edit with a word processor! Notepad may be used to adjust the User Configuration;
+	Notepad++ (https://notepad-plus-plus.org/) is recommended for broader edit.
 
 ------------------------
 
@@ -228,4 +277,5 @@ CAUTION: Edit Alarm.bat in an environment that uses 8-bit (single byte) characte
 	Carl Distefano (http://xywwweb.ammaze.net/dls/TalkTock.zip)
 	Alexandre Jasmin and Anchmerama (https://stackoverflow.com/questions/255419/how-can-i-mute-unmute-my-sound-from-powershell)
 	Ritchie Lawrence (https://github.com/ritchielawrence/batchfunctionlibrary/tree/master/Date%20and%20Time%20Functions)
+	https://docs.microsoft.com/en-us/windows/win32/menurc/wm-syscommand
 

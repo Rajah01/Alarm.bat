@@ -3,9 +3,9 @@
  &nbsp; &nbsp; &nbsp; &nbsp;Alarm.bat v20210807 &nbsp; &nbsp; &nbsp; &nbsp;Notification program for the Windows command line
 
 <b>NOTIFY Usage</b>: &nbsp;Alarm.bat AlarmTime [Switches] [Action] (in order)
-====== Syntax: Alarm[.bat] HH[:]MM[A|P[M]] | +m ...&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Alarm_Time
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ... [/D[d]d[-[m]m[-yy]] | /D+n] [/Q[Q[Q]]] [/Rm [/Em]] [/S] [/W ] ...&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;Switches
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ... [Typed Message] | [/C{lipboard}] | [/F{ile}] | [/P{rogram} [arguments]] &nbsp;Action
+====== Syntax: Alarm[.bat] HH[:]MM[A|P[M]] | +m ...&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <b>Alarm_Time</b>
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ... [/D[d]d[-[m]m[-yy]] | /D+n] [/Q[Q[Q]]] [/Rm [/Em]] [/S] [/W ] ...&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;<b>Switches</b>
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ... [Typed Message] | [/C{lipboard}] | [/F{ile}] | [/P{rogram} [arguments]] &nbsp;<b>Action</b>
 
  &nbsp;AlarmTime (REQUIRED; first argument). Two forms:
  &nbsp; &nbsp; &nbsp; &nbsp;[[[H]H[:]]M]M {24-hour time|12-hour time with A|P[M] suffix; may omit leading zeroes,
@@ -33,14 +33,15 @@
 3&#41; &nbsp; &nbsp; &nbsp;/C {CLIPBOARD text, any length}
 4&#41; &nbsp; &nbsp; &nbsp;/F[&#34;][d:\path\]textfile_name[&#34;] {FILE text, any length}
 
-<b>INFO Usage</b>: Alarm.bat /B /H /T /U /V /X[A[A]] /?|-h|--help|{no_arguments}
+<b>INFO Usage</b>: Alarm.bat /B /E /H /T /U /V /X[A[A]] /?|-h|--help|{no_arguments}
 ==== &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Seven alternatives:
  &nbsp; &nbsp; &nbsp; &nbsp;/B {(re)Build Alarm system variables}
+ &nbsp; &nbsp; &nbsp; &nbsp;/E {Enumerate activated/available Speech Voices}
  &nbsp; &nbsp; &nbsp; &nbsp;/H {Print Help (<b>THIS</b>) to file &#34;.\Alarm.txt&#34;}
  &nbsp; &nbsp; &nbsp; &nbsp;/T {Test bell audibility & volume}
  &nbsp; &nbsp; &nbsp; &nbsp;/U {Check for Alarm.bat update}
  &nbsp; &nbsp; &nbsp; &nbsp;/V {View pending Alarms|/W{akes}|/R{epeats} by number}
- &nbsp; &nbsp; &nbsp; &nbsp;/X {Cancel one Alarm|Wake|Repeat by number, or type &#34;ALL&#34; when prompted}
+ &nbsp; &nbsp; &nbsp; &nbsp;/X {Cancel one Alarm|Wake|Repeat by number, or type &#34;ALL&#34; at prompt}
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;/XA &nbsp; &nbsp; &nbsp; &nbsp;{Cancel Alarms 0-25}
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;/XAA &nbsp; &nbsp; &nbsp; {Cancel Alarms 0-1000; Reset (wipe) system}
  &nbsp; &nbsp; &nbsp; &nbsp;/?|-h|--help|no_arguments {Display <b>THIS</b>}
@@ -93,8 +94,15 @@ Cancel Alarm|Wake/Repeat: &nbsp;Alarm.bat /X[A[A]] {/X selects one alarm among s
  &nbsp;Terminate PowerShell manually to kill Speech.
 
  &nbsp; &nbsp; &nbsp; &nbsp;Notes:
-Configure User Variables on lines 4-26 of &#34;Alarm.bat&#34;
+Configure User Variables on lines 4-26 of &#34;Alarm.bat&#34;:
+ &nbsp;Use bell.exe instead of cmd.exe (default=Y)
+ &nbsp;Mute/UnMute (see rules below)
+ &nbsp;Volume threshold (rules below)
+ &nbsp;Voice for speech (if not system default)
+ &nbsp;Rate of speech
+ &nbsp;Delay (see User Config comment)
 Reset the Alarm system after changes to Power Config, Locale, or CodePage: &#34;Alarm.bat /B&#34;
+Check for Updates periodically: &#34;Alarm.bat /U&#34;
 External file &#34;bell.exe&#34; (bundled herewith) is used by default instead of cmd.exe. Bell.exe is Cmd.exe
  &nbsp;with a bell icon, to distinguish Alarms from ordinary CMD sessions in the Taskbar. For a &#34;pure&#34;
  &nbsp;standalone BATch with no external dependencies, replace bell.exe with cmd.exe (erase &#34;REM &#34;
@@ -154,7 +162,7 @@ Alarm.bat has been tested under Windows 7 Ultimate | Professional and Windows 10
  &nbsp; &nbsp;Firewall. Your mileage may vary.
 Bell.exe is a copy of cmd.exe from Windows XP SP3 (32-bit Version 6.2.9200; runs under 64-bit),
  &nbsp; &nbsp;modified to display a bell icon. Earlier versions of cmd.exe (tested: Win95|2000) are unreliable,
- &nbsp; &nbsp;while later versions (Win7|10) are not downwardly compatible with earlier Windows versions.
+ &nbsp; &nbsp;while later versions (Win7|10) are not downwardly compatible with prior Windows versions.
 
 ------------------------
 
@@ -167,9 +175,9 @@ If your (uncommon) Windows system disallows &#34;short&#34; (8.3) filenames, loc
 Do not locate &#34;Alarm.bat&#34; and &#34;bell.exe&#34; in a Windows-protected directory (e.g. &#34;System32&#34;).
 All files in the {Alarm.bat directory}\ALRM\ subdirectory are RESERVED.
 Alarm assumes the existence of system files <b>chcp.com, cmd.exe, csc.exe, cscript.exe, findstr.exe,
- &nbsp; &nbsp;forfiles.exe, more.com, powercfg.exe, powershell.exe, reg.exe, sc.exe, schtasks.exe, tasklist.exe,
- &nbsp; &nbsp;timeout.exe, WMIC.exe, and xcopy.exe</b>. If any of these built-in executables are absent in your
- &nbsp; &nbsp;system, Alarm will abort. Alarm expects built-in executables to exist in the
+ &nbsp; &nbsp;forfiles.exe, more.com, powercfg.exe, powershell.exe, reg.exe, sc.exe, schtasks.exe, sort.exe,
+ &nbsp; &nbsp;tasklist.exe, timeout.exe, WMIC.exe, and xcopy.exe</b>. If any of these built-in executables are 
+ &nbsp; &nbsp;absent in your system, Alarm will abort. Alarm expects built-in executables to exist in the
  &nbsp; &nbsp;&#34;%SystemRoot%\System32&#92;&#34; directory (usually &#34;C:\Windows\System32&#92;&#34;) EXCEPT:
  &nbsp; &nbsp; &nbsp; &nbsp;csc.exe, which is part of the Windows .NET Framework (install NET!)
  &nbsp; &nbsp; &nbsp; &nbsp;powershell.exe, usually in a subdirectory of &#34;%SystemRoot%\System32\WindowsPowerShell&#92;&#34;
@@ -178,7 +186,17 @@ Alarm assumes the existence of system files <b>chcp.com, cmd.exe, csc.exe, cscri
 ------------------------
 
 Test whether Alarm's &#34;Wake&#34; (/W) function works correctly on your computer.
- &nbsp; &nbsp;<b>Command</b>: (include the ^ carets)
+NOTE WELL:
+If your computer requires a sign-in after sleep or hibernation, it will frustrate the purpose of Wake!
+Solution (Win10):
+ 1) Settings > Accounts > Sign-in options > Require sign-in > Never
+ 2) Command &#34;netplwiz&#34; and UNcheck &#34;Users must enter a user name and password ...&#34;
+If insufficient:
+ 3) Command &#34;regedit&#34;, goto HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows. Click on
+ &nbsp;&#34;Personalization&#34; (if Personalization key doesn't exist, right-click and create a new DWORD).
+ &nbsp;Create new DWORD "NoLockScreen", value=1
+BIOS settings may also inhibit Wake, e.g. Power Management -> Block Sleep | USB Wake Support | Wake on LAN/WLAN | PLL Overvoltage ...
+<p> &nbsp; &nbsp;<b>Command</b>: (include the ^ carets)
  &nbsp; &nbsp; &nbsp; &nbsp;Alarm.bat +1 /W /Pcmd.exe /k echo ^%DATE^% ^%TIME^%
  &nbsp; &nbsp;then Hibernate:
  &nbsp; &nbsp; &nbsp; &nbsp;shutdown.exe /H
@@ -189,6 +207,8 @@ The computer should Wake in 60 seconds and display precise date/time in a new wi
 ------------------------
 
 There is NO ERROR CHECKING for /P{rogram} commands (existence of files, validity of commands, etc.)
+There is no filtering or interpretation of Variables or other Substitution strings (q.v. further below),
+  e.g. instead of &#96;v&#96;DATE&#96;v&#96;, write ^%DATE^%
 /P{rogram} is an open-ended facility by design, and you are on your own.
 
 /P{rogram} commands may be tested in the present moment with &#34;Alarm.bat +0 [/Q|/S] /P{command}&#34;
@@ -200,13 +220,15 @@ to clean the first 1001 Scheduled Tasks created by Alarm (including orphans), an
 programming, for a fresh start.
 
 Each Alarm error generates an explanatory message and a unique %ERRORLEVEL% (established in the code
-at "set er=[ERRORLEVEL]") upon EXIT. Note that /Programs may generate their own %ERRORLEVEL%s.
+at "set er=[ERRORLEVEL]", returned on CLI as "echo %ERRORLEVEL%") upon EXIT. Note that /Programs may
+generate their own %ERRORLEVEL%s.
 
 N.B.: If Alarm detects files in the {Alarm.bat directory}\ALRM\ subfolder that pertain to an earlier
 version of Alarm, it will autonomously wipe the Alarm system (clean it) before executing any command.
 
 IMPORTANT: If you ALTER any variable in User Configuration, or change your CodePage or Power
-Configuration, you MUST execute "Alarm.bat /XAA", to clean the system before next use!
+Configuration, you MUST execute "Alarm.bat /B", to rewrite the variable file ("{Alarm dir}\ALRM\ALRG.bat")
+before next use!
 
 ------------------------
 
@@ -337,7 +359,7 @@ offer specific services. ADJUST the &#34;d:\path&#92;&#34; to the programs!
 
 Messages (whether typed, extracted from the Clipboard, or from a file) are piped
  &nbsp;through MORE.COM, with the following extended features enabled:
- &nbsp; &nbsp;Q&nbsp; &nbsp; &nbsp; &nbsp;Quit
+ &nbsp; &nbsp;QQ &nbsp; &nbsp; &nbsp;Quit (Q <i>twice</i>)
  &nbsp; &nbsp;&#60;space&#62; Display next page
  &nbsp; &nbsp;&#60;Enter&#62; Display next line
  &nbsp; &nbsp;P n &nbsp; &nbsp; Display next n lines
@@ -355,27 +377,31 @@ N.B.: This strategy may or may not work, depending on the integrity of the under
 
 ------------------------
 
-List Text-to-Speech (TTS) Voices installed on your computer (default Voice is listed first):
+<b>List Text-to-Speech (TTS) Voices installed on your computer</b> (default Voice is listed first):
+ &nbsp; &nbsp;Alarm.bat /E
+ &nbsp; &nbsp; &nbsp; &nbsp;or
  &nbsp; &nbsp;powershell.exe -ExecutionPolicy Bypass -Command &#34;Add-Type -AssemblyName System.Speech;$speak=New-Object System.Speech.Synthesis.SpeechSynthesizer;$speak.GetInstalledVoices()|Select-Object -ExpandProperty VoiceInfo|Select-Object -Property Name,Gender,Description&#34;
 
 Tip: If you find David, Hazel, Zira, Mark wooden or artificial, try Sean (IE), George (GB),
  &nbsp;or Heera (IN)
 
-<b>How To</b>: &nbsp; &nbsp;Add, then Activate, "Foreign" Voices in Windows 10:
+<b>How To</b>: &nbsp;Add, then Activate, "Foreign" Voices in Windows 10:
 
-Add Languages: Settings > Time & Language > Language > Add a preferred language
+<b>Add Languages</b>:
+ &nbsp; &nbsp;Settings > Time & Language > Language > Add a preferred language
 Only add language packs that have an associated TTS (Text-To-Speech) capability (look for
  &nbsp;a little TTS icon).
  &nbsp; &nbsp; &nbsp; &nbsp;List of languages and TTS-capable voices:
 <a target="_blank" href="https://support.office.com/en-us/article/how-to-download-text-to-speech-languages-for-windows-10-d5a6b612-b3ae-423f-afa5-4f6caf1ec5d3">https://support.office.com/en-us/article/how-to-download-text-to-speech-languages-for-windows-10-d5a6b612-b3ae-423f-afa5-4f6caf1ec5d3</a>
  &nbsp; &nbsp;N.B.: MORE voices are available with Cortana, e.g. Koyal (IN)
 
-Activate Voices: Edit exported Registry files
+<b>Activate Voices</b>: Manually Edit exported Registry files per:
 <a target="_blank" href="https://www.ghacks.net/2018/08/11/unlock-all-windows-10-tts-voices-system-wide-to-get-more-of-them/">https://www.ghacks.net/2018/08/11/unlock-all-windows-10-tts-voices-system-wide-to-get-more-of-them/</a>
- &nbsp; &nbsp;A compendium of some Windows 10 TTS REG files is available on the Web: <a target="_blank" href="http://xywrite.org/xywwweb/Voices.reg.zip">Voices.reg.zip</a>
- &nbsp; &nbsp;<b>BACKUP YOUR EXISTING REGISTRY FIRST!</b> No warranties! No guarantees!
- &nbsp; &nbsp;Do NOT run a REG file unless the corresponding Language pack is installed!
- &nbsp; &nbsp;Contents include Cortana and Mobile voices - try ONE first:
+
+A compendium of <b>*some* pre-formatted Windows 10 TTS REG files</b> is available on the Web: <a target="_blank" href="http://xywrite.org/xywwweb/Voices.reg.zip">Voices.reg.zip</a>
+ &nbsp; &nbsp;<b>BACKUP YOUR EXISTING REGISTRY FIRST!</b> No warranties/guarantees!  N.B.: <u>WINDOWS 11 NOT YET TESTED!</u>
+ &nbsp; &nbsp;Do NOT run a REG file unless the corresponding Language pack is already downloaded and installed!
+ &nbsp; &nbsp;Contents include Cortana and Mobile voices. Try ONE voice first:
 Dutch Frank
 English (Australia) James, Catherine, Matilda
 English (Canada) Richard, Linda, Eva
@@ -388,17 +414,14 @@ Indonesian Andika
 Italian Cosimo, Elsa
 Spanish Pablo, Helena, Laura
 
-Select one activated voice as default:
+<b>Select one activated voice as default</b>:
  &nbsp; &nbsp;Control Panel (control.exe) > Speech Recognition > Text to Speech > Voice selection (and "Apply")
 
 ------------------------
 
 <b>CAUTION</b>: Edit Alarm.bat in an environment that uses 8-bit (single byte) character encodings ONLY!
- &nbsp; &nbsp; Do NOT edit with a word processor! Notepad may be used to adjust the User Configuration, ONLY!
- &nbsp; &nbsp; Alarm.bat was written in CodePage 437 (a.k.a. &#34;US-ASCII&#34;, &#34;OEM-US&#34;).
- &nbsp; &nbsp; Multiple-byte editors using UTF (Unicode) could corrupt the file. Caveat emptor.
- &nbsp; &nbsp; Notepad++ (<a target="_blank" href="https://notepad-plus-plus.org/">https://notepad-plus-plus.org/</a>) is recommended (set Encoding -> Character sets
-  &nbsp; &nbsp; -> Western European -> OEM-US).
+ &nbsp; &nbsp; Do NOT edit with a word processor! Notepad may be used to adjust the User Configuration;
+ &nbsp; &nbsp; Notepad++ (<a target="_blank" href="https://notepad-plus-plus.org/">https://notepad-plus-plus.org/</a>) is recommended for broader edit.
 
 ------------------------
 
@@ -411,4 +434,5 @@ Select one activated voice as default:
  &nbsp; &nbsp;Carl Distefano (<a target="_blank" href="http://xywwweb.ammaze.net/dls/TalkTock.zip">http://xywwweb.ammaze.net/dls/TalkTock.zip</a>)
  &nbsp; &nbsp;Alexandre Jasmin and Anchmerama (<a target="_blank" href="https://stackoverflow.com/questions/255419/how-can-i-mute-unmute-my-sound-from-powershell">https://stackoverflow.com/questions/255419/how-can-i-mute-unmute-my-sound-from-powershell</a>)
  &nbsp; &nbsp;Ritchie Lawrence (<a target="_blank" href="https://github.com/ritchielawrence/batchfunctionlibrary/tree/master/Date%20and%20Time%20Functions">https://github.com/ritchielawrence/batchfunctionlibrary/tree/master/Date%20and%20Time%20Functions</a>)
+ &nbsp; &nbsp;<a target="_blank" href="https://docs.microsoft.com/en-us/windows/win32/menurc/wm-syscommand">https://docs.microsoft.com/en-us/windows/win32/menurc/wm-syscommand</a>
 </pre></html>
