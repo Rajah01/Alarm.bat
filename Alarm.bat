@@ -28,7 +28,7 @@ set Delay=4
 rem * END USER CONFIGURATION *
 
 rem ---------------- DO NOT WRITE BELOW THIS LINE! ----------------
-set Version=20220411
+set Version=20220422
 goto :w
 --------
 :a
@@ -473,7 +473,8 @@ if %ah% GTR 12 set /a ah-=12
 if %ah%==0 set ah=12
 if %ah% LSS 10 (set msg=%msg%  %ah%) else set msg=%msg% %ah%
 if %plus% GTR -1 (set msg=%msg%:%tm%.%otm%%dummy%m) else set msg=%msg%:%tm%.00%dummy%m
-if %torg% NEQ +0 if %days% GTR 0 set msg=%msg%+%days% day&if %days% GTR 1 set msg=!msg!s
+if %days% GTR 0 for /F "usebackq tokens=*" %%A in (`%pw% -c "(Get-Date).AddSeconds(%s1%).ToString('dddd dd MMMM yyyy')"`) do set msg=%msg% %%A
+if %days% GTR 0 if "%dt:~0,4%"=="%msg:~-4%" set msg=%msg:~0,-5%
 set dummy=%msg%&set rmsg=%msg%&set tmg=%msg%%tmg%
 if %wake%==1 if %rptltr%==N (set tmg=Wake  %tmg:~6%) else set tmg=Repeat%tmg:~6%
 set msg=%msg% (%s1% seconds
@@ -556,7 +557,7 @@ if %rptltr%==R (
 if %rptltr%==N echo txt=Replace(txt,"  <Settings>","  <Settings>" ^& vbCr ^& vbCrLf ^& "    <DeleteExpiredTaskAfter>PT0S</DeleteExpiredTaskAfter>")>>%w%
 if %rptltr%==R if %rptexp% GTR -1  echo txt=Replace(txt,"  <Settings>","  <Settings>" ^& vbCr ^& vbCrLf ^& "    <DeleteExpiredTaskAfter>PT0S</DeleteExpiredTaskAfter>")>>%w%
 echo txt=Replace(txt,"    <WakeToRun>false</WakeToRun>" ^& vbCr ^& vbCrLf,"")>>%w%
-echo txt=Replace(txt,"<IdleSettings>" ^& vbCr ^& vbCrLf ^& "      <Duration>PT10M</Duration>" ^& vbCr ^& vbCrLf ^& "      <WaitTimeout>PT1H</WaitTimeout>","<WakeToRun>true</WakeToRun>" ^& vbCr ^& vbCrLf ^& "    <IdleSettings>")>>%w%
+echo txt=Replace(txt,"<IdleSettings>" ^& vbCr ^& vbCrLf ^& "      <Duration>PT10M</Duration>" ^& vbCr ^& vbCrLf ^& "      <WaitTimeout>PT1H</WaitTimeout>","<StartWhenAvailable>true</StartWhenAvailable>" ^& vbCr ^& vbCrLf ^& "    <WakeToRun>true</WakeToRun>" ^& vbCr ^& vbCrLf ^& "    <IdleSettings>")>>%w%
 if %rptltr%==R if %rptfrq% NEQ MONTHLY if %rptfrq% NEQ WEEKLY (
 	echo pos1=InStr^(1,txt,"Repetition"^)>>%w%
 	echo pos2=InStr^(pos1,txt,"Duration"^)-4 >>%w%
@@ -831,7 +832,7 @@ if exist %ALRM%ALRMA*.bat for /F %%A in ('dir /B %ALRM%ALRMA*.bat') do call :lb 
 for /F "tokens=1-4 delims= " %%A in ('%win%schtasks.exe /query^|%win%findstr.exe /c:ALRMW') do call :jb %%A %%B %%C %%D
 set /a cnt=%wcnt%+%acnt%
 if %cnt%==0 echo/&echo   No Alarms&echo   No Wakes^|Repeats&@%cp%&exit /B %er%
-if %vw%==1 echo/&echo 	^( Now:	  %dt:~8,4%.%dt:~12,2% hours ^)&echo ^( Cancel one[all] Alarm^|Wake/Repeat^(s^):  %~nx0 /X[A] ^)&@%cp%&exit /B %er%
+if %vw%==1 echo/&echo 	^( Now:	  %dt:~8,4%.%dt:~12,2% hours ^)&echo ^( Cancel one[0-25[0-1000]] Alarm^(s^)^|Wake/Repeat^(s^):  %~nx0 /#^|X[A[A]] ^)&@%cp%&exit /B %er%
 set kil=1
 echo/
 if %cnt%==1 if %num% LEQ 25 set k=%num%&set autokil=-2&goto :vb
@@ -1284,6 +1285,7 @@ set hlp= ^>^>%~dpsn0.txt
 @echo 	  ASSOCiated with .MP4, and a sound file residing in the %%PATH%% ^(cf. ASSOC and FTYPE commands^)}%hlp%
 @echo   Fully-qualified /P{rogram} commands, with optional start arguments:%hlp%
 @echo 	%~n0 645a /w /p/MAX F:\VLC\vlc.exe -f --play-and-exit "J:\Video\Glenn_Gould\BWV 1080 Contrapunctus XIV Da Capo I.mp4"%hlp%
+@echo 	%~n0 645a /w /p/MIN F:\VLC\vlc.exe --qt-start-minimized --qt-notification=0 --no-loop --play-and-exit "%%SystemRoot%%\Media\Windows Foreground.wav"%hlp%
 @echo 	%~n0 +0 /P/MIN %pw2% "Add-Type -AssemblyName System.Speech;$words=(Get-Clipboard);$speak=New-Object System.Speech.Synthesis.SpeechSynthesizer;$speak.SelectVoice('Microsoft Zira Desktop');$speak.Speak($words)"%hlp%
 @echo 	%~n0 +0 /S /C {ditto: Speak Clipboard content, but a /C shortcut instead of a fully-described /Program as above}%hlp%
 @echo 	%~n0 1200 /R60 /E540 /P/MIN %pw2% (New-Object Media.SoundPlayer "%~dps0Auxiliaries\BigBen.wav").PlaySync() {Chimes hourly}%hlp%

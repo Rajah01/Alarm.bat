@@ -1,7 +1,9 @@
 ChangeLog
 ---------
+20220422
+ - Specify future dates as "Day Date Month [Year]"
 20220411
- - Minor fixes
+ - Miscellaneous Fixes
 20211030
  - Added Enumeration of Activated Voices (Alarm /E)
  - Repeat (/R) fixes
