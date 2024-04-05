@@ -875,6 +875,7 @@ if %dummy%==1 %wm% "processid=%~1" delete>NUL 2>&1
 goto :eof 
 ::Kill ALL
 :vb
+if "%cml:~4,1%"=="N" @echo Refreshing system ...&@echo/
 if /I %exe%==bell.exe for /F "skip=3 tokens=2,10 delims= " %%A in ('%tskv% %exe%"') do if "%%A" NEQ "" call :ub "%%A" "%%B" 1
 for /F "skip=3 tokens=2,10 delims= " %%A in ('%tskv% timeout.exe"') do if "%%A" NEQ "" call :ub "%%A" "%%B" 1
 set cspec=%ComSpec%

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html><pre>
- &nbsp; &nbsp; &nbsp; &nbsp;Alarm.bat v20220422 &nbsp; &nbsp; &nbsp; &nbsp;Notification program for the Windows command line
+ &nbsp; &nbsp; &nbsp; &nbsp;Alarm.bat v20240405 &nbsp; &nbsp; &nbsp; &nbsp;Notification program for the Windows command line
 
 <b>NOTIFY Usage</b>: &nbsp;Alarm.bat AlarmTime [Switches] [Action] (in order)
 ====== Syntax: Alarm[.bat] HH[:]MM[A|P[M]] | +m ...&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<b>Alarm_Time</b>
@@ -111,7 +111,7 @@ Message Content: Single-byte characters &#34;|&`<> are DISALLOWED. Chars &"|&`%/
  &nbsp;using backquoted substitute strings, most commonly &#96;q&#96; to display quotes. See &#34;AlarmBat_ReadMe.txt&#34;
  &nbsp;for the substitution string list.
 Default Alarm Sound: In recent Windows versions, the .WAVfile equivalent of DOS Ascii-07|Ctrl-G (^G) &#34;bell&#34;
- &nbsp;is specified (and may be changed) in MMSYS.CPL -> Sounds -> &#34;Critical Stop&#34;
+ &nbsp;is specified (and may be changed) in MMSYS.CPL -> Sounds -> &#34;Default Beep&#34;
 If at alarm time Sound is Muted or below 80% (and no /Q{uiet} command), Alarm UnMutes the system and/or
  &nbsp;raises the sound level to 80%, then on exit (&#42;unless /S{poken}&#42;) restores original Mute|Volume
  &nbsp;settings. To disable this function, change the &#34;UnMute&#34; variable from &#34;On&#34; to &#34;Off&#34; (line 12
