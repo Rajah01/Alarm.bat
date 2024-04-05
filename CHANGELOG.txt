@@ -1,5 +1,7 @@
 ChangeLog
 ---------
+20240405
+ - create BEEP.exe (3 alarm bells at 1000ms interval; WAVfile to play determined at MMSYS.cpl => Sounds => "Default Beep") 
 20220422
  - Specify future dates as "Day Date Month [Year]"
 20220411

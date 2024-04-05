@@ -23,12 +23,12 @@ set Rate=-1
 
 rem Delay, in seconds, while numerous commands execute, before destroying the launcher (CPU dependent:
 rem   slower computers require more seconds; if you hear fewer than 3 bells, increase the value; default=4)
-set Delay=4
+set Delay=7
 
 rem * END USER CONFIGURATION *
 
 rem ---------------- DO NOT WRITE BELOW THIS LINE! ----------------
-set Version=20220422
+set Version=20240405
 goto :w
 --------
 :a
@@ -152,7 +152,8 @@ set ermsg=/W{akes} and /R{epeats} are future, not present (+0), events&set er=6
 if %spk%==1 if /I "%bel%" NEQ " /QQQ" goto :eof
 if /I "%bel%"==" /Q" goto :eof
 if /I "%bel%"==" /QQ" goto :eof
-echo for %%%%A in (2 1 1) do ^<NUL set /p=%v07%^&%to% %%%%A /NOBREAK^>NUL>>%fn%
+::echo for %%%%A in (2 1 1) do ^<NUL set /p=%v07%^&%to% %%%%A /NOBREAK^>NUL>>%fn%
+echo %ALRM%BEEP.exe>>%fn%
 goto :eof
 :t
 ECHO start /MIN /WAIT %pw% -c "Add-Type -AssemblyName System.Speech;$words=(Get-%~1);$speak=(New-Object System.Speech.Synthesis.SpeechSynthesizer);%Voice%$speak.Rate=%Rate%;$speak.Speak($words);" 2^>NUL^&%%dummy2%%^&^(goto^) 2^>NUL^&%pw% -c "Remove-Item -Path %fn%">>%fn%
@@ -354,6 +355,7 @@ goto :na
 :oa
 if "%t%"=="%t:+=%" goto :pa
 set "plus=%t:~1%"
+if "%plus%"=="" set ermsg=EMPTY TIME&set er=22&goto :r
 for /F "delims=0123456789" %%A in ("%plus%X") do if "%%A" NEQ "X" set ermsg=BAD TIME: "%~1"&set er=22&goto :r
 goto :qa
 :pa
@@ -832,7 +834,7 @@ if exist %ALRM%ALRMA*.bat for /F %%A in ('dir /B %ALRM%ALRMA*.bat') do call :lb 
 for /F "tokens=1-4 delims= " %%A in ('%win%schtasks.exe /query^|%win%findstr.exe /c:ALRMW') do call :jb %%A %%B %%C %%D
 set /a cnt=%wcnt%+%acnt%
 if %cnt%==0 echo/&echo   No Alarms&echo   No Wakes^|Repeats&@%cp%&exit /B %er%
-if %vw%==1 echo/&echo 	^( Now:	  %dt:~8,4%.%dt:~12,2% hours ^)&echo ^( Cancel one[0-25[0-1000]] Alarm^(s^)^|Wake/Repeat^(s^):  %~nx0 /#^|X[A[A]] ^)&@%cp%&exit /B %er%
+if %vw%==1 echo/&echo 	^( Now:	  %dt:~8,4%.%dt:~12,2% hours ^)&echo ^( Cancel one[0-25[0-1000]] Alarm^(s^)^|Wake/Repeat^(s^):  %~nx0 /X# ^| /X[A[A]] ^)&@%cp%&exit /B %er%
 set kil=1
 echo/
 if %cnt%==1 if %num% LEQ 25 set k=%num%&set autokil=-2&goto :vb
@@ -909,9 +911,10 @@ for /F "tokens=4 delims=. " %%A in ('ver') do if %%A GEQ 10 (
 	if not exist %ALRM%ALRM2.ps1 call :kc
 	%pw% -file "%ALRM%ALRM2.ps1"
 )
-%to% %Delay% >NUL
-<NUL set /p=%v07%
-%to% %Delay% >NUL
+%to% 1 >NUL
+::for %%A in (2 1 1) do <NUL set /p=%v07%&%to% %%A /NOBREAK>NUL
+%ALRM%BEEP.exe
+%to% 1 >NUL
 if /I %UnMute%==On if "%e:~0,1%#" NEQ "1#" %pw% -file "%ALRM%ALRM.ps1" -snd %e:~0,1% -vol %vol%
 @%cp%&exit /B %er%
 :yb
@@ -985,6 +988,9 @@ for %%A in (cscript reg timeout tasklist) do if exist "%win%%%A.exe" (call :cc %
 for /F "tokens=4 delims=. " %%A in ('ver') do set ver=%%A
 for /R "%SystemRoot%\Microsoft.NET\Framework\" %%A in ("*csc.exe") do set dummy=%%A
 call :fc csc csc ""
+for /R "%SystemRoot%\Microsoft.NET\Framework\" %%A in ("*jsc.exe") do set dummy=%%A
+call :fc jsc jsc ""
+if not exist %ALRM%BEEP.exe call :lc2
 for /R "%win%" %%A in ("*WMIC.exe") do if exist "%%A" set dummy=%%A
 call :fc wm WMIC "process where"
 set pw2=powershell -ExecutionPolicy Bypass -c
@@ -1001,10 +1007,12 @@ if "%exe%"=="" set exe=cmd.exe
 if /I "%exe:~0,3%"=="cmd" (set ex=%win%cmd.exe&set ex2=%~dps0cmd2.exe&set ex3=cmd2) else set ex=%~dps0bell.exe&set ex2=%~dps0bell2.exe&set ex3=bell2&if not exist !ex! call :ec "%ex%"
 if not exist "%ex2%" copy "%ex%" "%ex2%">NUL
 set ret=%~dps0
-for %%A in (07 08 1b 1c 1d 1e) do @for /F %%B in ('%win%forfiles.exe /P "%ret:~0,-1%" /M "%~nx0" /C "%win%cmd.exe /c echo 0x%%A"') do set v%%A=%%B
+::for %%A in (07 08 1b 1c 1d 1e) do @for /F %%B in ('%win%forfiles.exe /P "%ret:~0,-1%" /M "%~nx0" /C "%win%cmd.exe /c echo 0x%%A"') do set v%%A=%%B
+for %%A in (08 1b 1c 1d 1e) do @for /F %%B in ('%win%forfiles.exe /P "%ret:~0,-1%" /M "%~nx0" /C "%win%cmd.exe /c echo 0x%%A"') do set v%%A=%%B
+REM 	WHERE BEEP.exe is below	<NUL set /p=%v07%&echo 		Missing file^(s^)^^^!&echo/
 if %bad% GTR 0 (
 	if exist %ALRM%ALRG.bat del /F %ALRM%ALRG.bat
-	<NUL set /p=%v07%&echo 		Missing file^(s^)^^^!&echo/
+	%ALRM%BEEP.exe 1 &echo 		Missing file^(s^)^^^!&echo/
 	set dummy=^^^!^^^!^^^!^^^!^^^!    %~n0 cannot continue^^^!    ^^^!^^^!^^^!^^^!^^^!
 	set dummy3=!dummy!
 	set len=11
@@ -1033,7 +1041,8 @@ for %%A in (ac dc) do %win%powercfg.exe -set%%Avalueindex %GUID% %SleepGUID% %Wa
 for /F "tokens=3" %%A in ('%reg% sDate 2^>NUL') do set dtsep=%%A&if "!dtsep!"=="" set dtsep=/
 for /F "tokens=3" %%A in ('%reg% iDate 2^>NUL') do set /a dummy=%%A &if "!dummy!"=="0" (set dtfmt=mdy) else if "!dummy!"=="1" (set dtfmt=dmy) else set dtfmt=ymd
 for %%A in (a0 ab ae af bb f1) do @for /F %%B in ('%win%forfiles.exe /P "%ret:~0,-1%" /M "%~nx0" /C "%win%cmd.exe /c echo 0x%%A"') do set %%A=%%B
-for %%A in (a0 ab ae af ALRM ANS bb cs csc dtfmt dtsep ex ex2 ex3 f1 ht mr pw pw2 rm rv to tsk tskv un urv uun v07 v08 v1b v1c v1d v1e ver vol wd win wm) do @echo set %%A=!%%A!>>%ALRM%ALRG.bat
+::for %%A in (a0 ab ae af ALRM ANS bb cs csc dtfmt dtsep ex ex2 ex3 f1 ht jsc mr pw pw2 rm rv to tsk tskv un urv uun v07 v08 v1b v1c v1d v1e ver vol wd win wm) do @echo set %%A=!%%A!>>%ALRM%ALRG.bat
+for %%A in (a0 ab ae af ALRM ANS bb cs csc dtfmt dtsep ex ex2 ex3 f1 ht jsc mr pw pw2 rm rv to tsk tskv un urv uun v08 v1b v1c v1d v1e ver vol wd win wm) do @echo set %%A=!%%A!>>%ALRM%ALRG.bat
 @echo (set /a dummy=%%Delay%%,Delay=%Delay%)^&if "^!Delay^!" NEQ "^!dummy^!" (set "Delay=^!dummy^!"^&set er=1)>>%ALRM%ALRG.bat
 @echo set dummy=%%UnMute%%^&set UnMute=%UnMute%^&if "^!UnMute^!" NEQ "^!dummy^!" (set "UnMute=^!dummy^!"^&set er=1)>>%ALRM%ALRG.bat
 @echo (set /a dummy=%%Volume%%,Volume=%Volume%)^&if "^!Volume^!" NEQ "^!dummy^!" (set "Volume=^!dummy^!"^&set er=1)>>%ALRM%ALRG.bat
@@ -1041,6 +1050,7 @@ for %%A in (a0 ab ae af ALRM ANS bb cs csc dtfmt dtsep ex ex2 ex3 f1 ht mr pw pw
 ::@echo if %%er%%==1 goto :eof>>%ALRM%ALRG.bat
 @echo if %%er%%==0 if "%%Voice%%" NEQ "" set Voice=$speak.SelectVoice('%%Voice%%');>>%ALRM%ALRG.bat&if "%Voice%" NEQ "" set "Voice=$speak.SelectVoice('%Voice%');"
 set bad=0&for %%A in (dummy dummy2 dummy3 GUID reg ret SleepGUID WakeGUID) do set %%A=
+if exist "%~dpsn0.txt" del /F "%~dpsn0.txt"
 goto :eof
 :hc
 %to% 1 >NUL
@@ -1195,9 +1205,28 @@ call %fnb%
 if exist %fnb% del /F %fnb%
 if %er%==4 set ermsg=Error creating "%ALRM%ALRM.exe"
 goto :eof
+:lc2
+set fnb=%ALRM%ALRMakeBeep.bat
+@echo // 2^>nul^|^|@goto :#>%fnb%
+@echo /*>>%fnb%
+@echo :#>>%fnb%
+@echo @echo off>>%fnb%
+@echo call %%jsc%% /nologo /warn:0 /out:"%%ALRM%%BEEP.exe" "%fnb%" ^|^| (set er=4)>>%fnb%
+@echo exit /B>>%fnb%
+@echo */>>%fnb%
+:: Need options for one beep
+:: DOESN'T WORK @echo import System;import System.Media;import System.Threading;var c:String[]=Environment.GetCommandLineArgs();var a,b,i;b=3;if(c[0]!=null){Console.WriteLine("OK");b=c[0];}for(i=0;i^<b;i++){SystemSounds.Beep.Play();if(i^<b-1){System.Threading.Thread.Sleep(800);}}>>%fnb%
+@echo import System;import System.Media;import System.Threading;var c:String[]=Environment.GetCommandLineArgs();var a,b,i;b=3;for(a=1;a^<=c.length-1;a++){if(a==1){b=c[a];}}for(i=0;i^<b;i++){SystemSounds.Beep.Play();if(i^<b-1){System.Threading.Thread.Sleep(1000);}}>>%fnb%
+::@echo import System;import System.Media;import System.Threading;var b,i;b=3;for(i=0;i^<b;i++){SystemSounds.Beep.Play();if(i^<b-1){System.Threading.Thread.Sleep(800);}}>>%fnb%
+::@echo using System;class Program{static void Main(string[] args){int m,f,d,b,i;m=500;f=600;d=400;b=3;if(args.Length^>0){b=int.Parse(args[0]);}for(i=0;i^<b;++i){Console.Beep(f,d);if(i^<b-1){System.Threading.Thread.Sleep(m);}}}}>>%fnb%
+call %fnb%
+if exist %fnb% del /F %fnb%
+if %er%==4 set ermsg=Error creating "%ALRM%BEEP.exe"
+goto :eof
 :mc
+REM 	 WHERE BEEP is	<NUL set /p=%v07%
 if not exist %ex% (
-	<NUL set /p=%v07%
+	%ALRM%BEEP.exe 1
 	set dummy=^^^!^^^!^^^!^^^!^^^!		FATAL ERROR: "%exe%" DOES NOT EXIST^^^!		^^^!^^^!^^^!^^^!^^^!
 	<NUL set /p dummy3=!dummy!
 	for /L %%A in (1,1,3) do call :hc 68
@@ -1314,7 +1343,7 @@ set hlp= ^>^>%~dpsn0.txt
 @echo   backquoted substitute strings, most commonly ^`q^` to display quotes.%hlp%
 @echo   See "%rm%" for the full list of substitute strings.%hlp%
 @echo Default Alarm Sound: In recent Windows versions, the .WAVfile equivalent of DOS Ascii-07x^|Ctrl-G ^(^^G^) "bell"%hlp%
-@echo   is specified ^(and may be changed^) in MMSYS.CPL ^> Sounds ^> "Critical Stop".%hlp%
+@echo   is specified ^(and may be changed^) in MMSYS.CPL ^> Sounds ^> "Default Beep".%hlp%
 @echo If at alarm time Sound is Muted or below %Volume%^%% ^(and no /Q{uiet} command^), %~n0 UnMutes the system and/or%hlp%
 @echo   raises the sound level to %Volume%^%%, then on exit restores original Mute^|Volume%hlp%
 @echo   settings. To disable this function, change the "UnMute" variable from "On" to "Off" ^(line 12%hlp%
